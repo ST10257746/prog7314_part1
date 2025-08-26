@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:id="@+id/home"
+        android:icon="@drawable/icon_home"/>
+    <item android:title="Progress"
+        android:id="@+id/stats"
+        android:icon="@drawable/icon_progress"/>
+    <item android:title="Session"
+        android:id="@+id/view_all_expenses"
+        android:icon="@drawable/icon_session"/>
+    <item android:title="Workout"
+        android:id="@+id/enter_expense"
+        android:icon="@drawable/icon_workout"/>
+    <item android:title="Settings"
+        android:id="@+id/settings"
+        android:icon="@drawable/icon_settings"/>
+</menu>
