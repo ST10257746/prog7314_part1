@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Modern Progress Tracking Layout -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Background">
+    android:background="@color/Background"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="20dp"
+        android:paddingBottom="100dp">
 
-        <!-- Header -->
+        <!-- Header Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,14 +33,14 @@
                     android:text="Your Progress"
                     android:textColor="@color/Text"
                     android:textStyle="bold"
-                    android:textSize="24sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Track your fitness journey"
                     android:textColor="@color/Text"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:alpha="0.8"
                     android:layout_marginTop="4dp" />
 
@@ -57,132 +60,243 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This Week"
+            android:text="This Week Overview"
             android:textColor="@color/Text"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:layout_marginBottom="16dp" />
 
         <!-- Weekly Stats Cards -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_marginBottom="24dp">
 
-            <!-- Workouts -->
+            <!-- Steps Card -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="20dp"
                 android:background="@drawable/bg_card"
-                android:layout_marginEnd="8dp">
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Steps"
+                            android:textColor="@color/Text"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="54,321 this week"
+                            android:textColor="@color/Text"
+                            android:textSize="16sp"
+                            android:alpha="0.8"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="77%"
+                        android:textColor="@color/Primary"
+                        android:textStyle="bold"
+                        android:textSize="26sp" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:progress="77"
+                    android:progressTint="@color/Primary"
+                    android:backgroundTint="@color/Background"
+                    android:progressBackgroundTint="@color/Background" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Workouts"
+                    android:text="Target: 70,000 steps"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
-                    android:alpha="0.8" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5"
-                    android:textColor="@color/Primary"
-                    android:textStyle="bold"
-                    android:textSize="24sp"
+                    android:alpha="0.7"
                     android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+12% from last week"
-                    android:textColor="@color/Secondary"
-                    android:textSize="12sp"
-                    android:layout_marginTop="4dp" />
 
             </LinearLayout>
 
-            <!-- Total Minutes -->
+            <!-- Workouts Card -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="20dp"
                 android:background="@drawable/bg_card"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Workouts"
+                            android:textColor="@color/Text"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5 sessions completed"
+                            android:textColor="@color/Text"
+                            android:textSize="16sp"
+                            android:alpha="0.8"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100%"
+                        android:textColor="@color/Secondary"
+                        android:textStyle="bold"
+                        android:textSize="26sp" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:progress="100"
+                    android:progressTint="@color/Secondary"
+                    android:backgroundTint="@color/Background"
+                    android:progressBackgroundTint="@color/Background" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Minutes"
+                    android:text="Target: 5 workouts"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
-                    android:alpha="0.8" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="285"
-                    android:textColor="@color/Accent"
-                    android:textStyle="bold"
-                    android:textSize="24sp"
+                    android:alpha="0.7"
                     android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+8% from last week"
-                    android:textColor="@color/Secondary"
-                    android:textSize="12sp"
-                    android:layout_marginTop="4dp" />
 
             </LinearLayout>
 
-            <!-- Calories -->
+            <!-- Calories Card -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical"
-                android:padding="16dp"
+                android:padding="20dp"
                 android:background="@drawable/bg_card"
-                android:layout_marginStart="8dp">
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Calories Burned"
+                            android:textColor="@color/Text"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2,450 kcal this week"
+                            android:textColor="@color/Text"
+                            android:textSize="16sp"
+                            android:alpha="0.8"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="84%"
+                        android:textColor="@color/Accent"
+                        android:textStyle="bold"
+                        android:textSize="26sp" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:progress="84"
+                    android:progressTint="@color/Accent"
+                    android:backgroundTint="@color/Background"
+                    android:progressBackgroundTint="@color/Background" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Calories"
+                    android:text="Target: 2,900 kcal"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
-                    android:alpha="0.8" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2,450"
-                    android:textColor="@color/Secondary"
-                    android:textStyle="bold"
-                    android:textSize="24sp"
+                    android:alpha="0.7"
                     android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+15% from last week"
-                    android:textColor="@color/Secondary"
-                    android:textSize="12sp"
-                    android:layout_marginTop="4dp" />
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <!-- Historical Charts Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Historical Trends"
+            android:textColor="@color/Text"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:layout_marginBottom="16dp" />
 
         <!-- Weekly Activity Chart -->
         <LinearLayout
@@ -196,194 +310,348 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Weekly Activity"
+                android:text="Weekly Step Count"
                 android:textColor="@color/Text"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginBottom="20dp" />
 
-            <!-- Chart Placeholder with Sample Data -->
+            <!-- Weekly Step Count Chart -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="160dp"
+                android:orientation="horizontal">
+
+                <!-- Step count labels on the left -->
+                <LinearLayout
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="bottom|end"
+                    android:paddingEnd="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12K"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="6dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10K"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="6dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8K"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="6dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6K"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="6dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4K"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="6dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2K"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="6dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7" />
+
+                </LinearLayout>
+
+                <!-- Chart bars -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:layout_marginStart="8dp">
+
+                    <!-- Monday: 6,200 steps (62% of 10K target) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="6.2K"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="78dp"
+                            android:background="@color/Primary" />
+
+                    </LinearLayout>
+
+                    <!-- Tuesday: 8,500 steps (85% of 10K target) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="8.5K"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="107dp"
+                            android:background="@color/Primary" />
+
+                    </LinearLayout>
+
+                    <!-- Wednesday: 9,500 steps (95% of 10K target) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="9.5K"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="119dp"
+                            android:background="@color/Primary" />
+
+                    </LinearLayout>
+
+                    <!-- Thursday: 7,500 steps (75% of 10K target) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="7.5K"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="94dp"
+                            android:background="@color/Primary" />
+
+                    </LinearLayout>
+
+                    <!-- Friday: 9,000 steps (90% of 10K target) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="9.0K"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="113dp"
+                            android:background="@color/Primary" />
+
+                    </LinearLayout>
+
+                    <!-- Saturday: 11,000 steps (110% of 10K target) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="11.0K"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="130dp"
+                            android:background="@color/Primary" />
+
+                    </LinearLayout>
+
+                    <!-- Sunday: 7,000 steps (70% of 10K target) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="7.0K"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="88dp"
+                            android:background="@color/Primary" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Day labels under the chart -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="bottom"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp">
 
-                <!-- Monday -->
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="bottom"
-                    android:padding="4dp">
+                    android:text="Mon"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:gravity="center" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/Primary"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mon"
-                        android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
-
-                <!-- Tuesday -->
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="bottom"
-                    android:padding="4dp">
+                    android:text="Tue"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:gravity="center" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:background="@color/Primary"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tue"
-                        android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
-
-                <!-- Wednesday -->
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="bottom"
-                    android:padding="4dp">
+                    android:text="Wed"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:gravity="center" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="85dp"
-                        android:background="@color/Primary"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Wed"
-                        android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
-
-                <!-- Thursday -->
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="bottom"
-                    android:padding="4dp">
+                    android:text="Thu"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:gravity="center" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:background="@color/Primary"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Thu"
-                        android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
-
-                <!-- Friday -->
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="bottom"
-                    android:padding="4dp">
+                    android:text="Fri"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:gravity="center" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp"
-                        android:background="@color/Primary"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Fri"
-                        android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
-
-                <!-- Saturday -->
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="bottom"
-                    android:padding="4dp">
+                    android:text="Sat"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:gravity="center" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="95dp"
-                        android:background="@color/Primary"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sat"
-                        android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
-
-                <!-- Sunday -->
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="bottom"
-                    android:padding="4dp">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:background="@color/Primary"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sun"
-                        android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
+                    android:text="Sun"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -403,7 +671,276 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Workout Duration (minutes)"
+                    android:text="Daily step count (target: 10k)"
+                    android:textColor="@color/Text"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Avg: 8,642"
+                    android:textColor="@color/Text"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Workout History Chart -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Workout Duration Trends"
+                android:textColor="@color/Text"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Workout Duration Bar Chart -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:orientation="horizontal">
+
+                <!-- Duration labels on the left -->
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="bottom|end"
+                    android:paddingEnd="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="90min"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="75min"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="60min"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="45min"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30min"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0min"
+                        android:textColor="@color/Text"
+                        android:textSize="11sp"
+                        android:alpha="0.7" />
+
+                </LinearLayout>
+
+                <!-- Chart bars -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:layout_marginStart="8dp">
+
+                    <!-- Week 1: 45 minutes -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="45min"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:background="@color/Secondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="W1"
+                            android:textColor="@color/Text"
+                            android:textSize="12sp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <!-- Week 2: 65 minutes -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="65min"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="87dp"
+                            android:background="@color/Secondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="W2"
+                            android:textColor="@color/Text"
+                            android:textSize="12sp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <!-- Week 3: 85 minutes -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="85min"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="113dp"
+                            android:background="@color/Secondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="W3"
+                            android:textColor="@color/Text"
+                            android:textSize="12sp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <!-- Week 4: 75 minutes -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:padding="2dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="75min"
+                            android:textColor="@color/Text"
+                            android:textSize="11sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:background="@color/Secondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="W4"
+                            android:textColor="@color/Text"
+                            android:textSize="12sp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="16dp">
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@color/Secondary"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Weekly Workout Minutes"
                     android:textColor="@color/Text"
                     android:textSize="14sp" />
 
@@ -419,14 +956,14 @@
 
         </LinearLayout>
 
-        <!-- Monthly Goals -->
+        <!-- Recent Activities -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monthly Goals"
+            android:text="Recent Activities"
             android:textColor="@color/Text"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:layout_marginBottom="16dp" />
 
         <LinearLayout
@@ -437,271 +974,160 @@
             android:background="@drawable/bg_card"
             android:layout_marginBottom="24dp">
 
-            <!-- Goal 1 -->
+            <!-- Activity 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="20dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/icon_session"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="Activity" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Complete 20 workouts"
-                        android:textColor="@color/Text"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="15/20"
-                        android:textColor="@color/Primary"
+                        android:text="Morning Run"
+                        android:textColor="@color/Text"
                         android:textStyle="bold"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5.2 km • 32 min • 280 kcal"
+                        android:textColor="@color/Text"
+                        android:textSize="14sp"
+                        android:alpha="0.8"
+                        android:layout_marginTop="4dp" />
 
                 </LinearLayout>
 
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:progress="75"
-                    android:progressTint="@color/Primary"
-                    android:backgroundTint="@color/Background" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2h ago"
+                    android:textColor="@color/Text"
+                    android:textSize="14sp"
+                    android:alpha="0.7" />
 
             </LinearLayout>
 
-            <!-- Goal 2 -->
+            <!-- Activity 2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="20dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/icon_workout"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="Activity" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Burn 10,000 calories"
-                        android:textColor="@color/Text"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="7,450/10,000"
-                        android:textColor="@color/Secondary"
+                        android:text="Strength Training"
+                        android:textColor="@color/Text"
                         android:textStyle="bold"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upper Body • 45 min • 180 kcal"
+                        android:textColor="@color/Text"
+                        android:textSize="14sp"
+                        android:alpha="0.8"
+                        android:layout_marginTop="4dp" />
 
                 </LinearLayout>
 
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:progress="75"
-                    android:progressTint="@color/Secondary"
-                    android:backgroundTint="@color/Background" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1d ago"
+                    android:textColor="@color/Text"
+                    android:textSize="14sp"
+                    android:alpha="0.7" />
 
             </LinearLayout>
 
-            <!-- Goal 3 -->
+            <!-- Activity 3 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/icon_progress"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="Activity" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Exercise 300 minutes"
-                        android:textColor="@color/Text"
-                        android:textStyle="bold"
-                        android:textSize="16sp" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="285/300"
-                        android:textColor="@color/Accent"
+                        android:text="Cycling"
+                        android:textColor="@color/Text"
                         android:textStyle="bold"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12.5 km • 55 min • 420 kcal"
+                        android:textColor="@color/Text"
+                        android:textSize="14sp"
+                        android:alpha="0.8"
+                        android:layout_marginTop="4dp" />
 
                 </LinearLayout>
 
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:progress="95"
-                    android:progressTint="@color/Accent"
-                    android:backgroundTint="@color/Background" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2d ago"
+                    android:textColor="@color/Text"
+                    android:textSize="14sp"
+                    android:alpha="0.7" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Achievements -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Achievements"
-            android:textColor="@color/Text"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp" />
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:layout_marginBottom="24dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-            android:orientation="horizontal"
-                android:paddingVertical="8dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@drawable/bg_card"
-                    android:layout_marginEnd="12dp"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/icon_fitness"
-                        android:layout_marginBottom="12dp"
-                        android:contentDescription="Achievement" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Marathon Ready"
-                        android:textColor="@color/Text"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:gravity="center" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Earned 2 weeks ago"
-                        android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:alpha="0.7"
-                        android:gravity="center"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@drawable/bg_card"
-                    android:layout_marginEnd="12dp"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/icon_workout"
-                        android:layout_marginBottom="12dp"
-                        android:contentDescription="Achievement" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Consistency King"
-                        android:textColor="@color/Text"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:gravity="center" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="7-day streak"
-                        android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:alpha="0.7"
-                        android:gravity="center"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="@drawable/bg_card"
-                    android:layout_marginEnd="12dp"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/icon_progress"
-                        android:layout_marginBottom="12dp"
-                        android:contentDescription="Achievement" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Calorie Crusher"
-                        android:textColor="@color/Text"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        android:gravity="center" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-                        android:text="Burned 5,000+ cal"
-            android:textColor="@color/Text"
-                        android:textSize="12sp"
-                        android:alpha="0.7"
-                        android:gravity="center"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
     </LinearLayout>
+
 </ScrollView>
-
-

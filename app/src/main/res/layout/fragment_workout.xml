@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Modern Workout Library Layout -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,8 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:paddingBottom="100dp">
 
         <!-- Header -->
         <LinearLayout
@@ -25,20 +27,20 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Workout Library"
-        android:textColor="@color/Text"
-        android:textStyle="bold"
-                    android:textSize="24sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Workout Library"
+                    android:textColor="@color/Text"
+                    android:textStyle="bold"
+                    android:textSize="26sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Find your perfect workout"
+                    android:text="Discover your perfect workout"
                     android:textColor="@color/Text"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:alpha="0.8"
                     android:layout_marginTop="4dp" />
 
@@ -54,7 +56,140 @@
 
         </LinearLayout>
 
-        <!-- Quick Start -->
+        <!-- Search Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_fitness"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="Search" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Search workouts..."
+                android:textColor="@color/Text"
+                android:textSize="16sp"
+                android:alpha="0.7" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_progress"
+                android:contentDescription="Filter" />
+
+        </LinearLayout>
+
+        <!-- Categories -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categories"
+            android:textColor="@color/Text"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Category Filters -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="8dp">
+
+                <!-- All -->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All"
+                    android:backgroundTint="@color/Primary"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp" />
+
+                <!-- Cardio -->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cardio"
+                    android:backgroundTint="@color/Background"
+                    android:textColor="@color/Text"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp" />
+
+                <!-- Strength -->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Strength"
+                    android:backgroundTint="@color/Background"
+                    android:textColor="@color/Text"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp" />
+
+                <!-- Yoga -->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yoga"
+                    android:backgroundTint="@color/Background"
+                    android:textColor="@color/Text"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp" />
+
+                <!-- HIIT -->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HIIT"
+                    android:backgroundTint="@color/Background"
+                    android:textColor="@color/Text"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp" />
+
+                <!-- Flexibility -->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Flexibility"
+                    android:backgroundTint="@color/Background"
+                    android:textColor="@color/Text"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <!-- Quick Start Workouts -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,114 +199,569 @@
             android:textSize="18sp"
             android:layout_marginBottom="16dp" />
 
+        <!-- Quick Start Cards -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="24dp">
 
-            <Button
+            <!-- HIIT Workout -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Start 20-Min HIIT"
-                android:backgroundTint="@color/Primary"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:padding="16dp"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                android:background="@drawable/bg_card"
                 android:layout_marginBottom="12dp"
-                android:drawableStart="@drawable/icon_session"
-                android:drawablePadding="12dp" />
+                android:gravity="center_vertical">
 
-            <Button
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20-Min HIIT Blast"
+                        android:textColor="@color/Text"
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="High-intensity interval training"
+                        android:textColor="@color/Text"
+                        android:textSize="16sp"
+                        android:alpha="0.8"
+                        android:layout_marginTop="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⭐ 4.8"
+                            android:textColor="@color/Accent"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔥 280 kcal"
+                            android:textColor="@color/Secondary"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⏱️ 20 min"
+                            android:textColor="@color/Primary"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start"
+                    android:backgroundTint="@color/Primary"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="12dp" />
+
+            </LinearLayout>
+
+            <!-- Beginner Full Body -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Beginner Full Body"
-                android:backgroundTint="@color/Secondary"
-                android:textColor="@color/Text"
-                android:textStyle="bold"
-                android:padding="16dp"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                android:background="@drawable/bg_card"
                 android:layout_marginBottom="12dp"
-                android:drawableStart="@drawable/icon_fitness"
-                android:drawablePadding="12dp" />
+                android:gravity="center_vertical">
 
-            <Button
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Beginner Full Body"
+                        android:textColor="@color/Text"
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Perfect for beginners"
+                        android:textColor="@color/Text"
+                        android:textSize="16sp"
+                        android:alpha="0.8"
+                        android:layout_marginTop="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⭐ 4.6"
+                            android:textColor="@color/Accent"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔥 220 kcal"
+                            android:textColor="@color/Secondary"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⏱️ 30 min"
+                            android:textColor="@color/Primary"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start"
+                    android:backgroundTint="@color/Secondary"
+                    android:textColor="@color/Text"
+                    android:textSize="16sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="12dp" />
+
+            </LinearLayout>
+
+            <!-- Morning Yoga Flow -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Morning Yoga Flow"
-                android:backgroundTint="@color/Accent"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:drawableStart="@drawable/icon_workout"
-                android:drawablePadding="12dp" />
+                android:orientation="horizontal"
+                android:padding="20dp"
+                android:background="@drawable/bg_card"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Morning Yoga Flow"
+                        android:textColor="@color/Text"
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start your day with mindfulness"
+                        android:textColor="@color/Text"
+                        android:textSize="16sp"
+                        android:alpha="0.8"
+                        android:layout_marginTop="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⭐ 4.9"
+                            android:textColor="@color/Accent"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🧘‍♀️ Relaxing"
+                            android:textColor="@color/Secondary"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⏱️ 25 min"
+                            android:textColor="@color/Primary"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start"
+                    android:backgroundTint="@color/Accent"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="12dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Categories -->
+        <!-- Browse All Workouts -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Browse by Category"
+            android:text="Browse All Workouts"
             android:textColor="@color/Text"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Sample Workout Card -->
+        <!-- Workout Grid/List -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="@drawable/bg_card"
-            android:layout_marginBottom="12dp"
-            android:gravity="center_vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="24dp">
 
+            <!-- Upper Body Blast -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/bg_card"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- Thumbnail -->
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_card" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Upper Body Blast"
-                    android:textColor="@color/Text"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="45 min • Intermediate • Strength"
-                    android:textColor="@color/Text"
-                    android:textSize="14sp"
-                    android:alpha="0.8"
-                    android:layout_marginTop="4dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upper Body Blast"
+                        android:textColor="@color/Text"
+                        android:textStyle="bold"
+                        android:textSize="18sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-                    android:text="⭐ 4.8 • 2,340 calories burn"
-                    android:textColor="@color/Accent"
-                    android:textSize="12sp"
-                    android:layout_marginTop="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="45 min • Intermediate • Strength"
+                        android:textColor="@color/Text"
+                        android:textSize="16sp"
+                        android:alpha="0.8"
+                        android:layout_marginTop="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⭐ 4.8"
+                            android:textColor="@color/Accent"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="12dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔥 480 kcal"
+                            android:textColor="@color/Secondary"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="12dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="💪 8 exercises"
+                            android:textColor="@color/Primary"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_progress"
+                    android:contentDescription="More" />
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/icon_workout"
+            <!-- Core Crusher -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
                 android:background="@drawable/bg_card"
-                android:padding="12dp"
-                android:contentDescription="Workout" />
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <!-- Thumbnail -->
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_card" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Core Crusher"
+                        android:textColor="@color/Text"
+                        android:textStyle="bold"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30 min • All Levels • Core"
+                        android:textColor="@color/Text"
+                        android:textSize="16sp"
+                        android:alpha="0.8"
+                        android:layout_marginTop="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⭐ 4.7"
+                            android:textColor="@color/Accent"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="12dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔥 320 kcal"
+                            android:textColor="@color/Secondary"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="12dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎯 12 exercises"
+                            android:textColor="@color/Primary"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_progress"
+                    android:contentDescription="More" />
+
+            </LinearLayout>
+
+            <!-- Leg Day Destroyer -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/bg_card"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <!-- Thumbnail -->
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_card" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Leg Day Destroyer"
+                        android:textColor="@color/Text"
+                        android:textStyle="bold"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="50 min • Advanced • Lower Body"
+                        android:textColor="@color/Text"
+                        android:textSize="16sp"
+                        android:alpha="0.8"
+                        android:layout_marginTop="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⭐ 4.9"
+                            android:textColor="@color/Accent"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="12dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔥 550 kcal"
+                            android:textColor="@color/Secondary"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="12dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🦵 10 exercises"
+                            android:textColor="@color/Primary"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_progress"
+                    android:contentDescription="More" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-</LinearLayout>
+        <!-- Create Custom Workout -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+ Create Custom Workout"
+            android:backgroundTint="@color/Primary"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp"
+            android:drawableStart="@drawable/icon_workout"
+            android:drawablePadding="12dp" />
+
+        <!-- My Saved Plans -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Saved Plans"
+            android:textColor="@color/Text"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="24dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/icon_progress"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Saved Plans" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No saved plans yet"
+                android:textColor="@color/Text"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save workouts to create your personal training plans"
+                android:textColor="@color/Text"
+                android:textSize="14sp"
+                android:alpha="0.7" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </ScrollView>
-
-

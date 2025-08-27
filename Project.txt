@@ -98,3 +98,36 @@ matches at least some of the features.
 25            2025 
 © The Independent Institute of Education (Pty) Ltd 2025 
 Page 6 of 24 
+Planning and Design                                                                                                                     (Marks: 50) 
+For this part, you will need to design your app fully. The purpose of this part is to ensure you know 
+exactly what you need to build and how you will build it before you start with part 2. You will need 
+to present your design as a typed PDF document (2000 to 2500 words) with the following sections: 
+ Introduction. 
+ A brief overview of the app, including a name for the app, an initial icon design, and a 
+description of the innovative features that you are planning to include. 
+ A detailed list of the requirements for the app.  
+The requirements must include all the minimum requirements from this document, but you must 
+elaborate on each of those requirements rather than just copying them. Remember to add the 
+features that you want to include, for example, gamification. The requirements must be detailed 
+enough for someone else to be able to build your app by just reading this document! You need to 
+make these clear since you will be marked on these for part 2 and the POE. 
+ User interface design, including a mockup for each screen, a description of the purpose of 
+the screen, and a diagram showing how the user navigates between the various screens. 
+ Design what your API will do for your application and what data it will send and receive. Also, 
+state how you are going to be creating your API and what hosting will be used. 
+ UML diagrams that include how the API is connected and other systems to the application. 
+ Detailed listing of the data that the app needs to capture from the user and store, including 
+data types. 
+ Project plan detailing deadlines and milestones for the project in the format of a Gantt chart. 
+Break down the tasks into smaller tasks than just “implement the prototype”. Include some 
+time for testing and bug fixing. 
+ Conclusion. 
+ References. 
+Maximum Word Count: 2500. 
+ 
+Submit the following for Part 1: 
+ Research Report in PDF format. 
+ Planning and design document in PDF format. 
+ If applicable, a short write-up (maximum 500 words) on the manner in which AI tools were 
+used and cited during the completion of this assessment. Examples could include code 
+snippets, debugging errors, image generation, etc. 

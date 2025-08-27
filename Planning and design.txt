@@ -1,0 +1,1005 @@
+PROG7314 
+Planning and Design 
+ST10257746 
+ST10375560 
+ST10262464 
+ST10382828 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Introduction 
+
+App Name: 
+
+FitTrackr 
+
+FitTrackr is a modern, user-friendly fitness tracking application designed to help individuals monitor, manage, and improve their health and wellness journey. The app combines workout session tracking, nutritional goals, and personal progress monitoring in one seamless experience. 
+
+ 
+
+Initial Icon Design 
+
+The app icon features a minimalist fitness-inspired logo: a dumbbell combined with a heartbeat line to connect the weights, symbolizing both workout tracking and health monitoring. The colour palette is clean and energetic, using shades of blue and green to convey vitality, trust, and growth. This design ensures instant recognition on a user’s device while staying modern and professional. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+App Overview: 
+
+FitTrackr enables users to 
+
+Begin and monitor real-time fitness sessions with a stopwatch-based tracker that automatically records session duration and refreshes the database. 
+
+Set individual fitness goals, such as target weight, weekly workout frequency, and food consumption to create a road map to healthy habits. 
+
+Maintain a personalized profile, including age, weight, and fitness interests, to ensure individualized recommendations. 
+
+Upload and update their profile image to provide a more personalized and engaging user experience. 
+
+You may access settings and customization options such as profile management, goal modifications, and logout. 
+
+ 
+
+Innovative Features: 
+
+What makes FitTrackr stand out from existing fitness tracking apps is its simplicity and integration of practical yet powerful tools: 
+
+Smooth session tracking: Users may easily maintain consistent records because the stopwatch records the session duration straight into the database. 
+
+Custom goal-setting system: Users can specify more general objectives like exercise frequency and dietary consumption rather than just weight. 
+
+Profile-centered design: The software feels more like a real friend than a tool thanks to user customization features including customizable data and a profile image. 
+
+Data-driven progress tracking: Users will be able to view their progress over time with future upgrades that include charts and summaries. 
+
+Lightweight and accessible user interface: To guarantee usability on all devices, the application makes use of straightforward, standardized Android layouts with spinners, text inputs, and tidy style. 
+
+ 
+
+List of Requirements: 
+
+Security & User Authentication: 
+ 
+- Single Sign-On (SSO): SSO providers like Google, Apple, or Facebook must be able to be used by users to register and log in. This eliminates the need to remember numerous passwords, lowers friction, and increases user trust. 
+ 
+- Biometric Authentication: If a device supports it, users must be able to safely log in using facial recognition or fingerprint scanning. This guarantees fast and safe access without requiring constant password entering. 
+
+ 
+
+User Profile & Settings: 
+ 
+- Users can create and customize a personal profile that includes: 
+Name, age, weight, fitness goals, and preferred workout style. 
+Profile picture (with default avatar if none uploaded). 
+ 
+- Settings Management: 
+Change language preference. 
+Choose notification preferences (daily reminders, achievement alerts). 
+Edit Profile details. 
+Set up goals and personal milestone. 
+
+ 
+
+Workout Management: 
+ 
+- Users can create, view, and manage workouts. 
+- Each workout entry will include: 
+
+Workout Type: Strength, cardio, flexibility, endurance. 
+
+Duration/Times per day: Workouts will be tracked by how many times a month with the time they spent working out on that session. 
+
+Workouts will be saved in a local database (RoomDB/SQLite) for offline mode and synced to the central server when connected. 
+
+ 
+
+REST API & Database Integration: 
+ 
+  The app must connect to a custom-built REST API that stores all user data (workouts, achievements, progress) in a cloud database (e.g., Firebase, SQL Server, or MySQL). 
+  REST API Endpoints: 
+POST /register – Create a new user. 
+POST /login – Authenticate user. 
+GET /workouts – Fetch workouts. 
+POST /workouts – Log a workout. 
+PUT /workouts/{id} – Update a workout. 
+DELETE /workouts/{id} – Delete a workout. 
+
+ 
+
+Offline Mode with Sync 
+ 
+  Workouts can be logged while offline. 
+  Local RoomDB/SQLite stores pending changes. 
+  Once internet is available, the app automatically syncs data to the server. 
+  Conflict resolution rules: 
+- Latest timestamp wins. 
+- User is notified if changes couldn’t be synced. 
+
+ 
+
+Notifications: 
+ 
+  Push notifications will be used to: 
+- Congratulate users on achieving Goals. 
+- During Workout will remind user to hydrate. 
+- Send motivational quotes daily. 
+- At the end of each day a notification will be sent for the user to update their current progress like their weight, bmi, bodyfat and etc. 
+  Notifications can be toggled on/off in settings. 
+
+ 
+
+Multi-Language Support: 
+ 
+  The app will support English and at least two South African languages (Zulu and Afrikaans). 
+  Language can be changed in settings. 
+
+ 
+
+Progress Tracking & Reports: 
+ 
+  Graphs and charts display workout history (weekly, monthly, yearly). 
+  Statistics include: 
+- Total workouts completed/hours. 
+- Calories intake weekly/daily. 
+- Daily Steps. 
+- Average weekly activity. 
+
+ 
+
+UI/UX Design Requirements: 
+ 
+  Modern Material Design 3.0 principles with rounded cards, soft shadows, and intuitive navigation. 
+  Spinners and dropdowns clearly labeled with text (e.g., “Select Workout Type”). 
+  Input fields have custom drawable backgrounds for consistency. 
+ 
+
+Mockups: 
+
+Login Page 
+
+ 
+
+When user first launches the app, the user will be greeted with this screen or if they log out. They will enter the email and password associated with their account and click log in to check if it matches. They can also continue with google to log into the app. If the user does not have an account, they will click sign up and be sent to the register page. 
+
+ 
+
+ 
+
+ 
+
+Register Page: 
+
+ 
+
+The user will enter their Full Name, Email, Password, Confirm Password, select their Age and Select their weight. Once all fields are entered the page will check if the passwords match if not then they will have to enter their password again. If the form is valid the will have a registered account and will be sent back to the login page to start using the app. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Settings Page: 
+
+ 
+
+This page will be used for the user to configure their details or in app stuff through this page. On top will be the user’s profile picture with their Full Name following right under. Edit Profile will take the user to the Edit Profile page. Set Fitness Goals will send the user to Workout Goals Page. Clicking on Notification preferences the user will be able to turn on and off certain notifications or turn it off completely. Clicking on change languages will show a list of different languages for the user to click to change the app to. Log out will sign the user out of the app and send them back to the login screen. 
+
+ 
+
+Workout Page: 
+
+ 
+
+On the workouts page it will show predefined workouts created by the creator of the app to get the user started with some basic workouts. If the user clicks on the down arrow it will drop down the routine showing the exercise, reps/time depending on the exercise. The user will also be able to create their own custom exercise to store and help them remember what to do if they forget. The green button will add a new workout and the red button will delete the custom workout that was created. 
+
+ 
+
+ 
+
+ 
+
+Workout Goals Page: 
+
+ 
+
+This page will set the workout goals for the user and make the rest of the pages have more information and show graphs off on their progress. The user will put in their weigh goals, workout frequency, Steps Goal, Calories Goals, Protein Intake and the user can put in Personal challenges / milestones. The user will be able to add and delete these milestone and if completed and tick on the home page to show completion. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Home Page 
+
+ 
+
+ 
+
+ 
+
+ 
+
+After successfully logging in, users will be directed to the home dashboard which serves as the main overview of their daily fitness activities. The screen displays a personalized greeting with the user's name and shows their current step count prominently in the center. Users can view their daily progress through circular progress indicators for steps, calories burned, and heart points. The dashboard provides a quick snapshot of their fitness achievements for the day, encouraging them to stay active and meet their daily goals. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Progress Page 
+
+ 
+
+ 
+
+The progress tracking page gives users a comprehensive view of their fitness journey over time. Users can see their weekly overview with detailed statistics including steps taken, calories burned, and other fitness metrics. The page displays progress charts and graphs showing trends in their fitness data, allowing users to track their improvement over days, weeks, or months. This helps users stay motivated by visualizing their achievements and identifying areas for continued improvement. 
+
+ 
+
+Session Page 
+
+ 
+
+ 
+
+The workout session page provides users with a timer and workout tracking tools for their active exercise sessions. Users can choose from different workout types such as running, cycling, or strength training. The page includes start, pause, and stop buttons to control the session timer, allowing users to track the duration of their workouts. This feature helps users maintain focus during their exercise routines and provides accurate timing for their fitness activities. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Workout page 
+
+ 
+
+ 
+
+The workout library page allows users to discover and access various workout routines and exercises. Users can search through different workout categories using the search bar at the top of the screen. The page displays workout categories and provides a comprehensive library of exercises that users can browse through. Users can select different types of workouts based on their fitness goals, experience level, or preferred activity type, making it easy to find the perfect workout for their needs. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Nutrition Page 
+
+ 
+
+ 
+
+The nutrition tracking page helps users monitor their daily food intake and nutritional goals. Users can view their current calorie consumption compared to their daily target, with a visual progress indicator showing how close they are to their goal. The page features a pie chart displaying the breakdown of macronutrients (protein, carbohydrates, and fats) in their diet. Users can track their nutritional progress throughout the day and see how their eating habits align with their fitness objectives. 
+
+ 
+
+Paragraph locked by Ashton Zackey
+ 
+
+Paragraph locked by Ashton Zackey
+ 
+
+API Design: 
+
+FitTrackr will make use of a custom-built REST API that acts as the communication bridge between the Android app and the backend database. 
+
+The API will: 
+
+Handle user authentication (login, registration, password reset). 
+
+Manage user profile data (name, email, password, age, weight, profile picture). 
+
+Store and retrieve fitness goals (weight target, weekly workout frequency, daily calorie/nutrition intake). 
+
+Track progress updates (weight logs, workout sessions, nutrition entries). 
+
+Handle media uploads (profile pictures). 
+
+Requests from App → API: 
+
+  POST /register – Send user details (name, email, password, age, weight). 
+
+  POST /login – Send email and password for authentication. 
+
+  GET /profile/{id} – Request user profile details. 
+
+  PUT /profile/{id} – Update name, email, password, age, weight, profile picture. 
+
+  POST /goals – Send new fitness goals. 
+
+  GET /goals/{id} – Retrieve current fitness goals. 
+
+  POST /progress – Log workouts, nutrition, or weight changes. 
+
+  GET /progress/{id} – Retrieve user progress history. 
+
+ 
+
+Responses from API → App: 
+
+ Success/failure messages (e.g., login success, registration failed). 
+
+ User profile details (name, email, age, weight, profile picture URL). 
+
+ Fitness goals (weight target, weekly sessions, nutrition intake). 
+
+ Progress reports (weight over time, number of workouts, nutrition summary). 
+
+ 
+
+API Creation & Hosting: 
+
+  Firebase Authentication will manage secure logins using email/password or Google sign-in. 
+
+  Firebase Firestore will store user goals, workouts, and nutrition data in the cloud. 
+
+  RoomDB will provide local storage for offline use. Data is first stored locally and then synced to Firebase when online. 
+
+  Hosting: Since Firebase is a fully managed backend, there is no need for separate hosting. All cloud features (auth, Firestore, and storage) are provided by Firebase infrastructure. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Data: 
+
+ 
+
+User 
+
+Field 
+
+Data Type 
+
+Description 
+
+Storage 
+
+userId 
+
+String (UUID) 
+
+Unique user ID (from Firebase Auth) 
+
+Firebase Auth + Firestore 
+
+email 
+
+String 
+
+User email (login credential) 
+
+Firebase Auth 
+
+passwordHash 
+
+String 
+
+Encrypted password (Firebase-managed) 
+
+Firebase Auth 
+
+fullName 
+
+String 
+
+User’s Full Name 
+
+Firestore + RoomDB 
+
+age 
+
+Integer 
+
+User’s age in years 
+
+Firestore + RoomDB 
+
+weight 
+
+Float (kg) 
+
+Current weight 
+
+Firestore + RoomDB 
+
+profilePictureUrl 
+
+String (URL) 
+
+Firebase Storage link to profile pic 
+
+Firebase Storage + Firestore 
+
+createdAt 
+
+Timestamp 
+
+Account creation date 
+
+Firestore 
+
+ 
+
+UserWorkoutGoals 
+
+Field 
+
+Data Type 
+
+Description 
+
+Storage 
+
+goalId 
+
+String (UUID) 
+
+Unique goal identifier 
+
+Firestore + RoomDB 
+
+userId 
+
+String 
+
+Reference to UserProfile.userId 
+
+Firestore 
+
+targetWeight 
+
+Float (kg) 
+
+Target weight 
+
+Firestore + RoomDB 
+
+targetCalories 
+
+Integer 
+
+Daily calorie intake target 
+
+Firestore + RoomDB 
+
+stepsPerDay 
+
+Integer 
+
+Target steps per day 
+
+Firestore + RoomDB 
+
+targetProtein 
+
+integer 
+
+Daily protein intake 
+
+Firestore + RoomDB 
+
+milestones 
+
+List<milestones> 
+
+A list of personal milestones (see table below). 
+
+ 
+
+Firestore + RoomDB 
+
+ 
+
+Milestones 
+
+Field Name 
+
+Data Type 
+
+Description 
+
+id 
+
+String or Int (UUID recommended) 
+
+Unique identifier for the milestone. 
+
+title 
+
+String 
+
+Short name for the milestone (e.g., Run 5km nonstop). 
+
+description 
+
+String 
+
+Optional details about the milestone. 
+
+dateAchieved 
+
+Date (nullable) 
+
+Date the user marks it as completed. 
+
+status 
+
+Boolean 
+
+Whether the milestone is achieved or still pending. 
+
+ 
+
+Workout Logs 
+
+Field 
+
+Data Type 
+
+Description 
+
+Storage 
+
+workoutId 
+
+String (UUID) 
+
+Unique workout log ID 
+
+Firestore + RoomDB 
+
+userId 
+
+String 
+
+Reference to UserProfile.userId 
+
+Firestore 
+
+date 
+
+Date 
+
+Workout date 
+
+Firestore + RoomDB 
+
+workoutType 
+
+Enum {Cardio, Strength, Flexibility, HIIT, Other} 
+
+Type of workout 
+
+Firestore + RoomDB 
+
+duration 
+
+Integer (minutes) 
+
+Time spent exercising 
+
+Firestore + RoomDB 
+
+notes 
+
+String (Text) 
+
+Optional workout notes 
+
+Firestore + RoomDB 
+
+ 
+
+Nutrition 
+
+Field 
+
+Data Type 
+
+Description 
+
+Storage 
+
+mealId 
+
+String (UUID) 
+
+Unique meal entry ID 
+
+Firestore + RoomDB 
+
+userId 
+
+String 
+
+Reference to UserProfile.userId 
+
+Firestore 
+
+date 
+
+Date 
+
+Date of meal 
+
+Firestore + RoomDB 
+
+mealType 
+
+Enum {Breakfast, Lunch, Dinner, Snack} 
+
+Type of meal 
+
+Firestore + RoomDB 
+
+calories 
+
+Integer 
+
+Calories consumed 
+
+Firestore + RoomDB 
+
+protein 
+
+Float (g) 
+
+Protein amount 
+
+Firestore + RoomDB 
+
+carbs 
+
+Float (g) 
+
+Carbohydrates amount 
+
+Firestore + RoomDB 
+
+fats 
+
+Float (g) 
+
+Fat amount 
+
+Firestore + RoomDB 
+
+notes 
+
+String 
+
+Extra meal notes 
+
+Firestore + RoomDB 
+
+ 
+
+Progress Tracking 
+
+Field 
+
+Data Type 
+
+Description 
+
+Storage 
+
+progressId 
+
+String (UUID) 
+
+Unique entry ID 
+
+Firestore + RoomDB 
+
+userId 
+
+String 
+
+Reference to UserProfile.userId 
+
+Firestore 
+
+date 
+
+Date 
+
+Measurement date 
+
+Firestore + RoomDB 
+
+weight 
+
+Float (kg) 
+
+User’s weight 
+
+Firestore + RoomDB 
+
+bmi 
+
+Float 
+
+Body Mass Index (calculated) 
+
+Firestore + RoomDB 
+
+bodyFat 
+
+Float (%) 
+
+Estimated body fat % 
+
+Firestore + RoomDB 
+
+notes 
+
+String 
+
+Optional notes 
+
+Firestore + RoomDB 
+
+ 
+
+CustomWorkouts 
+
+Field Name 
+
+Data Type 
+
+Description 
+
+Storage 
+
+id 
+
+String or Int (UUID recommended) 
+
+Unique identifier for the custom workout. 
+
+RoomDB+ 
+Firestore 
+
+userId 
+
+String 
+
+Reference to UserProfile.userId 
+
+Firestore 
+
+title 
+
+String 
+
+Name of the workout (e.g., Leg Day Blast). 
+
+RoomDB+ 
+Firestore 
+
+description 
+
+String (nullable) 
+
+Optional details about the workout. 
+
+RoomDB+ 
+Firestore 
+
+exercises 
+
+List<Exercise> 
+
+List of exercises included in this workout. 
+
+RoomDB+ 
+Firestore 
+
+ 
+
+Exercise  
+
+Field Name 
+
+Data Type 
+
+Description 
+
+Storage 
+
+id 
+
+String or Int 
+
+Unique identifier for the exercise (inside workout). 
+
+RoomDB+ 
+Firestore 
+
+name 
+
+String 
+
+Exercise name (e.g., Push-ups, Squats). 
+
+RoomDB+ 
+Firestore 
+
+reps 
+
+Int (nullable) 
+
+Number of repetitions (if rep-based). 
+
+RoomDB+ 
+Firestore 
+
+sets 
+
+Int (nullable) 
+
+Number of sets (if applicable). 
+
+RoomDB+ 
+Firestore 
+
+duration 
+
+Int (nullable) 
+
+Duration in seconds/minutes (if time-based). 
+
+RoomDB+ 
+Firestore 
+
+notes 
+
+String (nullable) 
+
+Optional notes like form tips or weights. 
+
+RoomDB+ 
+Firestore 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Bibliography: 
+
+ 
+
+Online Gantt (2024). Free Online Gantt Chart Software. [online] www.onlinegantt.com. Available at: https://www.onlinegantt.com/#/gantt  
+[Accessed 27 Aug. 2025] 
+
+www.opfro.org. (n.d.). Navigation Diagram - OPEN Process Framework (OPF) Repository Organization Website. [online] Available at:  
+
+https://www.opfro.org/Components/WorkProducts/DiagramSet/Architecture/NavigationDiagram/NavigationDiagram.html [Accessed 27 Aug. 2025] 
+
+Dhawan, A. (2019). 7 Essential Features Needed for Building a Successful Fitness App. [online] Insights - Web and Mobile Development Services and Solutions. Available at: https://www.netsolutions.com/insights/essential-features-fitness-apps/.  
+[Accessed 27 Aug. 2025] 
+
+Exercise.com | Software to grow your fitness business. (2023). What makes a fitness app successful? | Exercise.com. [online] Available at: https://www.exercise.com/grow/what-makes-a-fitness-app-successful/. 
+[Accessed 27 Aug. 2025] 
+
+IBM (2021). REST APIs. [online] Ibm.com. Available at: https://www.ibm.com/think/topics/rest-apis. 
+[Accessed 27 Aug. 2025] 
+ 
+
+‌ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+‌ 
+
+ 

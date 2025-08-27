@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrackr Project Gantt Chart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: white;
+            padding: 15px;
+            font-size: 10px;
+            line-height: 1.2;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #ccc;
+        }
+
+        .header {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .header h1 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .header .subtitle {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .project-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            padding: 8px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 5px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 9px;
+        }
+
+        .info-item strong {
+            color: #4CAF50;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .gantt-container {
+            display: flex;
+            height: 350px;
+        }
+
+        .task-list {
+            width: 250px;
+            border-right: 1px solid #ddd;
+            background: #f9f9f9;
+            overflow-y: auto;
+        }
+
+        .timeline-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-header {
+            height: 30px;
+            background: #4CAF50;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .timeline-grid {
+            height: 320px;
+            position: relative;
+            background: white;
+            overflow-y: auto;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #ddd;
+            font-size: 8px;
+            color: #666;
+            text-align: center;
+            padding-top: 5px;
+        }
+
+        .task-row {
+            height: 25px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            font-size: 9px;
+            position: relative;
+        }
+
+        .task-row.phase-header {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            height: 20px;
+            font-size: 8px;
+        }
+
+        .task-row.subtask {
+            padding-left: 15px;
+            background: white;
+        }
+
+        .task-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .task-details {
+            font-size: 7px;
+            color: #666;
+            margin-top: 1px;
+        }
+
+        .gantt-bar {
+            position: absolute;
+            height: 15px;
+            border-radius: 2px;
+            top: 5px;
+            z-index: 10;
+        }
+
+        .phase-1 { background: #FF6B6B; }
+        .phase-2 { background: #4ECDC4; }
+        .phase-3 { background: #45B7D1; }
+        .phase-4 { background: #96CEB4; }
+        .phase-5 { background: #FFEAA7; }
+        .phase-6 { background: #DDA0DD; }
+
+        .milestones {
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .milestones-header {
+            background: #4CAF50;
+            color: white;
+            padding: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        .milestones-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            padding: 8px;
+        }
+
+        .milestone {
+            background: #f0f8ff;
+            border: 1px solid #4CAF50;
+            border-radius: 3px;
+            padding: 5px;
+            text-align: center;
+            font-size: 8px;
+        }
+
+        .milestone-date {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .milestone-desc {
+            font-size: 7px;
+            color: #333;
+            margin-top: 2px;
+        }
+
+        .legend {
+            margin-top: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .legend-header {
+            background: #4CAF50;
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 9px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            padding: 6px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 3px;
+            background: #f9f9f9;
+            border-radius: 2px;
+            font-size: 8px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin-right: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .legend-1 { background: #FF6B6B; }
+        .legend-2 { background: #4ECDC4; }
+        .legend-3 { background: #45B7D1; }
+        .legend-4 { background: #96CEB4; }
+        .legend-5 { background: #FFEAA7; }
+        .legend-6 { background: #DDA0DD; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FitTrackr Development Project - Gantt Chart</h1>
+            <div class="subtitle">Project Timeline & Task Breakdown</div>
+        </div>
+
+        <div class="project-info">
+            <div class="info-item">
+                <strong>Duration</strong>
+                <span>16 Weeks</span>
+            </div>
+            <div class="info-item">
+                <strong>Team Size</strong>
+                <span>4 Members</span>
+            </div>
+            <div class="info-item">
+                <strong>Start Date</strong>
+                <span>Sep 1, 2025</span>
+            </div>
+            <div class="info-item">
+                <strong>End Date</strong>
+                <span>Jan 23, 2025</span>
+            </div>
+        </div>
+
+        <div class="gantt-container">
+            <div class="task-list">
+                <div class="task-row phase-header">Phase 1: Project Setup & Foundation</div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Project Setup</div>
+                        <div class="task-details">Android Studio, Git, Firebase</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Architecture Planning</div>
+                        <div class="task-details">Database schema, API endpoints</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">UI/UX Foundation</div>
+                        <div class="task-details">Material Design, Navigation</div>
+                    </div>
+                </div>
+
+                <div class="task-row phase-header">Phase 2: Backend Development</div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Firebase Backend Setup</div>
+                        <div class="task-details">Auth, Firestore, Storage</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">REST API Development</div>
+                        <div class="task-details">User, Profile, Workout endpoints</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Local Database (RoomDB)</div>
+                        <div class="task-details">Schema, DAOs, Offline storage</div>
+                    </div>
+                </div>
+
+                <div class="task-row phase-header">Phase 3: Core Features Development</div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Authentication System</div>
+                        <div class="task-details">SSO, Biometric, Login UI</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">User Profile & Settings</div>
+                        <div class="task-details">Profile creation, Settings</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Workout Management</div>
+                        <div class="task-details">Session tracking, Custom workouts</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Nutrition Tracking</div>
+                        <div class="task-details">Food DB, Calorie tracking</div>
+                    </div>
+                </div>
+
+                <div class="task-row phase-header">Phase 4: Advanced Features</div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Offline Mode & Sync</div>
+                        <div class="task-details">Offline storage, Sync</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Push Notifications</div>
+                        <div class="task-details">FCM setup, Scheduling</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Multi-language Support</div>
+                        <div class="task-details">Localization, Language switching</div>
+                    </div>
+                </div>
+
+                <div class="task-row phase-header">Phase 5: Testing & Quality Assurance</div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Unit Testing</div>
+                        <div class="task-details">Auth, Database, API tests</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Integration Testing</div>
+                        <div class="task-details">E2E flows, Sync testing</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Bug Fixing & Optimization</div>
+                        <div class="task-details">Performance, UI/UX, Final fixes</div>
+                    </div>
+                </div>
+
+                <div class="task-row phase-header">Phase 6: Deployment & Documentation</div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Google Play Store Preparation</div>
+                        <div class="task-details">App signing, Store listing</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Documentation</div>
+                        <div class="task-details">User manual, Technical docs</div>
+                    </div>
+                </div>
+                <div class="task-row subtask">
+                    <div>
+                        <div class="task-name">Final Submission</div>
+                        <div class="task-details">Project submission</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-header">
+                    Timeline (Sep 1, 2025 - Jan 23, 2025)
+                </div>
+                <div class="timeline-grid">
+                    <!-- Timeline markers -->
+                    <div class="timeline-marker" style="left: 0%;">Sep 1</div>
+                    <div class="timeline-marker" style="left: 12.5%;">Sep 15</div>
+                    <div class="timeline-marker" style="left: 25%;">Oct 1</div>
+                    <div class="timeline-marker" style="left: 37.5%;">Oct 15</div>
+                    <div class="timeline-marker" style="left: 50%;">Nov 1</div>
+                    <div class="timeline-marker" style="left: 62.5%;">Nov 15</div>
+                    <div class="timeline-marker" style="left: 75%;">Dec 1</div>
+                    <div class="timeline-marker" style="left: 87.5%;">Dec 15</div>
+                    <div class="timeline-marker" style="left: 100%;">Jan 23</div>
+
+                    <!-- Gantt bars - properly positioned -->
+                    <!-- Phase 1: Project Setup & Foundation (Weeks 1-2) -->
+                    <div class="gantt-bar phase-1" style="left: 0%; width: 12.5%; top: 30px;"></div>
+                    <div class="gantt-bar phase-1" style="left: 12.5%; width: 12.5%; top: 55px;"></div>
+                    <div class="gantt-bar phase-1" style="left: 25%; width: 12.5%; top: 80px;"></div>
+
+                    <!-- Phase 2: Backend Development (Weeks 3-5) -->
+                    <div class="gantt-bar phase-2" style="left: 37.5%; width: 12.5%; top: 130px;"></div>
+                    <div class="gantt-bar phase-2" style="left: 50%; width: 25%; top: 155px;"></div>
+                    <div class="gantt-bar phase-2" style="left: 75%; width: 12.5%; top: 180px;"></div>
+
+                    <!-- Phase 3: Core Features Development (Weeks 6-10) -->
+                    <div class="gantt-bar phase-3" style="left: 0%; width: 25%; top: 230px;"></div>
+                    <div class="gantt-bar phase-3" style="left: 25%; width: 25%; top: 255px;"></div>
+                    <div class="gantt-bar phase-3" style="left: 50%; width: 25%; top: 280px;"></div>
+                    <div class="gantt-bar phase-3" style="left: 75%; width: 25%; top: 305px;"></div>
+
+                    <!-- Phase 4: Advanced Features (Weeks 11-13) -->
+                    <div class="gantt-bar phase-4" style="left: 0%; width: 25%; top: 355px;"></div>
+                    <div class="gantt-bar phase-4" style="left: 25%; width: 25%; top: 380px;"></div>
+                    <div class="gantt-bar phase-4" style="left: 50%; width: 25%; top: 405px;"></div>
+
+                    <!-- Phase 5: Testing & Quality Assurance (Weeks 14-15) -->
+                    <div class="gantt-bar phase-5" style="left: 75%; width: 25%; top: 455px;"></div>
+                    <div class="gantt-bar phase-5" style="left: 0%; width: 25%; top: 480px;"></div>
+                    <div class="gantt-bar phase-5" style="left: 25%; width: 25%; top: 505px;"></div>
+
+                    <!-- Phase 6: Deployment & Documentation (Week 16) -->
+                    <div class="gantt-bar phase-6" style="left: 50%; width: 25%; top: 555px;"></div>
+                    <div class="gantt-bar phase-6" style="left: 75%; width: 25%; top: 580px;"></div>
+                    <div class="gantt-bar phase-6" style="left: 100%; width: 12.5%; top: 605px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="milestones">
+            <div class="milestones-header">Key Project Milestones</div>
+            <div class="milestones-grid">
+                <div class="milestone">
+                    <div class="milestone-date">Sep 12, 2025</div>
+                    <div class="milestone-desc">Foundation Complete</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Oct 10, 2025</div>
+                    <div class="milestone-desc">Backend Ready</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Nov 26, 2025</div>
+                    <div class="milestone-desc">Core Features</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Dec 23, 2025</div>
+                    <div class="milestone-desc">Advanced Features</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Jan 15, 2025</div>
+                    <div class="milestone-desc">Testing Complete</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Jan 23, 2025</div>
+                    <div class="milestone-desc">Project Delivery</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-header">Phase Legend</div>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="legend-color legend-1"></div>
+                    <span>Phase 1: Project Setup</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-2"></div>
+                    <span>Phase 2: Backend Development</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-3"></div>
+                    <span>Phase 3: Core Features</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-4"></div>
+                    <span>Phase 4: Advanced Features</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-5"></div>
+                    <span>Phase 5: Testing & QA</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-6"></div>
+                    <span>Phase 6: Deployment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

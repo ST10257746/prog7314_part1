@@ -1,0 +1,563 @@
+PROG7314 POE: Part 1 
+
+Group members: ST10262464, ST10257746, ST10375560, ST10382828 
+
+27 August 2025 
+
+ 
+
+Research 
+
+ 
+
+Introduction 
+
+ 
+
+Living a healthy lifestyle in the 21st century requires effective monitoring of physical activity, diet, and wellness habits. With the digital transformation around us, fitness tracking apps have emerged as essential tools for individuals who want to improve their health, track workouts, monitor diet, and set fitness goals. These apps provide users with a clear overview of their daily activities, automate health data collection through sensors and wearables, and offer services such as calorie counting, sleep tracking, and goal setting. 
+
+For this research, three of the most popular fitness apps on the Android OS are examined, namely Google Fit, Samsung Health, and MyFitnessPal. Each app will be evaluated in terms of its features, strengths and weaknesses, and innovative offerings. A comparison will then highlight their differences and similarities, followed by an analysis of the best features to integrate into an ultimate fitness app. The results are intended to provide a detailed assessment of these tools to guide the development of our own fitness tracker app. 
+
+ 
+
+Google Fit Research 
+
+ 
+
+Overview, Description, Key Features 
+
+ 
+
+Developer: Google LLC 
+Platform: Android & iOS 
+Website: fit.google.com 
+
+ 
+
+Description: 
+
+ 
+The free health-tracking program Google Fit was created by Google and works with third-party workout equipment, Wear OS wearables, and Android smartphones. According to World Health Organisation (WHO) guidelines, the app tracks physical activities including walking, running, and cycling, as well as heart points and move minutes, with the goal of enhancing general health (Graziano, n.d.). 
+
+ 
+
+Key Features (Graziano, n.d.):  
+
+ 
+
+Tracks heart rate, steps, distance, and calories burned (when connected to devices). 
+
+Move the Heart Points and Minutes system to promote everyday activity. 
+
+Connectivity with Wear OS wearables and fitness applications from other parties (e.g., Strava, Nike Run Club). 
+
+Enables users to track their progress towards fitness goals. 
+
+Google account sync with the cloud. 
+
+Weekly insights into wellness and exercise trends are provided. 
+
+ 
+
+ 
+
+Strengths and Weaknesses 
+
+ 
+
+Strengths (Graziano, n.d.): 
+
+ 
+
+An easy-to-use interface that makes setting goals simple. 
+
+No hidden fees; etc. 
+
+Robust compatibility with wearables and Android devices. 
+
+Google Cloud supports dependable syncing. 
+
+For wider tracking, it integrates with numerous third-party fitness applications. 
+
+ 
+
+Weaknesses (Graziano, n.d.), (Google, 2019): 
+
+ 
+
+Fewer sophisticated features than rivals (nutrition tracking, for instance). 
+
+Mostly depends on device sensors, which could make it less accurate without a smartwatch. 
+
+There is not much offline support; syncing requires internet access. 
+
+ 
+
+ 
+
+App Implementation 
+
+ 
+
+According to my understanding of Android Studio app development, Google Fit most likely uses the following technologies (Google Developers, n.d.): 
+
+ 
+
+REST APIs & Cloud Sync: Google Cloud and RESTful services are used to sync data and the user's Google account, including steps, calories, and heart rate. 
+
+Sensors API: The accelerometer, gyroscope, and GPS sensors that are incorporated into Android power activity recognition. 
+
+Wear OS Integration: Using the Google Fit SDK, which manages real-time communication between a smartwatch and a phone, the program interacts with Wear OS devices. 
+
+Room/SQLite (local storage): This allows user activity records to be temporarily stored offline before being synchronised to the cloud later. 
+
+Notifications: Helps users remember their activity objectives by using Firebase Cloud Messaging (FCM). 
+
+Using the Google Sign-In SDK for authentication, SSO (Single Sign-On) guarantees fast access across devices. 
+
+ 
+
+ 
+
+Screenshots 
+
+Google Fit app gets revamped while Wear OS improves workouts - GSMArena.com  news 
+
+https://www.gsmarena.com/google_fit_app_gets_revamped_while_wear_os_improves_workouts-news-46321.php  
+
+ 
+
+Daily activity, such as steps, Heart Points, calories burnt, distance travelled, and sleep, is highlighted on the first screen. Additionally, it tracks consistency and helps users stay motivated by displaying progress towards weekly targets, including the WHO-recommended 150 Heart Points(GSMArena.com, n.d.).  
+
+Combining objectives and sleep insights, the second screen displays recent workouts with mapped routes, the average amount of sleep, the number of days fitness targets were met, and the regularity of the nighttime pattern. This balances tracking rest and exercise(GSMArena.com, n.d.). 
+
+Details about sleep, such as the percentage of time spent in bed versus sleeping, the actual sleep/wake periods in relation to the schedule, and more, are displayed on the third screen. Additionally, it offers information on the quality of sleep for better rest(GSMArena.com, n.d.). 
+
+ 
+
+Innovative Features 
+
+ 
+
+Recommendations for activities (Move Minutes & Heart Points) based on AHA and WHO guidelines: This tool is novel because it converts international health standards into tailored, doable suggestions. By coordinating daily activity objectives with reliable medical advice, it guarantees that consumers receive advice supported by science, bridging the gap between professional advice and routine fitness choices(Graziano, n.d.). 
+
+ 
+
+Centralised health monitoring via platform and application integration: The development of a single health dashboard is where the innovation is. In order to provide a comprehensive picture of health, the platform automatically aggregates activity, heart rate, sleep, and other parameters, eliminating the need for users to manually aggregate data from other apps or devices. Time is saved and more informed lifestyle choices are supported by this integration(Graziano, n.d.). 
+
+ 
+
+Basic goal-driven inspiration for workout novices: This tool makes it easier for people new to fitness to start working out. Rather than confusing them with difficult programs, it offers straightforward encouragement aimed at specific goals that helps develop steady habits. By highlighting reachable targets, it increases involvement, boosts self-assurance, and supports lasting changes in lifestyle(Graziano, n.d.). 
+
+ 
+
+ 
+
+Samsung Health Research 
+
+ 
+
+Overview, Description, Key Features 
+
+ 
+
+Developer: Samsung Electronics Co., Ltd. 
+Platform: Android & iOS 
+Website: samsung.com/samsung-health 
+
+ 
+
+Description: 
+
+ 
+Samsung Health is a comprehensive fitness and health app with features like activity monitoring, stress management, sleep analysis, and guided workout regimens. It is primarily designed for owners of Samsung smartphones and functions flawlessly with Galaxy Watches and other Samsung smart devices (Samsung Electronics America, n.d.). 
+
+ 
+
+Key Features (Samsung Electronics America, n.d.): 
+
+racks daily steps, sleep, exercise, heart rate, and calories burned. 
+
+Monitors stress and oxygen saturation (SpO₂). 
+
+Provides guided workout and mindfulness programs. 
+
+Food and calorie intake logging. 
+
+Integration with Samsung Galaxy wearable devices. 
+
+Personalized health reports and coaching. 
+
+ 
+
+Strengths and Weaknesses 
+
+ 
+
+Strengths (Samsung Electronics America, n.d.): 
+
+Rich set of wellness features (fitness + nutrition + sleep + stress). 
+
+Seamless integration with Samsung smartwatches. 
+
+Offers guided workouts and mindfulness exercises. 
+
+Offline functionality available for basic tracking. 
+
+Free with premium coaching options. 
+
+ 
+
+Weaknesses (Samsung Electronics America, n.d.): 
+
+Best experience requires Samsung hardware; limited support for non-Samsung devices. 
+
+Some features are region-restricted. 
+
+Interface can feel cluttered with too many options. 
+
+ 
+
+App Implementation 
+
+As a more sophisticated wellness tracker, Samsung Health was probably used with the following features (Samsung Developer, 2025): 
+
+Samsung Cloud + Custom APIs: Connects fitness data to Samsung's backend servers for backups and reporting. 
+
+Wearable SDKs: Use Bluetooth APIs and Samsung Accessory Protocol (SAP) to connect to Galaxy fitness bands and smartwatches. 
+
+RoomDB/SQLite: Stores sleep, exercise, and steps offline before synchronizing with the cloud. 
+
+Biometric APIs: Uses AndroidX Biometric libraries and Samsung-specific hardware APIs to measure heart rate, SpO₂, and stress. 
+
+Push Notifications: Implemented via Firebase Cloud Messaging (FCM) for reminders and coaching alerts. 
+
+Multi-language Support: The software is adapted to several nations, including South Africa, using locale switching and Android's strings.xml. 
+
+ 
+
+ 
+
+Screenshots 
+
+ 
+
+https://news.samsung.com/global/this-summer-stay-fit-with-samsung-health 
+
+ 
+
+On the first screen, steps, calories, and other commonplace actions are measured in clear graphs that show how the program helps users monitor their health(Samsung.com, 2019).  
+
+On the second screen, it also encourages the use of easy-to-follow fitness regimens that require little to no equipment and can be used anywhere, including while traveling(Samsung.com, 2019).  
+
+Lastly, it promotes personalized exercises and wellness challenges that promote heart health, hydration, and overall fitness, positioning Samsung Health as a one-stop fitness and wellness partner(Samsung.com, 2019).  
+
+ 
+
+Innovative Features 
+
+ 
+
+The vast social network of Samsung Health is distinctive because it combines personal health monitoring with community-based support. Through connection, progress sharing, and mutual support, Samsung Health turns personal fitness goals into a common experience. Personal information like steps, calories, or activities are the exclusive focus of the majority of fitness applications(Samsung.com, 2016). 
+
+ 
+
+The app promotes responsibility and constant engagement, two important factors in sustaining long-term fitness routines, by facilitating user contact and encouragement. Users are more likely to continue with their goals when they feel part of a community that celebrates progress and offers encouragement. 
+
+ 
+
+ 
+
+MyFitnessPal Research 
+
+ 
+
+Overview, Description, Key Features 
+
+ 
+
+Developer: Under Armour, Inc. 
+Platform: Android & iOS 
+Website: myfitnesspal.com 
+
+ 
+
+Description: 
+
+ 
+MyFitnessPal is one of the most popular apps for monitoring nutrition and caloric intake. It allows users to track macronutrients, calories, and meals in addition to exercise. Because it integrates exercise and nutrition, the program is ideal for users who want to monitor their activity and control their diets (onthegofitness, 2018). 
+
+ 
+
+Key Features (onthegofitness, 2018): 
+
+Database containing calorie and nutritional data for more than 14 million foods. 
+
+For fast food logging, use barcode scanning. 
+
+Monitors activity habits, weight, and calories burned. 
+
+Connects to fitness applications and devices (e.g., Google Fit, Garmin, Fitbit). 
+
+Goal setting for weight loss, muscle gain, or maintenance. 
+
+Social/community features for motivation. 
+
+Strengths and Weaknesses 
+
+ 
+
+Strengths (onthegofitness, 2018): 
+
+ 
+
+Comprehensive food database with precise macro and calorie information. 
+
+Robust interaction with third-party apps and fitness equipment. 
+
+Promotes overall health by balancing activity and nutrition. 
+
+The free edition has many functions, while the paid version offers more in-depth understanding. 
+
+ 
+
+Weaknesses (onthegofitness, 2018): 
+
+ 
+
+The premium subscription is somewhat pricey. 
+
+The free version has irritating advertising. 
+
+Less sophisticated activity features and a greater emphasis on diet than fitness. 
+
+ 
+
+ 
+
+App Implementation 
+
+ 
+
+Since MyFitnessPal places a lot of emphasis on meal tracking and nutrition, its use probably entails (Gardner, 2023):  
+
+REST APIs: RESTful APIs are used to get the food database, which contains over 14 million items, from a central server. 
+
+Firebase/SQLite: Meal logs that sync with the server once online are locally cached offline using Firebase/SQLite. 
+
+Camera & Barcode API: Food product barcodes are scanned using the Android CameraX API. 
+
+Authentication: For wide accessibility, SSO is implemented via Google, Facebook, and email sign-up. 
+
+Cloud Sync: MyFitnessPal's servers save meal logs, exercise records, and goals, allowing data to be accessed from any device. 
+
+Third-Party Integration: Imports workout and calorie burn data via fitness APIs (Google Fit, Fitbit, and Garmin). 
+
+Notifications: Probably through FCM, reminders to record meals and drink water. 
+
+ 
+
+Screenshots 
+
+ 
+
+https://www.engadget.com/apps/myfitnesspal-is-going-to-let-ai-play-your-nutrionist-191239496.html 
+
+ 
+
+On the first screen, the AI suggests a personalized meal based on the user's calorie goals, dietary needs, and health goals. Customers may choose meals without having to manually search through the whole food database, saving them time(Campbell, 2025).  
+
+On the second screen, the nutritional details of each food item—such as calories, macros, and other crucial elements—are displayed. Because they know exactly what they are consuming, consumers are able to make informed diet choices(Campbell, 2025).  
+
+On the third screen, users may view customized meal plans that offer a structured daily or weekly routine that varies according to their preferences. This application serves as a virtual nutrition coach, ensuring that meals stay in accordance with fitness and health objectives(Campbell, 2025). 
+
+ 
+
+Innovative Features 
+
+ 
+
+Fast food recording by barcode and meal scanning is innovative since it saves consumers time and effort when monitoring their meals. Instead of manually entering each food item, users may quickly monitor meals by utilizing barcode scanning or image recognition. This makes it easier to track continuously, improves accuracy, and speeds up the process—all of which are essential for successful diet management(Rebedew, 2015). 
+
+Nutritional insights and tailored coaching stand out as revolutionary due to data-driven customization. Rather of offering broad health advice, Samsung Health customizes its suggestions based on the user's food habits, level of exercise, and wellness goals. Like if a personal trainer or dietician were included into the program, this adds interest and encouragement to the experience(Rebedew, 2015). 
+
+ 
+
+Due to its capacity to incorporate community-driven incentive with personal health tracking, a large social network for accountability and support is revolutionary. Samsung Health turns personal wellness into a communal adventure by enabling people to interact, communicate, and support one another. This social responsibility makes the app more than simply a tracker; it turns into a fitness community by keeping users inspired, motivated, and consistent (onthegofitness, 2018). 
+
+ 
+
+Comparison of Apps ((Google, 2019), (Samsung Electronics America, n.d.), (Rebedew, 2015)): 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Features 
+
+Google Fit 
+
+Samsung Health 
+
+MyFitnessPal 
+
+Focus 
+
+General activity tracking 
+
+Fitness + wellness + sleep 
+
+Nutrition + fitness 
+
+Wearable Integration 
+
+Strong with Wear OS 
+
+Strong with Galaxy Watch 
+
+Works with Fitbit, Garmin, etc. 
+
+Nutrition Tracking 
+
+Limited 
+
+Basic 
+
+Advanced (huge database) 
+
+Offline Support 
+
+Minimal 
+
+Yes (basic tracking) 
+
+Partial (logs saved, sync later) 
+
+Notifications 
+
+Simple reminders 
+
+Advanced coaching alerts 
+
+Meal reminders 
+
+Cost 
+
+Free 
+
+Free + Premium 
+
+Free + Premium 
+
+ 
+
+ 
+
+Features for Our App 
+
+ 
+
+From Google Fit (Google, 2019): 
+
+Setting goals is easy and straightforward (Move Minutes & Heart Points). 
+
+Strong integration with third-party apps. 
+
+From Samsung Health (Samsung Electronics America, n.d.): 
+
+Comprehensive wellness tracking (fitness + sleep + stress). 
+
+Offline support for activity logging. 
+
+Push notifications for real-time updates. 
+
+From MyFitnessPal (Rebedew, 2015): 
+
+Large food database for calorie tracking. 
+
+Barcode scanning for easy nutrition input. 
+
+Social/community engagement features. 
+
+Our app will aim to combine: 
+
+Activity tracking + Nutrition + Wellness in one app: The integration of food, exercise, and general well-being into a single app is novel since it offers a comprehensive health ecosystem. By centrally monitoring all facets of their well-being, users may streamline goal-setting and promote comprehensive lifestyle enhancements(Samsung Electronics America, n.d.). 
+
+ 
+
+Offline support with sync for accessibility: The software is dependable in any circumstance thanks to this function, which guarantees users may access and log their data even when they are not online. All devices are kept up to date by automatic syncing when online, improving usefulness and convenience(Samsung Electronics America, n.d.). 
+
+ 
+
+Multi-language support (including South African languages): Having several language choices promotes inclusivity and opens up the app to a wider user base. By allowing users to communicate with the app in the language of their choice, user satisfaction and engagement increase(Graziano, n.d.). 
+
+ 
+
+Biometric authentication for security: Using facial or fingerprint recognition adds a contemporary, safe way to log in. It boosts confidence and trust by providing a quick and easy way to access the app while protecting critical health data(Graziano, n.d.)(Samsung Electronics America, n.d.). 
+
+ 
+
+ 
+
+4. Conclusion 
+
+ 
+
+While Samsung Health offers a comprehensive wellness package that is best enjoyed on Samsung devices, Google Fit offers a straightforward and cost-free fitness monitoring option that is perfect for novices. MyFitnessPal, on the other hand, is essential for users who are focused on weight and diet objectives because it excels at nutrition tracking and food management. 
+
+ 
+
+In conclusion, MyFitnessPal is ideal for people who are concerned with food and calorie control, Samsung Health is appealing to those who want an all-in-one fitness and health companion, and Google Fit is ideal for users who want simplicity. Our group's fitness tracker software will provide South African customers with an inclusive and user-friendly solution by combining the greatest aspects of existing apps, including simplicity, nutrition tracking, and holistic health monitoring. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+References: 
+
+ 
+
+Campbell, I.C. (2025). MyFitnessPal Is Going to Let AI Play Your Nutrionist. [online] Engadget. Available at: https://www.engadget.com/apps/myfitnesspal-is-going-to-let-ai-play-your-nutrionist-191239496.html [Accessed 25 Aug. 2025]. 
+
+Gardner, T. (2023). How do you Build a Fitness App like MyFitnessPal? [online] VLink. Available at: https://vlinkinfo.com/blog/build-a-fitness-app-like-myfitnesspal [Accessed 26 Aug. 2025]. 
+
+Google (2019). Google Fit. [online] Google Fit. Available at: https://www.google.com/fit/ [Accessed 23 Aug. 2025]. 
+
+Google Developers. (n.d.). Platform Overview | Google Fit. [online] Available at: https://developers.google.com/fit/overview [Accessed 24 Aug. 2025]. 
+
+Graziano, D. (n.d.). The complete guide to Google Fit. [online] CNET. Available at: https://www.cnet.com/tech/mobile/the-complete-guide-to-google-fit/ [Accessed 23 Aug. 2025]. 
+
+GSMArena.com. (n.d.). Google Fit app gets revamped while Wear OS improves workouts. [online] Available at: https://www.gsmarena.com/google_fit_app_gets_revamped_while_wear_os_improves_workouts-news-46321.php [Accessed 23 Aug. 2025]. 
+
+onthegofitness (2018). On the Go Fitness Pro - A Personal Trainer’s Review of MyFitnessPal. [online] Personal Training. Available at: https://www.onthegofitnesspro.com/a-personal-trainers-take-on-myfitnesspal/ [Accessed 26 Aug. 2025]. 
+
+Porter, J. (2019). Google brings its redesigned fitness app to iOS. [online] The Verge. Available at: https://www.theverge.com/2019/4/24/18513918/google-fit-ios-release-date-features-move-minutes-heart-points-rings [Accessed 24 Aug. 2025]. 
+
+Rebedew, D. (2015). MyFitnessPal. Family Practice Management, [online] 22(2), pp.31–31. Available at: https://www.aafp.org/pubs/fpm/issues/2015/0300/p31.html [Accessed 26 Aug. 2025]. 
+
+Samsung Developer. (2025). Overview | Samsung Developer. [online] Available at: https://developer.samsung.com/health/research/overview.html [Accessed 25 Aug. 2025]. 
+
+Samsung Electronics America. (n.d.). samsung-health. [online] Available at: https://www.samsung.com/us/apps/samsung-health/ [Accessed 25 Aug. 2025]. 
+
+Samsung.com. (2016). New S Health Lets Users Team Up to Tone Up. [online] Available at: https://news.samsung.com/global/new-s-health-lets-users-team-up-to-tone-up [Accessed 25 Aug. 2025]. 
+
+Samsung.com. (2019). This Summer, Stay Fit with Samsung Health. [online] Available at: https://news.samsung.com/global/this-summer-stay-fit-with-samsung-health [Accessed 25 Aug. 2025]. 
+
+ 
+

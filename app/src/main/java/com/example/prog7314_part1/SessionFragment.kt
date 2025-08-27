@@ -24,7 +24,7 @@ class SessionFragment : Fragment() {
         val timerText: TextView = view.findViewById(R.id.timerText)
         val btnStart: Button = view.findViewById(R.id.btnStart)
         val btnPause: Button = view.findViewById(R.id.btnPause)
-        val btnReset: Button = view.findViewById(R.id.btnReset)
+        val btnStop: Button = view.findViewById(R.id.btnStop)
 
         fun format(ms: Long): String {
             val totalSeconds = ms / 1000
@@ -59,7 +59,7 @@ class SessionFragment : Fragment() {
 
         btnStart.setOnClickListener { startTimer() }
         btnPause.setOnClickListener { pauseTimer() }
-        btnReset.setOnClickListener { resetTimer() }
+        btnStop.setOnClickListener { resetTimer() }
 
         return view
     }

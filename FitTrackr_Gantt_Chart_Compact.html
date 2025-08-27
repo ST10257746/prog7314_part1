@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrackr Project Gantt Chart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: white;
+            padding: 20px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #333;
+        }
+
+        .header {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #333;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .project-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 8px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .info-item strong {
+            color: #4CAF50;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .gantt-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .gantt-table th,
+        .gantt-table td {
+            border: 1px solid #ddd;
+            padding: 6px 4px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .gantt-table th {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        .task-column {
+            width: 300px;
+            text-align: left;
+            background: #f9f9f9;
+        }
+
+        .duration-column {
+            width: 80px;
+            background: #f0f0f0;
+        }
+
+        .timeline-column {
+            width: 60px;
+            background: #f0f0f0;
+        }
+
+        .phase-header {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .task-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .task-details {
+            font-size: 9px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .gantt-bar {
+            height: 20px;
+            background: #4CAF50;
+            border-radius: 3px;
+            position: relative;
+            margin: 2px 0;
+        }
+
+        .phase-1 { background: #FF6B6B; }
+        .phase-2 { background: #4ECDC4; }
+        .phase-3 { background: #45B7D1; }
+        .phase-4 { background: #96CEB4; }
+        .phase-5 { background: #FFEAA7; }
+        .phase-6 { background: #DDA0DD; }
+
+        .milestones-section {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .milestones-header {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .milestones-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 15px;
+        }
+
+        .milestone {
+            background: #f0f8ff;
+            border: 1px solid #4CAF50;
+            border-radius: 4px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .milestone-date {
+            font-weight: bold;
+            color: #4CAF50;
+            font-size: 11px;
+        }
+
+        .milestone-desc {
+            font-size: 10px;
+            color: #333;
+            margin-top: 3px;
+        }
+
+        .legend {
+            margin-top: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .legend-header {
+            background: #4CAF50;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            background: #f9f9f9;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 2px;
+            margin-right: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .legend-1 { background: #FF6B6B; }
+        .legend-2 { background: #4ECDC4; }
+        .legend-3 { background: #45B7D1; }
+        .legend-4 { background: #96CEB4; }
+        .legend-5 { background: #FFEAA7; }
+        .legend-6 { background: #DDA0DD; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FitTrackr Development Project - Gantt Chart</h1>
+            <div class="subtitle">Project Timeline & Task Breakdown</div>
+        </div>
+
+        <div class="project-info">
+            <div class="info-item">
+                <strong>Duration</strong>
+                <span>16 Weeks</span>
+            </div>
+            <div class="info-item">
+                <strong>Team Size</strong>
+                <span>4 Members</span>
+            </div>
+            <div class="info-item">
+                <strong>Start Date</strong>
+                <span>Sep 1, 2025</span>
+            </div>
+            <div class="info-item">
+                <strong>End Date</strong>
+                <span>Jan 23, 2025</span>
+            </div>
+        </div>
+
+        <table class="gantt-table">
+            <thead>
+                <tr>
+                    <th class="task-column">Task/Phase</th>
+                    <th class="duration-column">Duration</th>
+                    <th class="timeline-column">Sep 1</th>
+                    <th class="timeline-column">Sep 15</th>
+                    <th class="timeline-column">Oct 1</th>
+                    <th class="timeline-column">Oct 15</th>
+                    <th class="timeline-column">Nov 1</th>
+                    <th class="timeline-column">Nov 15</th>
+                    <th class="timeline-column">Dec 1</th>
+                    <th class="timeline-column">Dec 15</th>
+                    <th class="timeline-column">Jan 1</th>
+                    <th class="timeline-column">Jan 15</th>
+                    <th class="timeline-column">Jan 23</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Phase 1 -->
+                <tr>
+                    <td class="phase-header" colspan="12">Phase 1: Project Setup & Foundation (Weeks 1-2)</td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Project Setup</div>
+                        <div class="task-details">Android Studio, Git, Firebase, CI/CD</div>
+                    </td>
+                    <td class="duration-column">3 days</td>
+                    <td colspan="2">
+                        <div class="gantt-bar phase-1" style="width: 100%; height: 16px;"></div>
+                    </td>
+                    <td colspan="10"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Architecture Planning</div>
+                        <div class="task-details">Database schema, API endpoints</div>
+                    </td>
+                    <td class="duration-column">4 days</td>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <div class="gantt-bar phase-1" style="width: 100%; height: 16px;"></div>
+                    </td>
+                    <td colspan="8"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">UI/UX Foundation</div>
+                        <div class="task-details">Material Design 3.0, Navigation</div>
+                    </td>
+                    <td class="duration-column">5 days</td>
+                    <td colspan="4"></td>
+                    <td colspan="1">
+                        <div class="gantt-bar phase-1" style="width: 100%; height: 16px;"></div>
+                    </td>
+                    <td colspan="7"></td>
+                </tr>
+
+                <!-- Phase 2 -->
+                <tr>
+                    <td class="phase-header" colspan="12">Phase 2: Backend Development (Weeks 3-5)</td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Firebase Backend Setup</div>
+                        <div class="task-details">Authentication, Firestore, Storage</div>
+                    </td>
+                    <td class="duration-column">5 days</td>
+                    <td colspan="6"></td>
+                    <td colspan="1">
+                        <div class="gantt-bar phase-2" style="width: 100%; height: 16px;"></div>
+                    </td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">REST API Development</div>
+                        <div class="task-details">User, Profile, Workout, Nutrition endpoints</div>
+                    </td>
+                    <td class="duration-column">10 days</td>
+                    <td colspan="7"></td>
+                    <td colspan="2">
+                        <div class="gantt-bar phase-2" style="width: 100%; height: 16px;"></div>
+                    </td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Local Database (RoomDB)</div>
+                        <div class="task-details">Schema, DAOs, Offline storage</div>
+                    </td>
+                    <td class="duration-column">5 days</td>
+                    <td colspan="9"></td>
+                    <td colspan="1">
+                        <div class="gantt-bar phase-2" style="width: 100%; height: 16px;"></div>
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+
+                <!-- Phase 3 -->
+                <tr>
+                    <td class="phase-header" colspan="12">Phase 3: Core Features Development (Weeks 6-10)</td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Authentication System</div>
+                        <div class="task-details">SSO, Biometric, Login/Register UI</div>
+                    </td>
+                    <td class="duration-column">8 days</td>
+                    <td colspan="10"></td>
+                    <td colspan="1">
+                        <div class="gantt-bar phase-3" style="width: 100%; height: 16px;"></div>
+                    </td>
+                    <td colspan="1"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">User Profile & Settings</div>
+                        <div class="task-details">Profile creation, Settings management</div>
+                    </td>
+                    <td class="duration-column">6 days</td>
+                    <td colspan="11"></td>
+                    <td colspan="1">
+                        <div class="gantt-bar phase-3" style="width: 100%; height: 16px;"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Workout Management</div>
+                        <div class="task-details">Session tracking, Custom workouts, History</div>
+                    </td>
+                    <td class="duration-column">10 days</td>
+                    <td colspan="12"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Nutrition Tracking</div>
+                        <div class="task-details">Food DB, Calorie tracking, Reports</div>
+                    </td>
+                    <td class="duration-column">8 days</td>
+                    <td colspan="12"></td>
+                </tr>
+
+                <!-- Phase 4 -->
+                <tr>
+                    <td class="phase-header" colspan="12">Phase 4: Advanced Features (Weeks 11-13)</td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Offline Mode & Sync</div>
+                        <div class="task-details">Offline storage, Data synchronization</div>
+                    </td>
+                    <td class="duration-column">8 days</td>
+                    <td colspan="12"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Push Notifications</div>
+                        <div class="task-details">FCM setup, Scheduling, Custom types</div>
+                    </td>
+                    <td class="duration-column">6 days</td>
+                    <td colspan="12"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Multi-language Support</div>
+                        <div class="task-details">Localization, Language switching</div>
+                    </td>
+                    <td class="duration-column">5 days</td>
+                    <td colspan="12"></td>
+                </tr>
+
+                <!-- Phase 5 -->
+                <tr>
+                    <td class="phase-header" colspan="12">Phase 5: Testing & Quality Assurance (Weeks 14-15)</td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Unit Testing</div>
+                        <div class="task-details">Auth, Database, API integration tests</div>
+                    </td>
+                    <td class="duration-column">6 days</td>
+                    <td colspan="12"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Integration Testing</div>
+                        <div class="task-details">E2E flows, Offline/online sync testing</div>
+                    </td>
+                    <td class="duration-column">5 days</td>
+                    <td colspan="12"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Bug Fixing & Optimization</div>
+                        <div class="task-details">Performance, UI/UX, Final fixes</div>
+                    </td>
+                    <td class="duration-column">5 days</td>
+                    <td colspan="12"></td>
+                </tr>
+
+                <!-- Phase 6 -->
+                <tr>
+                    <td class="phase-header" colspan="12">Phase 6: Deployment & Documentation (Week 16)</td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Google Play Store Preparation</div>
+                        <div class="task-details">App signing, Store listing, Screenshots</div>
+                    </td>
+                    <td class="duration-column">3 days</td>
+                    <td colspan="12"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Documentation</div>
+                        <div class="task-details">User manual, Technical documentation</div>
+                    </td>
+                    <td class="duration-column">2 days</td>
+                    <td colspan="12"></td>
+                </tr>
+                <tr>
+                    <td class="task-column">
+                        <div class="task-name">Final Submission</div>
+                        <div class="task-details">Project submission and delivery</div>
+                    </td>
+                    <td class="duration-column">1 day</td>
+                    <td colspan="12"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="milestones-section">
+            <div class="milestones-header">Key Project Milestones</div>
+            <div class="milestones-grid">
+                <div class="milestone">
+                    <div class="milestone-date">Sep 12, 2025</div>
+                    <div class="milestone-desc">Foundation Complete</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Oct 10, 2025</div>
+                    <div class="milestone-desc">Backend Ready</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Nov 26, 2025</div>
+                    <div class="milestone-desc">Core Features</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Dec 23, 2025</div>
+                    <div class="milestone-desc">Advanced Features</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Jan 15, 2025</div>
+                    <div class="milestone-desc">Testing Complete</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Jan 23, 2025</div>
+                    <div class="milestone-desc">Project Delivery</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-header">Phase Legend</div>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="legend-color legend-1"></div>
+                    <span>Phase 1: Project Setup</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-2"></div>
+                    <span>Phase 2: Backend Development</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-3"></div>
+                    <span>Phase 3: Core Features</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-4"></div>
+                    <span>Phase 4: Advanced Features</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-5"></div>
+                    <span>Phase 5: Testing & QA</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-6"></div>
+                    <span>Phase 6: Deployment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

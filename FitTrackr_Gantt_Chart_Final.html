@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrackr Project Gantt Chart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 20px;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #333;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #333;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .project-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background: #ecf0f1;
+            border-bottom: 2px solid #333;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 11px;
+        }
+
+        .info-item strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        .gantt-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .gantt-table th {
+            background: #34495e;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #2c3e50;
+            font-weight: bold;
+        }
+
+        .gantt-table td {
+            padding: 6px;
+            border: 1px solid #bdc3c7;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .task-name {
+            text-align: left;
+            font-weight: bold;
+            background: #f8f9fa;
+        }
+
+        .phase-header {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .timeline-cell {
+            position: relative;
+            height: 25px;
+        }
+
+        .task-bar {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 15px;
+            border-radius: 3px;
+            z-index: 10;
+        }
+
+        .phase-1 { background: #e74c3c; }
+        .phase-2 { background: #f39c12; }
+        .phase-3 { background: #27ae60; }
+        .phase-4 { background: #8e44ad; }
+        .phase-5 { background: #e67e22; }
+        .phase-6 { background: #16a085; }
+
+        .milestones {
+            margin-top: 20px;
+            border: 2px solid #333;
+        }
+
+        .milestones-header {
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .milestones-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background: #ecf0f1;
+        }
+
+        .milestone {
+            background: white;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .milestone-date {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 12px;
+        }
+
+        .milestone-desc {
+            font-size: 10px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .legend {
+            margin-top: 20px;
+            border: 2px solid #333;
+        }
+
+        .legend-header {
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background: #ecf0f1;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            font-size: 11px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 10px;
+            border: 1px solid #bdc3c7;
+        }
+
+        .legend-1 { background: #e74c3c; }
+        .legend-2 { background: #f39c12; }
+        .legend-3 { background: #27ae60; }
+        .legend-4 { background: #8e44ad; }
+        .legend-5 { background: #e67e22; }
+        .legend-6 { background: #16a085; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FitTrackr Development Project - Gantt Chart</h1>
+            <div class="subtitle">Project Timeline & Task Breakdown</div>
+        </div>
+
+        <div class="project-info">
+            <div class="info-item">
+                <strong>Duration</strong>
+                <span>16 Weeks</span>
+            </div>
+            <div class="info-item">
+                <strong>Team Size</strong>
+                <span>4 Members</span>
+            </div>
+            <div class="info-item">
+                <strong>Start Date</strong>
+                <span>Sep 1, 2025</span>
+            </div>
+            <div class="info-item">
+                <strong>End Date</strong>
+                <span>Jan 23, 2025</span>
+            </div>
+        </div>
+
+        <table class="gantt-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Task</th>
+                    <th style="width: 8%;">Sep 1</th>
+                    <th style="width: 8%;">Sep 8</th>
+                    <th style="width: 8%;">Sep 15</th>
+                    <th style="width: 8%;">Sep 22</th>
+                    <th style="width: 8%;">Oct 1</th>
+                    <th style="width: 8%;">Oct 8</th>
+                    <th style="width: 8%;">Oct 15</th>
+                    <th style="width: 8%;">Oct 22</th>
+                    <th style="width: 8%;">Nov 1</th>
+                    <th style="width: 8%;">Nov 8</th>
+                    <th style="width: 8%;">Nov 15</th>
+                    <th style="width: 8%;">Nov 22</th>
+                    <th style="width: 8%;">Dec 1</th>
+                    <th style="width: 8%;">Dec 8</th>
+                    <th style="width: 8%;">Dec 15</th>
+                    <th style="width: 8%;">Dec 22</th>
+                    <th style="width: 8%;">Jan 1</th>
+                    <th style="width: 8%;">Jan 8</th>
+                    <th style="width: 8%;">Jan 15</th>
+                    <th style="width: 8%;">Jan 23</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="phase-header">
+                    <td colspan="20">Phase 1: Project Setup & Foundation (Weeks 1-2)</td>
+                </tr>
+                <tr>
+                    <td class="task-name">Project Setup</td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Architecture Planning</td>
+                    <td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">UI/UX Foundation</td>
+                    <td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-1" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+
+                <tr class="phase-header">
+                    <td colspan="20">Phase 2: Backend Development (Weeks 3-5)</td>
+                </tr>
+                <tr>
+                    <td class="task-name">Firebase Backend Setup</td>
+                    <td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">REST API Development</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Local Database (RoomDB)</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-2" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+
+                <tr class="phase-header">
+                    <td colspan="20">Phase 3: Core Features Development (Weeks 6-10)</td>
+                </tr>
+                <tr>
+                    <td class="task-name">Authentication System</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">User Profile & Settings</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Workout Management</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Nutrition Tracking</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-3" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+
+                <tr class="phase-header">
+                    <td colspan="20">Phase 4: Advanced Features (Weeks 11-13)</td>
+                </tr>
+                <tr>
+                    <td class="task-name">Offline Mode & Sync</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Push Notifications</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Multi-language Support</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-4" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+
+                <tr class="phase-header">
+                    <td colspan="20">Phase 5: Testing & Quality Assurance (Weeks 14-15)</td>
+                </tr>
+                <tr>
+                    <td class="task-name">Unit Testing</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Integration Testing</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Bug Fixing & Optimization</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-5" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+
+                <tr class="phase-header">
+                    <td colspan="20">Phase 6: Deployment & Documentation (Week 16)</td>
+                </tr>
+                <tr>
+                    <td class="task-name">Google Play Store Preparation</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Documentation</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="task-name">Final Submission</td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td class="timeline-cell">
+                        <div class="task-bar phase-6" style="left: 0%; width: 100%;"></div>
+                    </td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="milestones">
+            <div class="milestones-header">Key Project Milestones</div>
+            <div class="milestones-grid">
+                <div class="milestone">
+                    <div class="milestone-date">Sep 12, 2025</div>
+                    <div class="milestone-desc">Foundation Complete</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Oct 10, 2025</div>
+                    <div class="milestone-desc">Backend Ready</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Nov 26, 2025</div>
+                    <div class="milestone-desc">Core Features</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Dec 23, 2025</div>
+                    <div class="milestone-desc">Advanced Features</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Jan 15, 2025</div>
+                    <div class="milestone-desc">Testing Complete</div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">Jan 23, 2025</div>
+                    <div class="milestone-desc">Project Delivery</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-header">Phase Legend</div>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="legend-color legend-1"></div>
+                    <span>Phase 1: Project Setup</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-2"></div>
+                    <span>Phase 2: Backend Development</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-3"></div>
+                    <span>Phase 3: Core Features</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-4"></div>
+                    <span>Phase 4: Advanced Features</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-5"></div>
+                    <span>Phase 5: Testing & QA</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-6"></div>
+                    <span>Phase 6: Deployment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
