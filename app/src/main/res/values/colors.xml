@@ -5,4 +5,6 @@
     <color name="Accent">#FF5C5C</color>
     <color name="Text">#FF000000</color>
     <color name="Background">#D0CECE</color>
+    <color name="Card">#FFFFFFFF</color>
+    <color name="Shadow">#1A000000</color>
 </resources>

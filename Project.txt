@@ -1,0 +1,100 @@
+Background 
+This portfolio of evidence comprises two parts submitted during the semester, and the finalisation 
+of your POE, each of which takes you through conceptualising, designing, and building a mobile 
+application. 
+You are going to create an app of your choice for a change. The app must make use of an API that 
+you create yourself, utilising the knowledge learned in PROG7311, PROG7312, 
+CLDV6212/APPR6212*, and APDS7312. The app must include the stated features described in the 
+introduction section below. 
+Finally, the app will need to be prepared so that it can be published on the Google Play Store, as 
+well as making use of unit testing and GitHub Actions for running the necessary tests. 
+To be able to create the app, you will need to use all the techniques you learned during this course, 
+as well as do your research on how to complete some of the tasks required of you. It is also critical 
+that you approach the project in a methodical and planned manner. For this reason, the project will 
+follow a Research – Plan – Design – Build – Evaluate cycle: 
+Research
+ Evaluate
+ Build
+ Plan
+ Design
+ This POE will run for one full cycle. After one full cycle, you can always restart the process to refine 
+your app further. 
+The different phases of the cycle will be related to the different tasks as follows: 
+
+ 
+ 
+ Part 1: Research, Planning and Design 
+Part 2: Build 
+Final POE: Build and Evaluate. 
+© The Independent Institute of Education (Pty) Ltd 2025 
+Page 3 of 24 
+25            
+2025 
+Introduction 
+Each of the below parts builds on top of the other. Be sure to complete or update one part before 
+moving on to the next. Each part will be individually assessed by your lecturer, and feedback for 
+each part will be provided. 
+The exact features, design, and layout of your app are up to you, but each app must be able to 
+complete at least the following features: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+The user must be able to register and log in to the app using single sign-on (SSO). 
+Make use of Biometric Authentication: Implement fingerprint or facial recognition for secure 
+user authentication. (POE only). 
+The user must be able to change their settings in the app. 
+Connect to a REST API you create that is connected to a database. 
+Offline mode with Sync: Create a feature that allows users to perform actions offline with 
+synchronisation capabilities once they reconnect. This does not need to be the whole app, but 
+at least some features. Can make use of RoomDB or SQL Lite (POE only). 
+Implementation of Real-time Notification: Implement a push notification system for real-time 
+updates and alerts (POE only). 
+Multi-language support that includes at least two South African Languages (POE only). 
+These features are the minimum that’s required. Your app also needs to work logically and be easy 
+to use. Speak to your lecturer about how your app can best implement all these features. 
+© The Independent Institute of Education (Pty) Ltd 2025 
+Page 4 of 24 
+25            2025 
+© The Independent Institute of Education (Pty) Ltd 2025 
+Page 5 of 24 
+Part 1 — Research, Planning and Design________________________________        (Marks: 100) 
+Learning Unit 1 
+At the end of this specific part, students should be able to: 
+ Explain how to connect to a RESTful Application Programming Interface (API). 
+ Define the features that the app will include. 
+ Define the use case of their app. 
+ 
+This part is composed of two sections, weighted equally: 
+ Research 
+ Planning and design 
+ 
+Research                                                                                                                                          (Marks: 50) 
+For this part, you are required to research three existing apps that are similar to the one you want 
+to create and are available on the Android operating system. You will need to present your findings 
+in the form of a report (2000 to 2500 words) with the following sections: 
+ 
+ Introduction 
+ Research on each app, including: 
+o Overview of the app 
+o Strengths and weaknesses of the app 
+o How you think the app was implemented based on your knowledge of Android Studio 
+App development 
+o Screenshots of the app. 
+ A comparison of all three apps. 
+ A list of the best features of all the apps that you want to use in your final app. 
+ Conclusion. 
+ References. 
+ 
+The information must be submitted in the form of a report. Make sure you reference this part 
+correctly.  
+ 
+ Make sure that the size of the PDF file does not exceed 10 MB. 
+ Please note that if you don’t find an app that matches exactly, then look for one that 
+matches at least some of the features. 
+25            2025 
+© The Independent Institute of Education (Pty) Ltd 2025 
+Page 6 of 24 
