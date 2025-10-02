@@ -45,4 +45,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Chart library for better data visualization
+    implementation("com.github.PhilJay:MPAndroidChart:v3.0.3")
+
 }
