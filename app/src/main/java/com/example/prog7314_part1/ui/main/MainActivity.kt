@@ -5,7 +5,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.prog7314_part1.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.FirebaseDatabase
+
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,5 +23,19 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Set up navigation
+        setupNavigation()
     }
+
+    private fun setupNavigation() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.frameLayout) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val bottomNavView = findViewById<BottomNavigationView>(R.id.navBarView)
+        bottomNavView.setupWithNavController(navController)
+    }
+
+    var database: FirebaseDatabase = FirebaseDatabase.getInstance()
 }

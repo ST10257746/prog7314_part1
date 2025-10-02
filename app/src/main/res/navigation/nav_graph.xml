@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.prog7314_part1.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_progress"
+        android:name="com.example.prog7314_part1.ProgressFragment"
+        android:label="Progress"
+        tools:layout="@layout/fragment_progress" />
+
+    <fragment
+        android:id="@+id/nav_session"
+        android:name="com.example.prog7314_part1.ui.session.SessionFragment"
+        android:label="Session"
+        tools:layout="@layout/fragment_session" />
+
+    <fragment
+        android:id="@+id/nav_workout"
+        android:name="com.example.prog7314_part1.ui.workout.WorkoutFragment"
+        android:label="Workout"
+        tools:layout="@layout/fragment_workout" />
+
+    <fragment
+        android:id="@+id/nav_nutrition"
+        android:name="com.example.prog7314_part1.NutritionFragment"
+        android:label="Nutrition"
+        tools:layout="@layout/fragment_nutrition" />
+
+</navigation>
