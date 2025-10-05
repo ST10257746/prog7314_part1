@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.PROG7314_Part1" parent="Base.Theme.PROG7314_Part1" />
+    
+    <!-- Circular ImageView Style -->
+    <style name="CircleImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

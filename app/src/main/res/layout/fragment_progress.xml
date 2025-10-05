@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp"
-        android:paddingBottom="100dp">
+        android:padding="20dp">
 
         <!-- Header Section -->
         <LinearLayout
@@ -134,6 +133,7 @@
                     android:progressBackgroundTint="@color/Background" />
 
                 <TextView
+                    android:id="@+id/stepsTargetText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Target: 70,000 steps"
@@ -205,6 +205,7 @@
                     android:progressBackgroundTint="@color/Background" />
 
                 <TextView
+                    android:id="@+id/workoutsTargetText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Target: 5 workouts"
@@ -276,6 +277,7 @@
                     android:progressBackgroundTint="@color/Background" />
 
                 <TextView
+                    android:id="@+id/caloriesTargetText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Target: 2,900 kcal"

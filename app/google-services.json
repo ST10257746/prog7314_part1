@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "421815300623",
-    "project_id": "fittrackr-62958",
-    "storage_bucket": "fittrackr-62958.firebasestorage.app"
+    "project_number": "110296443399",
+    "project_id": "fitness-da0ff",
+    "storage_bucket": "fitness-da0ff.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:421815300623:android:0124c578507ac33c43e97a",
+        "mobilesdk_app_id": "1:110296443399:android:7fa00bdbef6378b67058a2",
         "android_client_info": {
           "package_name": "com.example.prog7314_part1"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "110296443399-s5bpk42on8b0lq0m2nqhdaj3c3hvfhha.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.prog7314_part1",
+            "certificate_hash": "2d9e231809d1504349796a0b6407dca1d41df12d"
+          }
+        },
+        {
+          "client_id": "110296443399-dvphird83f5konelr49lcbj45mhkdguo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAOGKTSNt-L1upblY0cNPgWPrxEwzkHfwo"
+          "current_key": "AIzaSyBLNt_nb_aPOBB0sQI6eaVYMwKs3ogrsbA"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "110296443399-dvphird83f5konelr49lcbj45mhkdguo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
