@@ -39,6 +39,8 @@
         android:name="com.example.prog7314_part1.ui.user.RegisterFragment"
         android:label="Register"
         tools:layout="@layout/fragment_register">
+        
+        <!-- Arguments for Google Sign-In profile completion -->
         <argument
             android:name="isGoogleProfileCompletion"
             app:argType="boolean"
@@ -53,6 +55,7 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
+        
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment"

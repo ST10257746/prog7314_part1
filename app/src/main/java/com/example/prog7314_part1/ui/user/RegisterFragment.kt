@@ -24,9 +24,7 @@ import kotlinx.coroutines.launch
 /**
  * RegisterFragment
  * Handles user registration with Firebase Auth and Firestore
- * Can work in two modes:
- * 1. Normal registration mode (email/password)
- * 2. Google profile completion mode (completing profile after Google Sign-In)
+ * Also handles Google Sign-In profile completion
  */
 class RegisterFragment : Fragment() {
     
@@ -36,9 +34,8 @@ class RegisterFragment : Fragment() {
     private val viewModel: AuthViewModel by viewModels()
     private lateinit var userRepository: UserRepository
     
-    // Navigation args for Google profile completion mode
+    // Navigation args for Google Sign-In profile completion
     private val args: RegisterFragmentArgs by navArgs()
-    private val isGoogleMode: Boolean by lazy { args.isGoogleProfileCompletion }
     
     // Google Sign-In launcher
     private val googleSignInLauncher = registerForActivityResult(
@@ -68,46 +65,44 @@ class RegisterFragment : Fragment() {
         userRepository = UserRepository(requireContext())
         
         setupSpinners()
-        configureForMode() // Configure UI based on mode (normal vs Google completion)
         setupClickListeners()
         observeViewModel()
+        
+        // Configure UI based on mode (normal registration vs Google profile completion)
+        configureForMode()
     }
     
     /**
-     * Configure UI based on mode (normal registration vs Google profile completion)
+     * Configure UI based on whether this is normal registration
+     * or Google Sign-In profile completion
      */
     private fun configureForMode() {
-        if (isGoogleMode) {
-            // Google profile completion mode
-            
-            // Pre-fill email and name from Google (read-only)
-            args.googleEmail?.let { 
-                binding.emailInput.setText(it)
-                binding.emailInput.isEnabled = false
+        if (args.isGoogleProfileCompletion) {
+            // Google Sign-In profile completion mode
+            binding.apply {
+                // Pre-fill email from Google (read-only)
+                emailInput.setText(args.googleEmail ?: "")
+                emailInput.isEnabled = false
+                emailInput.isFocusable = false
+                
+                // Pre-fill name from Google if available
+                if (!args.googleDisplayName.isNullOrBlank()) {
+                    nameInput.setText(args.googleDisplayName)
+                }
+                
+                // Hide password fields (Google handles authentication)
+                passwordInput.visibility = View.GONE
+                confirmPasswordInput.visibility = View.GONE
+                
+                // Hide Google Sign-In button (already signed in with Google)
+                googleRegisterButton.visibility = View.GONE
+                
+                // Change button text
+                registerButton.text = "Complete Profile"
+                
+                // Change title/label if needed
+                // You could add a TextView above the form that says "Complete Your Profile"
             }
-            args.googleDisplayName?.let {
-                binding.nameInput.setText(it)
-            }
-            
-            // Hide password fields (Google handles authentication)
-            binding.passwordInput.visibility = View.GONE
-            binding.confirmPasswordInput.visibility = View.GONE
-            
-            // Hide Google Sign-In button (already signed in with Google)
-            binding.googleRegisterButton.visibility = View.GONE
-            
-            // Change button text and title
-            binding.registerButton.text = "Complete Profile"
-            
-            // Show instructions
-            requireContext().showToast("Please complete your profile to continue")
-        } else {
-            // Normal registration mode - everything visible
-            binding.emailInput.isEnabled = true
-            binding.passwordInput.visibility = View.VISIBLE
-            binding.confirmPasswordInput.visibility = View.VISIBLE
-            binding.googleRegisterButton.visibility = View.VISIBLE
-            binding.registerButton.text = "Register"
         }
     }
     
@@ -162,7 +157,6 @@ class RegisterFragment : Fragment() {
     
     /**
      * Handle Google Sign-In result
-     * This is used only when user clicks "Register with Google" from Register screen (normal mode)
      */
     private fun handleGoogleSignIn(account: com.google.android.gms.auth.api.signin.GoogleSignInAccount) {
         if (_binding == null) return
@@ -182,13 +176,24 @@ class RegisterFragment : Fragment() {
                         
                         // Check if user needs to complete profile setup
                         if (user.age == 0 || user.weightKg == 0.0) {
-                            // Navigate to login which will handle redirecting to profile completion
-                            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                            // New Google user - stay on register to complete profile
+                            // Pre-fill email and name if available
+                            binding.nameInput.setText(user.displayName)
+                            binding.emailInput.setText(user.email)
+                            binding.emailInput.isEnabled = false // Email from Google can't be changed
+                            
+                            // Hide password fields since Google handles auth
+                            binding.passwordInput.visibility = View.GONE
+                            binding.confirmPasswordInput.visibility = View.GONE
+                            
+                            requireContext().showToast("Please complete your profile")
+                            binding.registerButton.isEnabled = true
+                            binding.googleRegisterButton.isEnabled = true
                         } else if (user.dailyStepGoal == null) {
                             // Profile set but no goals - go to goal setup
                             findNavController().navigate(R.id.action_registerFragment_to_setupGoalsFragment)
                         } else {
-                            // Everything set - go to home via login
+                            // Everything set - go to login (which will redirect to home)
                             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                         }
                     }
@@ -220,15 +225,14 @@ class RegisterFragment : Fragment() {
         val weightString = binding.weightSpinner.selectedItem.toString().replace(" kg", "")
         val weight = weightString.toDoubleOrNull() ?: 0.0
         
-        if (isGoogleMode) {
-            // Google profile completion mode - just update profile
+        if (args.isGoogleProfileCompletion) {
+            // Google Sign-In profile completion mode
             handleGoogleProfileCompletion(name, age, weight)
         } else {
             // Normal registration mode
             val password = binding.passwordInput.text.toString()
             val confirmPassword = binding.confirmPasswordInput.text.toString()
             
-            // Call ViewModel to register
             viewModel.register(
                 email = email,
                 password = password,
@@ -241,32 +245,51 @@ class RegisterFragment : Fragment() {
     }
     
     /**
-     * Handle completing Google user profile
+     * Handle completing profile for Google Sign-In user
      */
-    private fun handleGoogleProfileCompletion(displayName: String, age: Int, weightKg: Double) {
+    private fun handleGoogleProfileCompletion(name: String, age: Int, weight: Double) {
         if (_binding == null) return
         
-        // Show loading
+        // Validate inputs
+        if (name.isBlank()) {
+            requireContext().showToast("Please enter your name")
+            return
+        }
+        
+        if (age < 13 || age > 100) {
+            requireContext().showToast("Please select a valid age")
+            return
+        }
+        
+        if (weight < 30 || weight > 200) {
+            requireContext().showToast("Please select a valid weight")
+            return
+        }
+        
+        // Show loading state
         binding.registerButton.isEnabled = false
-        binding.registerButton.text = "Completing Profile..."
+        requireContext().showToast("Completing profile...")
         
         viewLifecycleOwner.lifecycleScope.launch {
-            when (val result = userRepository.completeGoogleProfile(displayName, age, weightKg)) {
+            when (val result = userRepository.completeGoogleProfile(name, age, weight)) {
                 is Result.Success -> {
                     if (_binding != null) {
-                        requireContext().showToast("Profile completed successfully!")
+                        requireContext().showToast("Profile completed!")
                         // Navigate to goals setup
                         findNavController().navigate(R.id.action_registerFragment_to_setupGoalsFragment)
                     }
                 }
                 is Result.Error -> {
                     if (_binding != null) {
-                        requireContext().showToast("Failed to complete profile: ${result.message}")
+                        requireContext().showToast("Failed to update profile: ${result.message}")
                         binding.registerButton.isEnabled = true
-                        binding.registerButton.text = "Complete Profile"
                     }
                 }
-                else -> {}
+                else -> {
+                    if (_binding != null) {
+                        binding.registerButton.isEnabled = true
+                    }
+                }
             }
         }
     }

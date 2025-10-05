@@ -136,12 +136,13 @@ class LoginFragment : Fragment() {
                         
                         // Check if user needs to complete profile setup
                         if (user.age == 0 || user.weightKg == 0.0) {
-                            // New Google user - needs to complete profile
-                            val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment(
-                                isGoogleProfileCompletion = true,
-                                googleEmail = user.email,
-                                googleDisplayName = user.displayName
-                            )
+                            // New Google user - navigate to profile completion
+                            val action = LoginFragmentDirections
+                                .actionLoginFragmentToRegisterFragment(
+                                    isGoogleProfileCompletion = true,
+                                    googleEmail = user.email,
+                                    googleDisplayName = user.displayName
+                                )
                             findNavController().navigate(action)
                         } else if (user.dailyStepGoal == null) {
                             // Profile set but no goals - go to goal setup

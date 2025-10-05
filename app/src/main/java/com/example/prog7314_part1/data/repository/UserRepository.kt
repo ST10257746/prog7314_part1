@@ -231,40 +231,40 @@ class UserRepository(private val context: Context) {
     }
     
     /**
-     * Complete Google user profile after sign-in
-     * Updates age, weight, and display name for a Google-authenticated user
+     * Complete Google Sign-In profile
+     * Updates age, weight, and display name for a user who signed in with Google
      */
-    suspend fun completeGoogleProfile(
-        displayName: String,
-        age: Int,
-        weightKg: Double,
-        heightCm: Double? = null
-    ): Result<User> {
+    suspend fun completeGoogleProfile(displayName: String, age: Int, weight: Double): Result<User> {
         return try {
-            val currentUser = getCurrentUserSuspend() 
-                ?: throw Exception("No user logged in. Please sign in with Google first.")
+            // Validate inputs
+            if (displayName.isBlank()) {
+                return Result.Error(Exception("Name is required"), "Please enter your name")
+            }
             
-            // Validate age and weight
             if (age < 13 || age > 100) {
-                throw Exception("Age must be between 13 and 100")
-            }
-            if (weightKg < 30 || weightKg > 200) {
-                throw Exception("Weight must be between 30 and 200 kg")
+                return Result.Error(Exception("Invalid age"), "Age must be between 13 and 100")
             }
             
-            // Update user with profile information
+            if (weight < 30 || weight > 200) {
+                return Result.Error(Exception("Invalid weight"), "Weight must be between 30 and 200 kg")
+            }
+            
+            // Get current user
+            val currentUser = getCurrentUserSuspend() 
+                ?: return Result.Error(Exception("No user logged in"), "Please sign in first")
+            
+            // Update user with profile data
             val updatedUser = currentUser.copy(
                 displayName = displayName,
                 age = age,
-                weightKg = weightKg,
-                heightCm = heightCm,
+                weightKg = weight,
                 updatedAt = System.currentTimeMillis()
             )
             
-            // Save to Room
+            // Update in Room
             userDao.updateUser(updatedUser)
             
-            // Save to Firestore
+            // Update in Firestore
             saveUserToFirestore(updatedUser.toFirebaseUser())
             
             Result.Success(updatedUser)

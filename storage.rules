@@ -1,0 +1,39 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user owns the file
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Helper function to validate image file
+    function isValidImage() {
+      return request.resource.size < 5 * 1024 * 1024  // Max 5MB
+        && request.resource.contentType.matches('image/.*');
+    }
+    
+    // Profile images - users can only upload/delete their own images
+    match /profile_images/{userId}_{imageId} {
+      // Allow read if authenticated (so users can see others' profile pictures)
+      allow read: if isAuthenticated();
+      
+      // Allow create/update if user owns the file and it's a valid image
+      allow create, update: if isOwner(userId) && isValidImage();
+      
+      // Allow delete if user owns the file
+      allow delete: if isOwner(userId);
+    }
+    
+    // Deny all other access
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
