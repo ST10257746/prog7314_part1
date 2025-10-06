@@ -46,13 +46,38 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/icon_fitness"
-                android:background="@drawable/bg_card"
-                android:padding="12dp"
-                android:contentDescription="Profile" />
+            <!-- Profile Icon with Badge -->
+            <FrameLayout
+                android:id="@+id/profileIconContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:id="@+id/profileIcon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/icon_default_profile"
+                    android:background="@drawable/bg_card"
+                    android:padding="4dp"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Profile" />
+
+                <!-- Notification Badge -->
+                <View
+                    android:id="@+id/profileBadge"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:background="@drawable/circle_background"
+                    android:backgroundTint="@color/Accent"
+                    android:visibility="gone" />
+
+            </FrameLayout>
 
         </LinearLayout>
 
