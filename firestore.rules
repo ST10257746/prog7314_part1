@@ -1,0 +1,134 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user owns the resource
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Helper function to validate user data structure
+    function isValidUser() {
+      let data = request.resource.data;
+      // Required fields
+      let hasRequiredFields = data.keys().hasAll(['userId', 'email', 'displayName', 'age', 'weightKg', 'createdAt', 'updatedAt'])
+        && data.userId is string
+        && data.email is string
+        && data.displayName is string
+        && data.age is int
+        && data.weightKg is number
+        && data.createdAt is number
+        && data.updatedAt is number;
+      
+      // Age and weight validation: allow 0 (not set yet) or valid ranges
+      let ageValid = data.age == 0 || (data.age >= 13 && data.age <= 100);
+      let weightValid = data.weightKg == 0 || (data.weightKg >= 30 && data.weightKg <= 200);
+      
+      // Optional fields validation (if present and not null, must be valid types)
+      let heightValid = !('heightCm' in data) || data.heightCm == null || (data.heightCm is number && data.heightCm >= 0 && data.heightCm <= 300);
+      let profileImageValid = !('profileImageUrl' in data) || data.profileImageUrl == null || data.profileImageUrl is string;
+      
+      // Optional goal fields (if present and not null, must be valid)
+      let goalsValid = (!('dailyStepGoal' in data) || data.dailyStepGoal == null || (data.dailyStepGoal is int && data.dailyStepGoal >= 0))
+        && (!('dailyCalorieGoal' in data) || data.dailyCalorieGoal == null || (data.dailyCalorieGoal is int && data.dailyCalorieGoal >= 0))
+        && (!('dailyWaterGoal' in data) || data.dailyWaterGoal == null || (data.dailyWaterGoal is int && data.dailyWaterGoal >= 0))
+        && (!('weeklyWorkoutGoal' in data) || data.weeklyWorkoutGoal == null || (data.weeklyWorkoutGoal is int && data.weeklyWorkoutGoal >= 0))
+        && (!('proteinGoalG' in data) || data.proteinGoalG == null || (data.proteinGoalG is int && data.proteinGoalG >= 0))
+        && (!('carbsGoalG' in data) || data.carbsGoalG == null || (data.carbsGoalG is int && data.carbsGoalG >= 0))
+        && (!('fatsGoalG' in data) || data.fatsGoalG == null || (data.fatsGoalG is int && data.fatsGoalG >= 0));
+      
+      return hasRequiredFields && ageValid && weightValid && heightValid && profileImageValid && goalsValid;
+    }
+    
+    // Users collection - users can only read/write their own data
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser();
+      allow update: if isOwner(userId) && isValidUser();
+      allow delete: if isOwner(userId);
+    }
+    
+    // Daily Activities - users can only access their own activities
+    match /dailyActivities/{activityId} {
+      allow read: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() 
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+    }
+    
+    // Workouts - users can only access their own workouts
+    match /workouts/{workoutId} {
+      allow read: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() 
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+    }
+    
+    // Workout Sessions - users can only access their own sessions
+    match /workoutSessions/{sessionId} {
+      allow read: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() 
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+    }
+    
+    // Exercises - users can only access their own exercises
+    match /exercises/{exerciseId} {
+      allow read: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() 
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+    }
+    
+    // Nutrition Entries - users can only access their own nutrition data
+    match /nutritionEntries/{entryId} {
+      allow read: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() 
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+    }
+    
+    // Goals - users can only access their own goals
+    match /goals/{goalId} {
+      allow read: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() 
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() 
+        && resource.data.userId == request.auth.uid;
+    }
+    
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
