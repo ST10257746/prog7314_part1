@@ -22,7 +22,7 @@ class WorkoutRepository(
         // CARDIO Workouts (5 workouts)
         Workout(
             name = "Cardio Burn",
-            description = "High-energy cardio session to burn calories fast",
+            description = "High energy cardio session to burn calories fast",
             category = WorkoutCategory.CARDIO,
             difficulty = WorkoutDifficulty.INTERMEDIATE,
             durationMinutes = 35,
