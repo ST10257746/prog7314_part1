@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.navigation.NavOptions
+
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.model.AuthState
 import com.example.prog7314_part1.data.repository.UserRepository
