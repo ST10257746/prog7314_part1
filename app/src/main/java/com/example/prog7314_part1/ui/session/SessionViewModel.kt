@@ -337,7 +337,7 @@ class SessionViewModel(
                 
                 when (val result = repo.createWorkoutSession(
                     workoutName = session.workoutName,
-                    workoutType = state.selectedWorkoutType.category,
+                    workoutType = state.selectedWorkoutType.category.name,
                     startTime = session.startTime,
                     endTime = endTime,
                     durationSeconds = session.durationSeconds,
