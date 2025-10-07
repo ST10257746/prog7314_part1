@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="@drawable/bg_card"
+    android:layout_marginBottom="12dp"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- Thumbnail placeholder -->
+    <View
+        android:id="@+id/ivThumbnail"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_card" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvWorkoutName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Workout Name"
+            android:textColor="@color/Text"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvWorkoutMeta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="45 min • Intermediate • Strength"
+            android:textColor="@color/Text"
+            android:textSize="16sp"
+            android:alpha="0.8"
+            android:layout_marginTop="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⭐ 4.8"
+                android:textColor="@color/Accent"
+                android:textSize="14sp"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:id="@+id/tvCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔥 480 kcal"
+                android:textColor="@color/Secondary"
+                android:textSize="14sp"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:id="@+id/tvExerciseCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💪 8 exercises"
+                android:textColor="@color/Primary"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:backgroundTint="@color/Primary"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp" />
+
+
+</LinearLayout>
