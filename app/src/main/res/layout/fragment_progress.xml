@@ -103,9 +103,10 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/stepsCurrentText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="54,321 this week"
+                            android:text="0 this week"
                             android:textColor="@color/Text"
                             android:textSize="16sp"
                             android:alpha="0.8"
@@ -114,9 +115,10 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/stepsPercentageText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="77%"
+                        android:text="0%"
                         android:textColor="@color/Primary"
                         android:textStyle="bold"
                         android:textSize="26sp" />
@@ -124,10 +126,11 @@
                 </LinearLayout>
 
                 <ProgressBar
+                    android:id="@+id/stepsProgress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="12dp"
-                    android:progress="77"
+                    android:progress="0"
                     android:progressTint="@color/Primary"
                     android:backgroundTint="@color/Background"
                     android:progressBackgroundTint="@color/Background" />
@@ -175,9 +178,10 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/workoutsCurrentText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5 sessions completed"
+                            android:text="0 completed"
                             android:textColor="@color/Text"
                             android:textSize="16sp"
                             android:alpha="0.8"
@@ -186,9 +190,10 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/workoutsPercentageText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100%"
+                        android:text="0%"
                         android:textColor="@color/Secondary"
                         android:textStyle="bold"
                         android:textSize="26sp" />
@@ -196,10 +201,11 @@
                 </LinearLayout>
 
                 <ProgressBar
+                    android:id="@+id/workoutsProgress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="12dp"
-                    android:progress="100"
+                    android:progress="0"
                     android:progressTint="@color/Secondary"
                     android:backgroundTint="@color/Background"
                     android:progressBackgroundTint="@color/Background" />
@@ -247,9 +253,10 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/caloriesCurrentText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2,450 kcal this week"
+                            android:text="0 kcal this week"
                             android:textColor="@color/Text"
                             android:textSize="16sp"
                             android:alpha="0.8"
@@ -258,9 +265,10 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/caloriesPercentageText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="84%"
+                        android:text="0%"
                         android:textColor="@color/Accent"
                         android:textStyle="bold"
                         android:textSize="26sp" />
@@ -268,10 +276,11 @@
                 </LinearLayout>
 
                 <ProgressBar
+                    android:id="@+id/caloriesProgress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="12dp"
-                    android:progress="84"
+                    android:progress="0"
                     android:progressTint="@color/Accent"
                     android:backgroundTint="@color/Background"
                     android:progressBackgroundTint="@color/Background" />
@@ -300,8 +309,101 @@
             android:textSize="22sp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Weekly Activity Chart -->
+        <!-- Quick Trends Summary -->
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/avgWorkoutText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 min"
+                    android:textColor="@color/Primary"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Avg Workout"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:alpha="0.7"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/totalDistanceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0 km"
+                    android:textColor="@color/Secondary"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Distance"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:alpha="0.7"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/workoutFrequencyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 workouts"
+                    android:textColor="@color/Accent"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This Week"
+                    android:textColor="@color/Text"
+                    android:textSize="12sp"
+                    android:alpha="0.7"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Weekly Activity Chart (hidden - static placeholder) -->
+        <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -689,8 +791,9 @@
 
         </LinearLayout>
 
-        <!-- Workout History Chart -->
+        <!-- Workout History Chart (hidden - static placeholder) -->
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -968,167 +1071,27 @@
             android:textSize="22sp"
             android:layout_marginBottom="16dp" />
 
-        <LinearLayout
+        <!-- RecyclerView for Recent Activities (live) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recentActivityRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:background="@drawable/bg_card"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="24dp" />
 
-            <!-- Activity 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp"
-                android:padding="12dp">
+        <!-- Empty State (shown when no activities) -->
+        <TextView
+            android:id="@+id/emptyRecentActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No recent activities yet. Start a workout to see your progress!"
+            android:textColor="@color/Text"
+            android:textSize="16sp"
+            android:alpha="0.7"
+            android:padding="32dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/icon_session"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Activity" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Morning Run"
-                        android:textColor="@color/Text"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5.2 km • 32 min • 280 kcal"
-                        android:textColor="@color/Text"
-                        android:textSize="14sp"
-                        android:alpha="0.8"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2h ago"
-                    android:textColor="@color/Text"
-                    android:textSize="14sp"
-                    android:alpha="0.7" />
-
-            </LinearLayout>
-
-            <!-- Activity 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp"
-                android:padding="12dp">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/icon_workout"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Activity" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Strength Training"
-                        android:textColor="@color/Text"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Upper Body • 45 min • 180 kcal"
-                        android:textColor="@color/Text"
-                        android:textSize="14sp"
-                        android:alpha="0.8"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1d ago"
-                    android:textColor="@color/Text"
-                    android:textSize="14sp"
-                    android:alpha="0.7" />
-
-            </LinearLayout>
-
-            <!-- Activity 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="12dp">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/icon_progress"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Activity" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cycling"
-                        android:textColor="@color/Text"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="12.5 km • 55 min • 420 kcal"
-                        android:textColor="@color/Text"
-                        android:textSize="14sp"
-                        android:alpha="0.8"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2d ago"
-                    android:textColor="@color/Text"
-                    android:textSize="14sp"
-                    android:alpha="0.7" />
-
-            </LinearLayout>
-
-        </LinearLayout>
 
     </LinearLayout>
 

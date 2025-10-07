@@ -93,9 +93,10 @@
 
             <!-- Large Steps Display -->
             <TextView
+                android:id="@+id/mainStepsValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8,642"
+                android:text="0"
                 android:textColor="@color/Primary"
                 android:textStyle="bold"
                 android:textSize="50sp"
@@ -126,9 +127,10 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/caloriesValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2,450"
+                        android:text="0"
                         android:textColor="@color/Secondary"
                         android:textStyle="bold"
                         android:textSize="22sp" />
@@ -151,9 +153,10 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/activeMinutesValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="45"
+                        android:text="0"
                         android:textColor="@color/Accent"
                         android:textStyle="bold"
                         android:textSize="22sp" />
@@ -176,9 +179,10 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/distanceValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="6.2"
+                        android:text="0.0"
                         android:textColor="@color/Primary"
                         android:textStyle="bold"
                         android:textSize="22sp" />
@@ -249,13 +253,31 @@
                         android:textSize="14sp"
                         android:layout_marginTop="8dp" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="86%"
-                        android:textColor="@color/Primary"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/stepsProgressText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/Primary"
+                            android:textStyle="bold"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/stepsGoalText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="/10,000"
+                            android:textColor="@color/Text"
+                            android:textSize="14sp"
+                            android:alpha="0.7" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -305,18 +327,37 @@
                         android:textSize="14sp"
                         android:layout_marginTop="8dp" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="73%"
-                        android:textColor="@color/Secondary"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/caloriesProgressText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/Secondary"
+                            android:textStyle="bold"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/caloriesGoalText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="/2,000"
+                            android:textColor="@color/Text"
+                            android:textSize="14sp"
+                            android:alpha="0.7" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <!-- Heart Points Ring -->
+                <!-- Heart Points Ring (hidden - not backed by live data) -->
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -401,17 +442,19 @@
                 android:layout_marginBottom="12dp">
 
                 <TextView
+                    android:id="@+id/weeklyTargetText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="54,321 of 70,000 steps"
+                    android:text="0 of 0 steps"
                     android:textColor="@color/Text"
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/weeklyTargetPercentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="77%"
+                    android:text="0%"
                     android:textColor="@color/Primary"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -419,9 +462,12 @@
             </LinearLayout>
 
             <ProgressBar
+                android:id="@+id/weeklyTargetProgress"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:progress="77"
+                android:progress="0"
+                android:max="100"
                 android:progressTint="@color/Primary"
                 android:backgroundTint="@color/Background" />
 
@@ -1166,59 +1212,6 @@
                     android:gravity="center" />
 
             </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Quick Actions -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quick Actions"
-            android:textColor="@color/Text"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="24dp">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Start New Workout Session"
-                android:backgroundTint="@color/Primary"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp"
-                android:drawableStart="@drawable/icon_session"
-                android:drawablePadding="12dp" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Log Nutrition"
-                android:backgroundTint="@color/Secondary"
-                android:textColor="@color/Text"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp"
-                android:drawableStart="@drawable/icon_progress"
-                android:drawablePadding="12dp" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="View Progress"
-                android:backgroundTint="@color/Accent"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:padding="16dp"
-                android:drawableStart="@drawable/icon_progress"
-                android:drawablePadding="12dp" />
 
         </LinearLayout>
 
