@@ -12,22 +12,22 @@ import java.util.UUID
 data class Workout(
     @PrimaryKey
     val workoutId: String = UUID.randomUUID().toString(),
-    
+
     val name: String,
     val description: String,
     val category: WorkoutCategory,
     val difficulty: WorkoutDifficulty,
-    
+
     val durationMinutes: Int,
     val estimatedCalories: Int,
     val exerciseCount: Int,
-    
+
     val rating: Double = 0.0,
     val thumbnailUrl: String? = null,
-    
+
     val isCustom: Boolean = false,  // User-created vs. pre-defined
     val createdBy: String? = null,  // userId if custom
-    
+
     val createdAt: Long = System.currentTimeMillis()
 )
 
