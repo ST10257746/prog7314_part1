@@ -1,12 +1,11 @@
 package com.example.prog7314_part1.ui.workout.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.local.entity.Workout
@@ -49,19 +48,11 @@ class WorkoutAdapter(
                 tvCalories.text = "🔥 ${workout.estimatedCalories} kcal"
                 tvExerciseCount.text = "${getCategoryEmoji(workout.category)} ${workout.exerciseCount} exercises"
 
-                // Show CUSTOM badge if this is a user-created workout
-                val isCustom = workout.isCustom ?: false
-                if (isCustom) {
-                    if (binding.root.findViewById<TextView>(R.id.tvCustomBadge) == null) {
-                        val badge = TextView(binding.root.context).apply {
-                            id = R.id.tvCustomBadge
-                            text = "CUSTOM"
-                            setTextColor(android.graphics.Color.WHITE)
-                            setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.Primary))
-                            setPadding(8, 4, 8, 4)
-                        }
-                        (binding.root as ViewGroup).addView(badge)
-                    }
+                // Show CUSTOM badge if user-created
+                if (workout.isCustom == true) {
+                    tvCustomBadge.visibility = TextView.VISIBLE
+                } else {
+                    tvCustomBadge.visibility = TextView.GONE
                 }
 
                 root.setOnClickListener { onWorkoutClick(workout) }

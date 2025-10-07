@@ -41,7 +41,11 @@ class WorkoutFragment : Fragment() {
     private var searchJob: Job? = null
     private var selectedButton: View? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentWorkoutBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -62,9 +66,7 @@ class WorkoutFragment : Fragment() {
     private fun initializeViewModel() {
         val userId = UserSession.userId ?: return
         val database = AppDatabase.getDatabase(requireContext())
-        val workoutDao = database.workoutDao()
-        val exerciseDao = database.exerciseDao()
-        val repository = WorkoutRepository(workoutDao, exerciseDao)
+        val repository = WorkoutRepository(database.workoutDao(), database.exerciseDao())
         val factory = WorkoutViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[WorkoutViewModel::class.java]
     }
@@ -72,9 +74,17 @@ class WorkoutFragment : Fragment() {
     /** Main vertical workout list */
     private fun setupWorkoutRecyclerView() {
         workoutAdapter = WorkoutAdapter(
-            onWorkoutClick = { workout -> Toast.makeText(requireContext(), "Viewing ${workout.name}", Toast.LENGTH_SHORT).show() },
-            onStartClick = { workout -> Toast.makeText(requireContext(), "Starting ${workout.name}", Toast.LENGTH_SHORT).show() }
+            onWorkoutClick = { workout ->
+                // Navigate to SessionFragment with workoutId
+                val action = WorkoutFragmentDirections.actionWorkoutToSessionFragment(workout.workoutId)
+                findNavController().navigate(action)
+            },
+            onStartClick = { workout ->
+                val action = WorkoutFragmentDirections.actionWorkoutToSessionFragment(workout.workoutId)
+                findNavController().navigate(action)
+            }
         )
+
         binding.rvWorkouts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = workoutAdapter
@@ -84,9 +94,16 @@ class WorkoutFragment : Fragment() {
     /** Horizontal custom workout list */
     private fun setupCustomWorkoutRecyclerView() {
         customWorkoutAdapter = WorkoutAdapter(
-            onWorkoutClick = { workout -> Toast.makeText(requireContext(), "Viewing ${workout.name}", Toast.LENGTH_SHORT).show() },
-            onStartClick = { workout -> Toast.makeText(requireContext(), "Starting ${workout.name}", Toast.LENGTH_SHORT).show() }
+            onWorkoutClick = { workout ->
+                val action = WorkoutFragmentDirections.actionWorkoutToSessionFragment(workout.workoutId)
+                findNavController().navigate(action)
+            },
+            onStartClick = { workout ->
+                val action = WorkoutFragmentDirections.actionWorkoutToSessionFragment(workout.workoutId)
+                findNavController().navigate(action)
+            }
         )
+
         binding.rvCustomWorkouts.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
             adapter = customWorkoutAdapter
@@ -148,10 +165,6 @@ class WorkoutFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.workouts.collectLatest { workouts ->
                 workoutAdapter.submitList(workouts)
-                val query = viewModel.searchQuery.value
-                if (query.isNotBlank() && workouts.isEmpty()) {
-                    Toast.makeText(requireContext(), "No workouts found for '$query'", Toast.LENGTH_LONG).show()
-                }
             }
         }
     }

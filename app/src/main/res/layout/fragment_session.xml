@@ -334,37 +334,36 @@
 
         </LinearLayout>
 
-        <!-- Selected Workout Info -->
+        <!-- Selected workout info -->
         <LinearLayout
             android:id="@+id/selectedWorkoutInfo"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:background="@drawable/bg_card"
-            android:layout_marginBottom="24dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:paddingTop="16dp">
 
             <TextView
                 android:id="@+id/selectedWorkoutName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selected: "
-                android:textColor="@color/Text"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp" />
+                android:text="Selected Workout" />
 
             <TextView
                 android:id="@+id/selectedWorkoutDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/Text"
-                android:textSize="14sp"
-                android:alpha="0.8" />
-
+                android:text="Workout Details" />
         </LinearLayout>
+
+        <!-- RecyclerView for exercises -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/exercisesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingTop="16dp"
+            android:clipToPadding="false" />
 
         <!-- Watch Metrics Display -->
         <TextView
@@ -726,7 +725,6 @@
                 android:layout_marginStart="8dp" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
