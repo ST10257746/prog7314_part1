@@ -9,23 +9,26 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
+import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.local.AppDatabase
+import com.example.prog7314_part1.data.local.entity.Workout
 import com.example.prog7314_part1.data.local.entity.WorkoutCategory
 import com.example.prog7314_part1.data.repository.WorkoutRepository
 import com.example.prog7314_part1.databinding.FragmentWorkoutBinding
 import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModel
 import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModelFactory
 import com.example.prog7314_part1.ui.workout.adapter.WorkoutAdapter
+import com.example.prog7314_part1.utils.UserSession
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-/**
- * Fragment for displaying the workout library with filtering capabilities
- */
 class WorkoutFragment : Fragment() {
 
     private var _binding: FragmentWorkoutBinding? = null
@@ -33,11 +36,12 @@ class WorkoutFragment : Fragment() {
 
     private lateinit var viewModel: WorkoutViewModel
     private lateinit var workoutAdapter: WorkoutAdapter
+    private lateinit var customWorkoutAdapter: WorkoutAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    private var searchJob: Job? = null
+    private var selectedButton: View? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentWorkoutBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -46,111 +50,90 @@ class WorkoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initializeViewModel()
-        setupRecyclerView()
+        setupWorkoutRecyclerView()
+        setupCustomWorkoutRecyclerView()
         setupSearchFunctionality()
         setupCategoryButtons()
         setupCreateCustomWorkoutButton()
         observeWorkouts()
+        observeCustomWorkouts()
     }
 
     private fun initializeViewModel() {
+        val userId = UserSession.userId ?: return
         val database = AppDatabase.getDatabase(requireContext())
         val workoutDao = database.workoutDao()
         val exerciseDao = database.exerciseDao()
-        val workoutRepository = WorkoutRepository(workoutDao, exerciseDao)
-        val factory = WorkoutViewModelFactory(workoutRepository)
+        val repository = WorkoutRepository(workoutDao, exerciseDao)
+        val factory = WorkoutViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[WorkoutViewModel::class.java]
     }
 
-    private fun setupRecyclerView() {
+    /** Main vertical workout list */
+    private fun setupWorkoutRecyclerView() {
         workoutAdapter = WorkoutAdapter(
-            onWorkoutClick = { workout ->
-                // Handle workout card click - show detailed information
-                val categoryName = formatCategoryName(workout.category)
-                Toast.makeText(
-                    requireContext(),
-                    "Viewing ${workout.name} - ${categoryName} workout details",
-                    Toast.LENGTH_SHORT
-                ).show()
-            },
-            onStartClick = { workout ->
-                // Handle start button click - start the workout
-                val categoryName = formatCategoryName(workout.category)
-                Toast.makeText(
-                    requireContext(),
-                    "Starting ${workout.name} - ${categoryName} workout (${workout.durationMinutes} min, ${workout.exerciseCount} exercises)",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            onWorkoutClick = { workout -> Toast.makeText(requireContext(), "Viewing ${workout.name}", Toast.LENGTH_SHORT).show() },
+            onStartClick = { workout -> Toast.makeText(requireContext(), "Starting ${workout.name}", Toast.LENGTH_SHORT).show() }
         )
-
         binding.rvWorkouts.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = workoutAdapter
         }
     }
 
-    private fun setupSearchFunctionality() {
-        binding.etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val query = s?.toString()?.trim() ?: ""
-                viewModel.setSearchQuery(query)
-
-                // Provide user feedback for search
-                if (query.isNotBlank()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Searching for '$query'...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        })
-
-        // Clear search when user taps the search icon
-        binding.etSearch.setOnEditorActionListener { _, _, _ ->
-            val query = binding.etSearch.text.toString().trim()
-            if (query.isNotBlank()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Found workouts matching '$query'",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            false
+    /** Horizontal custom workout list */
+    private fun setupCustomWorkoutRecyclerView() {
+        customWorkoutAdapter = WorkoutAdapter(
+            onWorkoutClick = { workout -> Toast.makeText(requireContext(), "Viewing ${workout.name}", Toast.LENGTH_SHORT).show() },
+            onStartClick = { workout -> Toast.makeText(requireContext(), "Starting ${workout.name}", Toast.LENGTH_SHORT).show() }
+        )
+        binding.rvCustomWorkouts.apply {
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+            adapter = customWorkoutAdapter
         }
     }
 
+    private fun setupSearchFunctionality() {
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val query = s?.toString()?.trim() ?: ""
+                searchJob?.cancel()
+                searchJob = lifecycleScope.launch {
+                    delay(600)
+                    viewModel.setSearchQuery(query)
+                }
+            }
+        })
+    }
+
     private fun setupCategoryButtons() {
-        binding.apply {
-            btnCategoryAll.setOnClickListener {
-                navigateToWorkoutList("All")
-            }
+        val buttonsMap = mapOf(
+            binding.btnCategoryAll to null,
+            binding.btnCategoryCardio to WorkoutCategory.CARDIO,
+            binding.btnCategoryStrength to WorkoutCategory.STRENGTH,
+            binding.btnCategoryYoga to WorkoutCategory.YOGA,
+            binding.btnCategoryHiit to WorkoutCategory.HIIT,
+            binding.btnCategoryFlexibility to WorkoutCategory.FLEXIBILITY
+        )
 
-            btnCategoryCardio.setOnClickListener {
-                navigateToWorkoutList("Cardio")
-            }
-
-            btnCategoryStrength.setOnClickListener {
-                navigateToWorkoutList("Strength")
-            }
-
-            btnCategoryYoga.setOnClickListener {
-                navigateToWorkoutList("Yoga")
-            }
-
-            btnCategoryHiit.setOnClickListener {
-                navigateToWorkoutList("HIIT")
-            }
-
-            btnCategoryFlexibility.setOnClickListener {
-                navigateToWorkoutList("Flexibility")
+        buttonsMap.forEach { (button, category) ->
+            button.setOnClickListener {
+                viewModel.setSelectedCategory(category)
+                highlightSelectedButton(button)
             }
         }
+    }
+
+    private fun highlightSelectedButton(button: View) {
+        selectedButton?.let { prev ->
+            prev.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.Background))
+            if (prev is android.widget.Button) prev.setTextColor(ContextCompat.getColor(requireContext(), R.color.Text))
+        }
+        button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.Primary))
+        if (button is android.widget.Button) button.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+        selectedButton = button
     }
 
     private fun setupCreateCustomWorkoutButton() {
@@ -160,40 +143,35 @@ class WorkoutFragment : Fragment() {
         }
     }
 
-    private fun navigateToWorkoutList(categoryName: String) {
-        val action = WorkoutFragmentDirections.actionWorkoutToWorkoutList(categoryName)
-        findNavController().navigate(action)
-    }
-
+    /** Observe main workouts list */
     private fun observeWorkouts() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.workouts.collect { workouts ->
+        lifecycleScope.launch {
+            viewModel.workouts.collectLatest { workouts ->
                 workoutAdapter.submitList(workouts)
-
-                // Observe search query to provide feedback
-                viewModel.searchQuery.collect { query ->
-                    if (query.isNotBlank() && workouts.isEmpty()) {
-                        Toast.makeText(
-                            requireContext(),
-                            "No workouts found for '$query'. Try different keywords like 'yoga', 'cardio', 'strength', 'hiit', etc.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+                val query = viewModel.searchQuery.value
+                if (query.isNotBlank() && workouts.isEmpty()) {
+                    Toast.makeText(requireContext(), "No workouts found for '$query'", Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    private fun formatCategoryName(category: WorkoutCategory): String {
-        return when (category) {
-            WorkoutCategory.HIIT -> "HIIT"
-            WorkoutCategory.FULL_BODY -> "Full Body"
-            WorkoutCategory.UPPER_BODY -> "Upper Body"
-            WorkoutCategory.LOWER_BODY -> "Lower Body"
-            else -> category.name.lowercase().replaceFirstChar { it.uppercase() }
+    /** Observe custom workouts created by the current user */
+    private fun observeCustomWorkouts() {
+        val userId = UserSession.userId ?: return
+        lifecycleScope.launch {
+            viewModel.getCustomWorkoutsByUser(userId).collectLatest { customWorkouts ->
+                if (customWorkouts.isEmpty()) {
+                    binding.tvNoCustomWorkouts.visibility = View.VISIBLE
+                    binding.rvCustomWorkouts.visibility = View.GONE
+                } else {
+                    binding.tvNoCustomWorkouts.visibility = View.GONE
+                    binding.rvCustomWorkouts.visibility = View.VISIBLE
+                    customWorkoutAdapter.submitList(customWorkouts)
+                }
+            }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

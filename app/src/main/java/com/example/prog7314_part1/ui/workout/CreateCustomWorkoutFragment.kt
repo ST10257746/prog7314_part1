@@ -22,6 +22,8 @@ import com.example.prog7314_part1.databinding.FragmentCreateCustomWorkoutBinding
 import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModel
 import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModelFactory
 import com.example.prog7314_part1.ui.workout.adapter.ExerciseCreateAdapter
+import com.example.prog7314_part1.utils.UserSession
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -56,6 +58,7 @@ class CreateCustomWorkoutFragment : Fragment() {
     }
 
     private fun initializeViewModel() {
+        val userId = UserSession.userId ?: return
         val database = AppDatabase.getDatabase(requireContext())
         val workoutDao = database.workoutDao()
         val exerciseDao = database.exerciseDao()
@@ -191,7 +194,9 @@ class CreateCustomWorkoutFragment : Fragment() {
         // Create workout
         val selectedCategory = WorkoutCategory.values()[binding.spinnerCategory.selectedItemPosition]
         val selectedDifficulty = WorkoutDifficulty.values()[binding.spinnerDifficulty.selectedItemPosition]
-        
+
+        val userId: String = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
         val workoutId = UUID.randomUUID().toString()
         val workout = Workout(
             workoutId = workoutId,
@@ -203,7 +208,7 @@ class CreateCustomWorkoutFragment : Fragment() {
             estimatedCalories = calculateEstimatedCalories(duration, selectedCategory),
             exerciseCount = validatedExercises.size,
             isCustom = true,
-            createdBy = "user" // In a real app, this would be the actual user ID
+            createdBy = userId
         )
 
         // Update exercise workout IDs and order

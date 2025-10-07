@@ -20,6 +20,7 @@ import com.example.prog7314_part1.databinding.FragmentWorkoutListBinding
 import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModel
 import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModelFactory
 import com.example.prog7314_part1.ui.workout.adapter.WorkoutAdapter
+import com.example.prog7314_part1.utils.UserSession
 import kotlinx.coroutines.launch
 
 /**
@@ -58,6 +59,7 @@ class WorkoutListFragment : Fragment() {
     }
 
     private fun initializeViewModel() {
+        val userId = UserSession.userId ?: return
         val database = AppDatabase.getDatabase(requireContext())
         val workoutDao = database.workoutDao()
         val exerciseDao = database.exerciseDao()
