@@ -45,7 +45,7 @@ abstract class AppDatabase : RoomDatabase() {
         
         /**
          * Get database instance using singleton pattern
-         * Thread-safe implementation
+         * Thread-safe implementation added
          */
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
