@@ -143,7 +143,7 @@ interface NutritionApiService {
     ): Response<Map<String, Any>>
     
     @POST("api/nutrition")
-    suspend fun createNutrition(@Body nutrition: Map<String, Any>): Response<NutritionResponse>
+    suspend fun createNutrition(@Body nutrition: CreateNutritionRequest): Response<NutritionResponse>
     
     @PUT("api/nutrition/{nutritionId}")
     suspend fun updateNutrition(
@@ -153,5 +153,31 @@ interface NutritionApiService {
     
     @DELETE("api/nutrition/{nutritionId}")
     suspend fun deleteNutrition(@Path("nutritionId") nutritionId: String): Response<ApiResponse<Unit>>
+}
+
+/**
+ * Daily Activity API Service
+ */
+interface DailyActivityApiService {
+    
+    @GET("api/daily-activity/{userId}/{date}")
+    suspend fun getDailyActivity(
+        @Path("userId") userId: String,
+        @Path("date") date: String
+    ): Response<DailyActivityResponse>
+    
+    @PUT("api/daily-activity/{userId}/{date}")
+    suspend fun updateDailyActivity(
+        @Path("userId") userId: String,
+        @Path("date") date: String,
+        @Body updates: Map<String, Any>
+    ): Response<DailyActivityResponse>
+    
+    @POST("api/daily-activity/{userId}/{date}/water")
+    suspend fun updateWaterIntake(
+        @Path("userId") userId: String,
+        @Path("date") date: String,
+        @Body request: Map<String, Int>
+    ): Response<Map<String, Any>>
 }
 

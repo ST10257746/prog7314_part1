@@ -55,9 +55,7 @@ class NutritionDiaryFragment : Fragment() {
         // Initialize repositories and ViewModel
         val nutritionRepository = NutritionRepository(requireContext())
         val userRepository = ApiUserRepository(requireContext())
-        val dailyActivityRepository = DailyActivityRepository(
-            AppDatabase.getDatabase(requireContext()).dailyActivityDao()
-        )
+        val dailyActivityRepository = DailyActivityRepository(requireContext())
         val factory = NutritionViewModelFactory(nutritionRepository, userRepository, dailyActivityRepository)
         viewModel = ViewModelProvider(this, factory)[NutritionViewModel::class.java]
 

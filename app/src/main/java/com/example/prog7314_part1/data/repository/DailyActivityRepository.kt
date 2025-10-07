@@ -1,5 +1,8 @@
 package com.example.prog7314_part1.data.repository
 
+import android.content.Context
+import android.util.Log
+import com.example.prog7314_part1.data.local.AppDatabase
 import com.example.prog7314_part1.data.local.dao.DailyActivityDao
 import com.example.prog7314_part1.data.local.entity.DailyActivity
 import com.example.prog7314_part1.data.model.Result
@@ -9,11 +12,24 @@ import java.util.*
 
 /**
  * Repository for managing daily activity data including water intake, steps, etc.
+ * Now syncs with Firebase via REST API
  */
 class DailyActivityRepository(
+    private val context: Context? = null,
     private val dailyActivityDao: DailyActivityDao
 ) {
+    companion object {
+        private const val TAG = "DailyActivityRepo"
+    }
+    
+    private val networkRepo: NetworkRepository? = context?.let { NetworkRepository(it) }
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    
+    // Alternative constructor for backward compatibility
+    constructor(dailyActivityDao: DailyActivityDao) : this(null, dailyActivityDao)
+    
+    // Constructor with context
+    constructor(context: Context) : this(context, AppDatabase.getDatabase(context).dailyActivityDao())
     
     /**
      * Get today's date in yyyy-MM-dd format
@@ -44,20 +60,23 @@ class DailyActivityRepository(
     }
     
     /**
-     * Add water glasses to today's activity
+     * Add water glasses to today's activity (with API sync)
      */
     suspend fun addWaterGlasses(userId: String, glasses: Int): Result<Unit> {
         return try {
             val today = getTodayDate()
+            
+            // Step 1: Update local database
             val existingActivity = dailyActivityDao.getActivityByDate(userId, today)
             
-            if (existingActivity != null) {
+            val newWaterCount = if (existingActivity != null) {
                 // Update existing activity
                 val updatedActivity = existingActivity.copy(
                     waterGlasses = existingActivity.waterGlasses + glasses,
                     updatedAt = System.currentTimeMillis()
                 )
                 dailyActivityDao.updateActivity(updatedActivity)
+                updatedActivity.waterGlasses
             } else {
                 // Create new activity
                 val newActivity = DailyActivity(
@@ -68,6 +87,21 @@ class DailyActivityRepository(
                     updatedAt = System.currentTimeMillis()
                 )
                 dailyActivityDao.insertActivity(newActivity)
+                newActivity.waterGlasses
+            }
+            
+            // Step 2: Sync to Firebase via API
+            networkRepo?.let { repo ->
+                when (val apiResult = repo.updateWaterIntake(userId, today, glasses)) {
+                    is Result.Success -> {
+                        Log.d(TAG, "✅ Water intake synced to Firebase: ${apiResult.data} glasses")
+                    }
+                    is Result.Error -> {
+                        Log.w(TAG, "⚠️ Failed to sync water to Firebase: ${apiResult.message}")
+                        // Don't fail the operation, local data is already saved
+                    }
+                    else -> {}
+                }
             }
             
             Result.Success(Unit)

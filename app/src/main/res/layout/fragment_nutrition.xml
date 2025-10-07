@@ -124,8 +124,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:progress="84"
+                android:max="100"
                 android:progressTint="@color/Secondary"
-                android:backgroundTint="@color/Background" />        </LinearLayout>
+                android:backgroundTint="@color/Background"
+                style="@android:style/Widget.ProgressBar.Horizontal" />        </LinearLayout>
 
         <!-- Macronutrients Progress -->
         <TextView
@@ -181,10 +183,12 @@
                     android:alpha="0.7" />
 
                 <ProgressBar
+                    android:id="@+id/proteinProgressBar"
                     android:layout_width="50dp"
                     android:layout_height="4dp"
                     android:layout_marginTop="8dp"
                     android:progress="80"
+                    android:max="100"
                     android:progressTint="@color/Secondary"
                     android:backgroundTint="@color/Background"
                     style="@android:style/Widget.ProgressBar.Horizontal" />
@@ -230,10 +234,12 @@
                     android:alpha="0.7" />
 
                 <ProgressBar
+                    android:id="@+id/carbsProgressBar"
                     android:layout_width="50dp"
                     android:layout_height="4dp"
                     android:layout_marginTop="8dp"
                     android:progress="88"
+                    android:max="100"
                     android:progressTint="@color/Primary"
                     android:backgroundTint="@color/Background"
                     style="@android:style/Widget.ProgressBar.Horizontal" />
@@ -278,10 +284,12 @@
                     android:alpha="0.7" />
 
                 <ProgressBar
+                    android:id="@+id/fatsProgressBar"
                     android:layout_width="50dp"
                     android:layout_height="4dp"
                     android:layout_marginTop="8dp"
                     android:progress="86"
+                    android:max="100"
                     android:progressTint="@color/Accent"
                     android:backgroundTint="@color/Background"
                     style="@android:style/Widget.ProgressBar.Horizontal" />
@@ -369,6 +377,7 @@
                         android:layout_marginEnd="12dp" />
 
                     <TextView
+                        android:id="@+id/proteinLegendLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -377,6 +386,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/proteinLegendValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="360 kcal"
@@ -400,6 +410,7 @@
                         android:layout_marginEnd="12dp" />
 
                     <TextView
+                        android:id="@+id/carbsLegendLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -408,6 +419,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/carbsLegendValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="830 kcal"
@@ -430,6 +442,7 @@
                         android:layout_marginEnd="12dp" />
 
                     <TextView
+                        android:id="@+id/fatsLegendLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -438,6 +451,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/fatsLegendValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="440 kcal"
@@ -553,20 +567,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:progress="75"
+                android:max="100"
                 android:progressTint="@color/Primary"
-                android:backgroundTint="@color/Background" />
+                android:backgroundTint="@color/Background"
+                style="@android:style/Widget.ProgressBar.Horizontal" />
 
-            <Button
-                android:id="@+id/addWaterButton"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+ Add Glass"
-                android:backgroundTint="@color/Primary"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
+                android:orientation="horizontal"
                 android:layout_marginTop="12dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp" />
+                android:gravity="center">
+                
+                <Button
+                    android:id="@+id/removeWaterButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- Remove"
+                    android:backgroundTint="@color/Accent"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginEnd="8dp" />
+                
+                <Button
+                    android:id="@+id/addWaterButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+ Add Glass"
+                    android:backgroundTint="@color/Primary"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp" />
+            </LinearLayout>
 
         </LinearLayout>
 

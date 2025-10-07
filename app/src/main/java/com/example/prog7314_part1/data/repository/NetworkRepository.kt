@@ -25,6 +25,7 @@ class NetworkRepository(private val context: Context) {
     private val goalsApi: GoalsApiService = RetrofitClient.create()
     private val progressApi: ProgressApiService = RetrofitClient.create()
     private val nutritionApi: NutritionApiService = RetrofitClient.create()
+    private val dailyActivityApi: DailyActivityApiService = RetrofitClient.create()
     
     // ==================== User Operations ====================
     
@@ -392,9 +393,30 @@ class NetworkRepository(private val context: Context) {
     }
     
     /**
+     * Fetch nutrition entries from API
+     */
+    suspend fun getNutritionEntries(userId: String, date: String? = null): Result<List<NutritionDto>> =
+        withContext(Dispatchers.IO) {
+            try {
+                val response = nutritionApi.getNutrition(userId, date)
+                
+                if (response.isSuccessful && response.body() != null) {
+                    Result.Success(response.body()!!.nutrition)
+                } else {
+                    Result.Error(
+                        Exception("Failed to fetch nutrition entries"),
+                        response.errorBody()?.string() ?: "Unknown error"
+                    )
+                }
+            } catch (e: Exception) {
+                Result.Error(e, e.message ?: "Network error")
+            }
+        }
+    
+    /**
      * Create nutrition entry via API
      */
-    suspend fun createNutrition(nutrition: Map<String, Any>): Result<NutritionDto> = 
+    suspend fun createNutrition(nutrition: CreateNutritionRequest): Result<NutritionDto> = 
         withContext(Dispatchers.IO) {
             try {
                 val response = nutritionApi.createNutrition(nutrition)
@@ -404,6 +426,88 @@ class NetworkRepository(private val context: Context) {
                 } else {
                     Result.Error(
                         Exception("Failed to create nutrition entry"),
+                        response.errorBody()?.string() ?: "Unknown error"
+                    )
+                }
+            } catch (e: Exception) {
+                Result.Error(e, e.message ?: "Network error")
+            }
+        }
+    
+    // ==================== Daily Activity Operations ====================
+    
+    /**
+     * Get daily activity from API
+     */
+    suspend fun getDailyActivity(userId: String, date: String): Result<DailyActivityResponse> =
+        withContext(Dispatchers.IO) {
+            try {
+                val response = dailyActivityApi.getDailyActivity(userId, date)
+                
+                if (response.isSuccessful && response.body() != null) {
+                    Result.Success(response.body()!!)
+                } else {
+                    Result.Error(
+                        Exception("Failed to fetch daily activity"),
+                        response.errorBody()?.string() ?: "Unknown error"
+                    )
+                }
+            } catch (e: Exception) {
+                Result.Error(e, e.message ?: "Network error")
+            }
+        }
+    
+    /**
+     * Update daily activity via API
+     */
+    suspend fun updateDailyActivity(
+        userId: String,
+        date: String,
+        steps: Int? = null,
+        waterGlasses: Int? = null,
+        caloriesBurned: Int? = null,
+        activeMinutes: Int? = null,
+        distance: Double? = null
+    ): Result<DailyActivityResponse> =
+        withContext(Dispatchers.IO) {
+            try {
+                val updates = mutableMapOf<String, Any>()
+                steps?.let { updates["steps"] = it }
+                waterGlasses?.let { updates["waterGlasses"] = it }
+                caloriesBurned?.let { updates["caloriesBurned"] = it }
+                activeMinutes?.let { updates["activeMinutes"] = it }
+                distance?.let { updates["distance"] = it }
+                
+                val response = dailyActivityApi.updateDailyActivity(userId, date, updates)
+                
+                if (response.isSuccessful && response.body() != null) {
+                    Result.Success(response.body()!!)
+                } else {
+                    Result.Error(
+                        Exception("Failed to update daily activity"),
+                        response.errorBody()?.string() ?: "Unknown error"
+                    )
+                }
+            } catch (e: Exception) {
+                Result.Error(e, e.message ?: "Network error")
+            }
+        }
+    
+    /**
+     * Update water intake via API
+     */
+    suspend fun updateWaterIntake(userId: String, date: String, amount: Int): Result<Int> =
+        withContext(Dispatchers.IO) {
+            try {
+                val request = mapOf("amount" to amount)
+                val response = dailyActivityApi.updateWaterIntake(userId, date, request)
+                
+                if (response.isSuccessful && response.body() != null) {
+                    val waterGlasses = response.body()!!["waterGlasses"] as? Double ?: 0.0
+                    Result.Success(waterGlasses.toInt())
+                } else {
+                    Result.Error(
+                        Exception("Failed to update water intake"),
                         response.errorBody()?.string() ?: "Unknown error"
                     )
                 }

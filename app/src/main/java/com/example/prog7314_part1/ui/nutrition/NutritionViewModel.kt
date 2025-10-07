@@ -66,6 +66,9 @@ class NutritionViewModel(
                     return@launch
                 }
                 
+                // Sync nutrition entries from Firebase
+                nutritionRepository.refreshTodayEntries(user.userId)
+                
                 // Combine user data with nutrition entries and daily activity for today
                 combine(
                     userRepository.getCurrentUser(),
@@ -170,7 +173,7 @@ class NutritionViewModel(
     }
     
     /**
-     * Add a glass of water
+     * Add a glass of water (syncs to Firebase)
      */
     fun addWaterGlass() {
         viewModelScope.launch {
@@ -179,11 +182,11 @@ class NutritionViewModel(
             val maxGlasses = user.dailyWaterGoal ?: 8
             
             if (currentGlasses < maxGlasses) {
-                val newCount = currentGlasses + 1
-                when (val result = dailyActivityRepository.setWaterGlasses(user.userId, newCount)) {
+                // Use addWaterGlasses which syncs to Firebase
+                when (val result = dailyActivityRepository.addWaterGlasses(user.userId, 1)) {
                     is Result.Success -> {
                         _state.value = _state.value.copy(
-                            waterGlasses = newCount,
+                            waterGlasses = currentGlasses + 1,
                             successMessage = "Water glass added! Keep hydrated!"
                         )
                     }
@@ -203,7 +206,7 @@ class NutritionViewModel(
     }
     
     /**
-     * Remove a glass of water
+     * Remove a glass of water (syncs to Firebase)
      */
     fun removeWaterGlass() {
         viewModelScope.launch {
@@ -211,10 +214,10 @@ class NutritionViewModel(
             val currentGlasses = _state.value.waterGlasses
             
             if (currentGlasses > 0) {
-                val newCount = currentGlasses - 1
-                when (val result = dailyActivityRepository.setWaterGlasses(user.userId, newCount)) {
+                // Use addWaterGlasses with -1 which syncs to Firebase
+                when (val result = dailyActivityRepository.addWaterGlasses(user.userId, -1)) {
                     is Result.Success -> {
-                        _state.value = _state.value.copy(waterGlasses = newCount)
+                        _state.value = _state.value.copy(waterGlasses = currentGlasses - 1)
                     }
                     is Result.Error -> {
                         _state.value = _state.value.copy(

@@ -75,6 +75,44 @@ data class UpdateUserRequest(
 )
 
 /**
+ * Nutrition API request models
+ */
+data class CreateNutritionRequest(
+    @SerializedName("foodName")
+    val foodName: String,
+    
+    @SerializedName("mealType")
+    val mealType: String,
+    
+    @SerializedName("servingSize")
+    val servingSize: String,
+    
+    @SerializedName("calories")
+    val calories: Int,
+    
+    @SerializedName("proteinG")
+    val proteinG: Double,
+    
+    @SerializedName("carbsG")
+    val carbsG: Double,
+    
+    @SerializedName("fatsG")
+    val fatsG: Double,
+    
+    @SerializedName("fiberG")
+    val fiberG: Double = 0.0,
+    
+    @SerializedName("sugarG")
+    val sugarG: Double = 0.0,
+    
+    @SerializedName("notes")
+    val notes: String = "",
+    
+    @SerializedName("timestamp")
+    val timestamp: Long
+)
+
+/**
  * User API responses
  */
 data class UserResponse(
@@ -361,5 +399,34 @@ data class NutritionDto(
     
     @SerializedName("createdAt")
     val createdAt: Long
+)
+
+/**
+ * Daily Activity API responses
+ */
+data class DailyActivityResponse(
+    @SerializedName("userId")
+    val userId: String,
+    
+    @SerializedName("date")
+    val date: String,
+    
+    @SerializedName("steps")
+    val steps: Int = 0,
+    
+    @SerializedName("waterGlasses")
+    val waterGlasses: Int = 0,
+    
+    @SerializedName("caloriesBurned")
+    val caloriesBurned: Int = 0,
+    
+    @SerializedName("activeMinutes")
+    val activeMinutes: Int = 0,
+    
+    @SerializedName("distance")
+    val distance: Double = 0.0,
+    
+    @SerializedName("lastUpdated")
+    val lastUpdated: Long
 )
 
