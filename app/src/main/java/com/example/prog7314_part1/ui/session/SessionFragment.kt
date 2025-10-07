@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.prog7314_part1.R
-import com.example.prog7314_part1.databinding.FragmentSessionBinding
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.prog7314_part1.data.local.AppDatabase
 import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.databinding.FragmentSessionBinding
+import com.example.prog7314_part1.ui.workout.adapter.ExerciseAdapter
 import kotlinx.coroutines.launch
 
 class SessionFragment : Fragment() {
@@ -18,6 +19,7 @@ class SessionFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: SessionViewModel
+    private lateinit var exerciseAdapter: ExerciseAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,49 +31,53 @@ class SessionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        // Initialize ViewModel with database and user repository
+
+        // Initialize ViewModel
         val database = AppDatabase.getDatabase(requireContext())
         val userRepository = UserRepository(requireContext())
-        viewModel = SessionViewModel(database.workoutSessionDao(), userRepository)
-        
+        viewModel = SessionViewModel(
+            database.workoutSessionDao(),
+            userRepository,
+            database.exerciseDao(),
+            database.workoutDao()
+        )
+
         setupWorkoutTypeSelection()
         setupControlButtons()
+        setupExerciseRecyclerView()
         observeSessionState()
+        observeSelectedWorkout()
+
+        // Load preselected workout from navArgs
+        val workoutId = arguments?.getString("workoutId")
+        workoutId?.let { id ->
+            viewModel.loadWorkoutWithExercises(id)
+
+            // Automatically select correct card once workout is loaded
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.selectedWorkout.collect { workout ->
+                    workout?.let {
+                        val type = SessionViewModel.getWorkoutTypeForWorkout(it)
+                        type?.let { viewModel.selectWorkoutType(it) }
+                    }
+                }
+            }
+        }
     }
 
     private fun setupWorkoutTypeSelection() {
-        // Set up click listeners for workout type cards
-        binding.runningCard.setOnClickListener {
-            viewModel.selectWorkoutType(SessionViewModel.availableWorkoutTypes[0])
-        }
-        
-        binding.cyclingCard.setOnClickListener {
-            viewModel.selectWorkoutType(SessionViewModel.availableWorkoutTypes[1])
-        }
-        
-        binding.walkingCard.setOnClickListener {
-            viewModel.selectWorkoutType(SessionViewModel.availableWorkoutTypes[2])
-        }
-        
-        binding.strengthCard.setOnClickListener {
-            viewModel.selectWorkoutType(SessionViewModel.availableWorkoutTypes[3])
-        }
-        
-        binding.yogaCard.setOnClickListener {
-            viewModel.selectWorkoutType(SessionViewModel.availableWorkoutTypes[4])
-        }
-        
-        binding.hiitCard.setOnClickListener {
-            viewModel.selectWorkoutType(SessionViewModel.availableWorkoutTypes[5])
-        }
+        val types = SessionViewModel.availableWorkoutTypes
+        binding.runningCard.setOnClickListener { viewModel.selectWorkoutType(types[0]) }
+        binding.cyclingCard.setOnClickListener { viewModel.selectWorkoutType(types[1]) }
+        binding.walkingCard.setOnClickListener { viewModel.selectWorkoutType(types[2]) }
+        binding.strengthCard.setOnClickListener { viewModel.selectWorkoutType(types[3]) }
+        binding.yogaCard.setOnClickListener { viewModel.selectWorkoutType(types[4]) }
+        binding.hiitCard.setOnClickListener { viewModel.selectWorkoutType(types[5]) }
     }
 
     private fun setupControlButtons() {
-        binding.btnStart.setOnClickListener {
-            viewModel.startSession()
-        }
-        
+        binding.btnStart.setOnClickListener { viewModel.startSession() }
+
         binding.btnPause.setOnClickListener {
             val state = viewModel.sessionState.value
             if (state.isSessionPaused) {
@@ -82,18 +88,38 @@ class SessionFragment : Fragment() {
                 binding.btnPause.text = "▶ RESUME"
             }
         }
-        
-        binding.btnStop.setOnClickListener {
-            viewModel.stopSession()
-        }
-        
-        // Watch connection button
+
+        binding.btnStop.setOnClickListener { viewModel.stopSession() }
+
         binding.btnConnectWatch.setOnClickListener {
             val state = viewModel.sessionState.value
-            if (state.watchMetrics.isConnected) {
-                viewModel.disconnectWatch()
-            } else {
-                viewModel.connectWatch()
+            if (state.watchMetrics.isConnected) viewModel.disconnectWatch()
+            else viewModel.connectWatch()
+        }
+    }
+
+    private fun setupExerciseRecyclerView() {
+        exerciseAdapter = ExerciseAdapter()
+        binding.exercisesRecyclerView.apply {
+            adapter = exerciseAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun observeSelectedWorkout() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.selectedWorkout.collect { workout ->
+                if (workout != null) {
+                    binding.selectedWorkoutInfo.visibility = View.VISIBLE
+                    binding.selectedWorkoutName.text = "Selected: ${workout.name}"
+                    binding.selectedWorkoutDetails.text = workout.description
+                    binding.exercisesRecyclerView.visibility = View.VISIBLE
+                    exerciseAdapter.submitList(workout.exercises)
+                } else {
+                    binding.selectedWorkoutInfo.visibility = View.GONE
+                    binding.exercisesRecyclerView.visibility = View.GONE
+                    exerciseAdapter.submitList(emptyList())
+                }
             }
         }
     }
@@ -107,19 +133,10 @@ class SessionFragment : Fragment() {
     }
 
     private fun updateUI(state: SessionState) {
-        // Update selected workout info
-        if (state.selectedWorkoutType != null) {
-            binding.selectedWorkoutInfo.visibility = View.VISIBLE
-            binding.selectedWorkoutName.text = "Selected: ${state.selectedWorkoutType.name}"
-            binding.selectedWorkoutDetails.text = "${state.selectedWorkoutType.category} • ${state.selectedWorkoutType.description}"
-        } else {
-            binding.selectedWorkoutInfo.visibility = View.GONE
-        }
-
-        // Update timer
+        // Timer
         binding.timerText.text = state.timerText
 
-        // Update control buttons
+        // Control buttons
         when {
             state.isSessionActive && !state.isSessionPaused -> {
                 binding.btnStart.isEnabled = false
@@ -136,7 +153,8 @@ class SessionFragment : Fragment() {
                 binding.btnStop.isEnabled = true
             }
             else -> {
-                binding.btnStart.isEnabled = state.selectedWorkoutType != null
+                binding.btnStart.isEnabled =
+                    state.selectedWorkoutType != null || viewModel.selectedWorkout.value != null
                 binding.btnStart.text = "▶ START"
                 binding.btnPause.isEnabled = false
                 binding.btnPause.text = "⏸ PAUSE"
@@ -144,8 +162,8 @@ class SessionFragment : Fragment() {
             }
         }
 
-        // Disable workout selection during active session
-        val workoutCards = listOf(
+        // Disable workout type cards
+        val cards = listOf(
             binding.runningCard,
             binding.cyclingCard,
             binding.walkingCard,
@@ -153,39 +171,52 @@ class SessionFragment : Fragment() {
             binding.yogaCard,
             binding.hiitCard
         )
-        
-        workoutCards.forEach { card ->
-            card.isEnabled = !state.isSessionActive
-            card.alpha = if (state.isSessionActive) 0.5f else 1.0f
+
+        val disableCards =
+            state.isSessionActive || state.selectedWorkoutType != null || viewModel.selectedWorkout.value != null
+        cards.forEach { card ->
+            card.isEnabled = !disableCards
+            card.alpha = if (disableCards) 0.5f else 1.0f
         }
 
-        // Update watch metrics display
+        // Highlight selected card by comparing **category**, not object reference
+        state.selectedWorkoutType?.let { type ->
+            val card = getCardForWorkoutType(type)
+            card?.alpha = 1.0f
+            card?.isEnabled = false
+        }
+
+        // Watch metrics
         updateMetricsDisplay(state.watchMetrics)
     }
 
+    private fun getCardForWorkoutType(type: WorkoutType) = when (type.category) {
+        SessionViewModel.availableWorkoutTypes[0].category -> binding.runningCard
+        SessionViewModel.availableWorkoutTypes[1].category -> binding.cyclingCard
+        SessionViewModel.availableWorkoutTypes[2].category -> binding.walkingCard
+        SessionViewModel.availableWorkoutTypes[3].category -> binding.strengthCard
+        SessionViewModel.availableWorkoutTypes[4].category -> binding.yogaCard
+        SessionViewModel.availableWorkoutTypes[5].category -> binding.hiitCard
+        else -> null
+    }
+
     private fun updateMetricsDisplay(metrics: WatchMetrics) {
-        // Update metric values
         if (metrics.isConnected) {
             binding.heartRateValue.text = metrics.heartRate.toString()
             binding.caloriesValue.text = metrics.calories.toString()
             binding.stepsValue.text = metrics.steps.toString()
             binding.distanceValue.text = String.format("%.2f", metrics.distanceKm)
             binding.activeTimeValue.text = metrics.activeTimeMinutes.toString()
+            binding.watchStatusText.text = "Watch Connected"
+            binding.watchStatusSubtext.text = "Live metrics updating"
+            binding.btnConnectWatch.text = "Disconnect"
+            binding.watchStatusIcon.alpha = 1.0f
         } else {
             binding.heartRateValue.text = "--"
             binding.caloriesValue.text = "--"
             binding.stepsValue.text = "--"
             binding.distanceValue.text = "--"
             binding.activeTimeValue.text = "--"
-        }
-
-        // Update watch connection status
-        if (metrics.isConnected) {
-            binding.watchStatusText.text = "Watch Connected"
-            binding.watchStatusSubtext.text = "Live metrics updating"
-            binding.btnConnectWatch.text = "Disconnect"
-            binding.watchStatusIcon.alpha = 1.0f
-        } else {
             binding.watchStatusText.text = "Watch Disconnected"
             binding.watchStatusSubtext.text = "Connect your smartwatch to see live metrics"
             binding.btnConnectWatch.text = "Connect"
