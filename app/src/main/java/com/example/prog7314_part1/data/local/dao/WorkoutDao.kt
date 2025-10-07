@@ -56,4 +56,9 @@ interface WorkoutDao {
     
     @Query("DELETE FROM workouts")
     suspend fun deleteAllWorkouts()
+    @Query("SELECT * FROM workouts WHERE isCustom = 0")
+    suspend fun getPreDefinedWorkoutsSuspend(): List<Workout>
+
+    @Query("SELECT * FROM workouts WHERE createdBy = :userId ORDER BY createdAt DESC")
+    fun getWorkoutsByUser(userId: String): Flow<List<Workout>>
 }

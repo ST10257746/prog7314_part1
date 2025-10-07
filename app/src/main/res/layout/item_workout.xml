@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -90,5 +89,17 @@
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp" />
 
-
+    <!-- Custom Badge -->
+    <TextView
+        android:id="@+id/tvCustomBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CUSTOM"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:background="@drawable/bg_custom_badge"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:layout_gravity="top|end"
+        android:visibility="gone" />
 </LinearLayout>

@@ -70,321 +70,78 @@ abstract class AppDatabase : RoomDatabase() {
         private class DatabaseCallback : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                // Hardcode workouts directly into database on creation
+                // Seed predefined workouts only once when DB is created
                 CoroutineScope(Dispatchers.IO).launch {
-                    populateDatabase(INSTANCE!!)
+                    INSTANCE?.let { database ->
+                        populateDatabaseIfEmpty(database)
+                    }
                 }
             }
 
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
-                // Ensure our hardcoded workouts exist (queries will filter to show only these)
-                CoroutineScope(Dispatchers.IO).launch {
-                    INSTANCE?.let { database ->
-                        // Just populate our hardcoded workouts (queries filter out others)
-                        populateDatabase(database)
-                    }
-                }
+                // No seeding needed on every app open
             }
         }
 
-        private suspend fun populateDatabase(database: AppDatabase) {
+        /**
+         * Populate database only if predefined workouts are not already present
+         */
+        private suspend fun populateDatabaseIfEmpty(database: AppDatabase) {
             val workoutDao = database.workoutDao()
-
-            println("🎯 Loading all 25 hardcoded workouts into database")
-
-            val hardcodedWorkouts = listOf(
-                // CARDIO Workouts (5 workouts)
-                Workout(
-                    name = "Cardio Burn",
-                    description = "High-energy cardio session to burn calories fast",
-                    category = WorkoutCategory.CARDIO,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 35,
-                    estimatedCalories = 400,
-                    exerciseCount = 6,
-                    rating = 4.5,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Fat Burning Cardio",
-                    description = "Intense cardio workout for maximum fat burn",
-                    category = WorkoutCategory.CARDIO,
-                    difficulty = WorkoutDifficulty.ADVANCED,
-                    durationMinutes = 45,
-                    estimatedCalories = 520,
-                    exerciseCount = 8,
-                    rating = 4.7,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Beginner Cardio",
-                    description = "Easy cardio workout for beginners",
-                    category = WorkoutCategory.CARDIO,
-                    difficulty = WorkoutDifficulty.BEGINNER,
-                    durationMinutes = 20,
-                    estimatedCalories = 180,
-                    exerciseCount = 5,
-                    rating = 4.3,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Dance Cardio",
-                    description = "Fun dance moves that get your heart pumping",
-                    category = WorkoutCategory.CARDIO,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 30,
-                    estimatedCalories = 320,
-                    exerciseCount = 7,
-                    rating = 4.6,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Running Intervals",
-                    description = "Interval running for endurance and speed",
-                    category = WorkoutCategory.CARDIO,
-                    difficulty = WorkoutDifficulty.ADVANCED,
-                    durationMinutes = 40,
-                    estimatedCalories = 480,
-                    exerciseCount = 6,
-                    rating = 4.4,
-                    isCustom = false
-                ),
-
-                // STRENGTH Workouts (5 workouts)
-                Workout(
-                    name = "Strength Builder",
-                    description = "Build muscle and increase strength",
-                    category = WorkoutCategory.STRENGTH,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 50,
-                    estimatedCalories = 350,
-                    exerciseCount = 10,
-                    rating = 4.8,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Power Lifting",
-                    description = "Advanced strength training with heavy weights",
-                    category = WorkoutCategory.STRENGTH,
-                    difficulty = WorkoutDifficulty.ADVANCED,
-                    durationMinutes = 60,
-                    estimatedCalories = 420,
-                    exerciseCount = 8,
-                    rating = 4.9,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Beginner Strength",
-                    description = "Perfect introduction to strength training",
-                    category = WorkoutCategory.STRENGTH,
-                    difficulty = WorkoutDifficulty.BEGINNER,
-                    durationMinutes = 30,
-                    estimatedCalories = 220,
-                    exerciseCount = 8,
-                    rating = 4.6,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Upper Body Blast",
-                    description = "Target your arms, chest, and shoulders",
-                    category = WorkoutCategory.STRENGTH,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 40,
-                    estimatedCalories = 300,
-                    exerciseCount = 9,
-                    rating = 4.7,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Lower Body Power",
-                    description = "Build strong legs and glutes",
-                    category = WorkoutCategory.STRENGTH,
-                    difficulty = WorkoutDifficulty.ADVANCED,
-                    durationMinutes = 45,
-                    estimatedCalories = 380,
-                    exerciseCount = 10,
-                    rating = 4.8,
-                    isCustom = false
-                ),
-
-                // YOGA Workouts (4 workouts)
-                Workout(
-                    name = "Morning Yoga Flow",
-                    description = "Start your day with mindfulness and flexibility",
-                    category = WorkoutCategory.YOGA,
-                    difficulty = WorkoutDifficulty.BEGINNER,
-                    durationMinutes = 25,
-                    estimatedCalories = 120,
-                    exerciseCount = 12,
-                    rating = 4.9,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Power Yoga",
-                    description = "Dynamic yoga for strength and flexibility",
-                    category = WorkoutCategory.YOGA,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 45,
-                    estimatedCalories = 200,
-                    exerciseCount = 15,
-                    rating = 4.7,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Relaxing Yoga",
-                    description = "Gentle yoga for stress relief and relaxation",
-                    category = WorkoutCategory.YOGA,
-                    difficulty = WorkoutDifficulty.BEGINNER,
-                    durationMinutes = 30,
-                    estimatedCalories = 100,
-                    exerciseCount = 10,
-                    rating = 4.8,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Hot Yoga Challenge",
-                    description = "Intense yoga practice in heated environment",
-                    category = WorkoutCategory.YOGA,
-                    difficulty = WorkoutDifficulty.ADVANCED,
-                    durationMinutes = 60,
-                    estimatedCalories = 350,
-                    exerciseCount = 18,
-                    rating = 4.5,
-                    isCustom = false
-                ),
-
-                // HIIT Workouts (4 workouts)
-                Workout(
-                    name = "20-Min HIIT Blast",
-                    description = "High-intensity interval training for maximum results",
-                    category = WorkoutCategory.HIIT,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 20,
-                    estimatedCalories = 280,
-                    exerciseCount = 8,
-                    rating = 4.8,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "HIIT Tabata",
-                    description = "4-minute intense Tabata workout",
-                    category = WorkoutCategory.HIIT,
-                    difficulty = WorkoutDifficulty.ADVANCED,
-                    durationMinutes = 15,
-                    estimatedCalories = 200,
-                    exerciseCount = 6,
-                    rating = 4.6,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Beginner HIIT",
-                    description = "Introduction to high-intensity interval training",
-                    category = WorkoutCategory.HIIT,
-                    difficulty = WorkoutDifficulty.BEGINNER,
-                    durationMinutes = 25,
-                    estimatedCalories = 250,
-                    exerciseCount = 7,
-                    rating = 4.5,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Full Body HIIT",
-                    description = "Complete body workout with high intensity intervals",
-                    category = WorkoutCategory.HIIT,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 30,
-                    estimatedCalories = 350,
-                    exerciseCount = 10,
-                    rating = 4.7,
-                    isCustom = false
-                ),
-
-                // FLEXIBILITY Workouts (4 workouts)
-                Workout(
-                    name = "Flexibility Focus",
-                    description = "Improve your flexibility and range of motion",
-                    category = WorkoutCategory.FLEXIBILITY,
-                    difficulty = WorkoutDifficulty.BEGINNER,
-                    durationMinutes = 40,
-                    estimatedCalories = 150,
-                    exerciseCount = 15,
-                    rating = 4.4,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Deep Stretch",
-                    description = "Advanced stretching for improved mobility",
-                    category = WorkoutCategory.FLEXIBILITY,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 35,
-                    estimatedCalories = 120,
-                    exerciseCount = 12,
-                    rating = 4.6,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Quick Stretch",
-                    description = "Fast stretching routine for busy schedules",
-                    category = WorkoutCategory.FLEXIBILITY,
-                    difficulty = WorkoutDifficulty.BEGINNER,
-                    durationMinutes = 15,
-                    estimatedCalories = 60,
-                    exerciseCount = 8,
-                    rating = 4.2,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Post-Workout Recovery",
-                    description = "Essential stretches for muscle recovery",
-                    category = WorkoutCategory.FLEXIBILITY,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 25,
-                    estimatedCalories = 90,
-                    exerciseCount = 10,
-                    rating = 4.5,
-                    isCustom = false
-                ),
-
-                // CORE Workouts (3 workouts)
-                Workout(
-                    name = "Core Crusher",
-                    description = "Intense core workout for strong abs",
-                    category = WorkoutCategory.CORE,
-                    difficulty = WorkoutDifficulty.INTERMEDIATE,
-                    durationMinutes = 25,
-                    estimatedCalories = 180,
-                    exerciseCount = 8,
-                    rating = 4.6,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Beginner Core",
-                    description = "Build your core foundation safely",
-                    category = WorkoutCategory.CORE,
-                    difficulty = WorkoutDifficulty.BEGINNER,
-                    durationMinutes = 20,
-                    estimatedCalories = 120,
-                    exerciseCount = 6,
-                    rating = 4.4,
-                    isCustom = false
-                ),
-                Workout(
-                    name = "Advanced Ab Shredder",
-                    description = "Elite level core training for maximum definition",
-                    category = WorkoutCategory.CORE,
-                    difficulty = WorkoutDifficulty.ADVANCED,
-                    durationMinutes = 35,
-                    estimatedCalories = 250,
-                    exerciseCount = 12,
-                    rating = 4.8,
-                    isCustom = false
-                )
-            )
-
-            workoutDao.insertWorkouts(hardcodedWorkouts)
-            println("✅ Successfully loaded ${hardcodedWorkouts.size} workouts: 5 Cardio, 5 Strength, 4 Yoga, 4 HIIT, 4 Flexibility, 3 Core")
+            val existingPredefined = workoutDao.getPreDefinedWorkoutsSuspend()
+            if (existingPredefined.isEmpty()) {
+                println("🎯 Loading predefined workouts into database")
+                val hardcodedWorkouts = getHardcodedWorkouts()
+                workoutDao.insertWorkouts(hardcodedWorkouts)
+                println("✅ Successfully loaded ${hardcodedWorkouts.size} workouts")
+            } else {
+                println("ℹ️ Predefined workouts already exist, skipping population")
+            }
         }
+
+        /**
+         * Returns all hardcoded predefined workouts
+         */
+        private fun getHardcodedWorkouts(): List<Workout> = listOf(
+            // CARDIO Workouts
+            Workout("1", "Cardio Burn", "High-energy cardio session to burn calories fast", WorkoutCategory.CARDIO, WorkoutDifficulty.INTERMEDIATE, 35, 400, 6, 4.5,"", false),
+            Workout("2", "Fat Burning Cardio", "Intense cardio workout for maximum fat burn", WorkoutCategory.CARDIO, WorkoutDifficulty.ADVANCED, 45, 520, 8, 4.7, "",false),
+            Workout("3", "Beginner Cardio", "Easy cardio workout for beginners", WorkoutCategory.CARDIO, WorkoutDifficulty.BEGINNER, 20, 180, 5, 4.3, "",false),
+            Workout("4", "Dance Cardio", "Fun dance moves that get your heart pumping", WorkoutCategory.CARDIO, WorkoutDifficulty.INTERMEDIATE, 30, 320, 7, 4.6,"", false),
+            Workout("5", "Running Intervals", "Interval running for endurance and speed", WorkoutCategory.CARDIO, WorkoutDifficulty.ADVANCED, 40, 480, 6, 4.4,"", false),
+
+            // STRENGTH Workouts
+            Workout("6","Strength Builder", "Build muscle and increase strength", WorkoutCategory.STRENGTH, WorkoutDifficulty.INTERMEDIATE, 50, 350, 10, 4.8, "",false),
+            Workout("7","Power Lifting", "Advanced strength training with heavy weights", WorkoutCategory.STRENGTH, WorkoutDifficulty.ADVANCED, 60, 420, 8, 4.9, "",false),
+            Workout("8","Beginner Strength", "Perfect introduction to strength training", WorkoutCategory.STRENGTH, WorkoutDifficulty.BEGINNER, 30, 220, 8, 4.6, "",false),
+            Workout("9","Upper Body Blast", "Target your arms, chest, and shoulders", WorkoutCategory.STRENGTH, WorkoutDifficulty.INTERMEDIATE, 40, 300, 9, 4.7, "",false),
+            Workout("10","Lower Body Power", "Build strong legs and glutes", WorkoutCategory.STRENGTH, WorkoutDifficulty.ADVANCED, 45, 380, 10, 4.8, "",false),
+
+            // YOGA Workouts
+            Workout("11","Morning Yoga Flow", "Start your day with mindfulness and flexibility", WorkoutCategory.YOGA, WorkoutDifficulty.BEGINNER, 25, 120, 12, 4.9, "",false),
+            Workout("12","Power Yoga", "Dynamic yoga for strength and flexibility", WorkoutCategory.YOGA, WorkoutDifficulty.INTERMEDIATE, 45, 200, 15, 4.7, "",false),
+            Workout("13","Relaxing Yoga", "Gentle yoga for stress relief and relaxation", WorkoutCategory.YOGA, WorkoutDifficulty.BEGINNER, 30, 100, 10, 4.8, "",false),
+            Workout("14","Hot Yoga Challenge", "Intense yoga practice in heated environment", WorkoutCategory.YOGA, WorkoutDifficulty.ADVANCED, 60, 350, 18, 4.5, "",false),
+
+            // HIIT Workouts
+            Workout("15","20-Min HIIT Blast", "High-intensity interval training for maximum results", WorkoutCategory.HIIT, WorkoutDifficulty.INTERMEDIATE, 20, 280, 8, 4.8, "",false),
+            Workout("16","HIIT Tabata", "4-minute intense Tabata workout", WorkoutCategory.HIIT, WorkoutDifficulty.ADVANCED, 15, 200, 6, 4.6, "",false),
+            Workout("17","Beginner HIIT", "Introduction to high-intensity interval training", WorkoutCategory.HIIT, WorkoutDifficulty.BEGINNER, 25, 250, 7, 4.5, "",false),
+            Workout("18","Full Body HIIT", "Complete body workout with high intensity intervals", WorkoutCategory.HIIT, WorkoutDifficulty.INTERMEDIATE, 30, 350, 10, 4.7, "",false),
+
+            // FLEXIBILITY Workouts
+            Workout("19","Flexibility Focus", "Improve your flexibility and range of motion", WorkoutCategory.FLEXIBILITY, WorkoutDifficulty.BEGINNER, 40, 150, 15, 4.4, "",false),
+            Workout("20","Deep Stretch", "Advanced stretching for improved mobility", WorkoutCategory.FLEXIBILITY, WorkoutDifficulty.INTERMEDIATE, 35, 120, 12, 4.6, "",false),
+            Workout("21","Quick Stretch", "Fast stretching routine for busy schedules", WorkoutCategory.FLEXIBILITY, WorkoutDifficulty.BEGINNER, 15, 60, 8, 4.2, "",false),
+            Workout("22","Post-Workout Recovery", "Essential stretches for muscle recovery", WorkoutCategory.FLEXIBILITY, WorkoutDifficulty.INTERMEDIATE, 25, 90, 10, 4.5, "",false),
+
+            // CORE Workouts
+            Workout("23","Core Crusher", "Intense core workout for strong abs", WorkoutCategory.CORE, WorkoutDifficulty.INTERMEDIATE, 25, 180, 8, 4.6, "",false),
+            Workout("24","Beginner Core", "Build your core foundation safely", WorkoutCategory.CORE, WorkoutDifficulty.BEGINNER, 20, 120, 6, 4.4, "",false),
+            Workout("25","Advanced Ab Shredder", "Elite level core training for maximum definition", WorkoutCategory.CORE, WorkoutDifficulty.ADVANCED, 35, 250, 12, 4.8, "",false)
+        )
+
         /**
          * Clear database instance (useful for testing or logout)
          */

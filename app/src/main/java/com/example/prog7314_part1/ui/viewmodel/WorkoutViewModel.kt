@@ -1,101 +1,93 @@
 package com.example.prog7314_part1.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.prog7314_part1.data.local.entity.Workout
 import com.example.prog7314_part1.data.local.entity.WorkoutCategory
 import com.example.prog7314_part1.data.repository.WorkoutRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import androidx.lifecycle.ViewModelProvider
 
-/**
- * ViewModel for managing workout library state and filtering
- */
 class WorkoutViewModel(
     private val workoutRepository: WorkoutRepository
 ) : ViewModel() {
-    
-    // Filter state
+
+    private val userId: String = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+    // Filters
     private val _selectedCategory = MutableStateFlow<WorkoutCategory?>(null)
     val selectedCategory: StateFlow<WorkoutCategory?> = _selectedCategory.asStateFlow()
-    
+
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
-    
+
     // Loading state
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
-    
-    // Filtered workouts based on current filters
+
+    // Workouts list (filtered + search)
     private val _workouts = MutableStateFlow<List<Workout>>(emptyList())
     val workouts: StateFlow<List<Workout>> = _workouts.asStateFlow()
-    
+
+    // User-created custom workouts
+    private val _userWorkouts = MutableStateFlow<List<Workout>>(emptyList())
+    val userWorkouts: StateFlow<List<Workout>> = _userWorkouts.asStateFlow()
+
     init {
-        // Workouts are now hardcoded directly in the database callback
-        // No need to seed here as database handles it automatically
-        
-        // Observe filter changes and update workouts
+        // Observe user-created workouts
         viewModelScope.launch {
-            combine(_selectedCategory, _searchQuery) { category, query ->
-                Pair(category, query)
-            }.collect { (category, query) ->
-                val flow = when {
-                    query.isNotBlank() -> workoutRepository.searchWorkouts(query)
-                    category != null -> workoutRepository.getWorkoutsByCategory(category)
-                    else -> workoutRepository.getAllWorkouts()
-                }
-                flow.collect { workoutList ->
-                    _workouts.value = workoutList
+            if (userId.isNotEmpty()) {
+                workoutRepository.getUserCreatedWorkouts(userId).collect { list ->
+                    _userWorkouts.value = list
                 }
             }
         }
+
+        // Observe filters and search query
+        viewModelScope.launch {
+            combine(_selectedCategory, _searchQuery) { category, query ->
+                category to query
+            }.flatMapLatest { (category, query) ->
+                _isLoading.value = true
+                val flow = when {
+                    query.isNotBlank() -> workoutRepository.searchWorkouts(userId, query)
+                    category != null -> workoutRepository.getWorkoutsByCategory(userId, category)
+                    else -> workoutRepository.getAllWorkouts(userId)
+                }
+                flow
+            }.collect { list ->
+                _workouts.value = list
+                _isLoading.value = false
+            }
+        }
     }
-    
-    /**
-     * Set the selected category filter
-     */
+
+    /** Update selected category filter */
     fun setSelectedCategory(category: WorkoutCategory?) {
         _selectedCategory.value = category
-        // Clear search when category changes
-        if (category != null) {
-            _searchQuery.value = ""
-        }
+        if (category != null) _searchQuery.value = ""
     }
-    
-    /**
-     * Set the search query
-     */
+
+    /** Update search query */
     fun setSearchQuery(query: String) {
         _searchQuery.value = query
-        // Clear category when searching
-        if (query.isNotBlank()) {
-            _selectedCategory.value = null
-        }
+        if (query.isNotBlank()) _selectedCategory.value = null
     }
-    
-    /**
-     * Clear all filters
-     */
+
+    /** Clear all filters */
     fun clearFilters() {
         _selectedCategory.value = null
         _searchQuery.value = ""
     }
-    
-    /**
-     * Get workout by ID
-     */
-    suspend fun getWorkoutById(workoutId: String): Workout? {
-        return workoutRepository.getWorkoutById(workoutId)
+
+    /** Public method to get custom workouts for the current user */
+    fun getCustomWorkoutsByUser(userId: String): Flow<List<Workout>> {
+        return workoutRepository.getUserCreatedWorkouts(userId)
     }
 }
 
-/**
- * Factory for creating WorkoutViewModel instances
- */
 class WorkoutViewModelFactory(
     private val workoutRepository: WorkoutRepository
 ) : ViewModelProvider.Factory {
