@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.prog7314_part1.data.local.AppDatabase
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.databinding.FragmentSessionBinding
 import com.example.prog7314_part1.ui.workout.adapter.ExerciseAdapter
 import kotlinx.coroutines.launch
@@ -31,17 +31,18 @@ class SessionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Initialize ViewModel
+        
+        // Initialize ViewModel with database, user repository, and context for API sync
         val database = AppDatabase.getDatabase(requireContext())
-        val userRepository = UserRepository(requireContext())
+        val userRepository = ApiUserRepository(requireContext())
         viewModel = SessionViewModel(
             database.workoutSessionDao(),
             userRepository,
+            requireContext(),
             database.exerciseDao(),
             database.workoutDao()
         )
-
+        
         setupWorkoutTypeSelection()
         setupControlButtons()
         setupExerciseRecyclerView()

@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
         NutritionEntry::class,
         Goal::class
     ],
-    version = 5,
+    version = 6,  // ✅ Incremented for steps field in WorkoutSession
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -70,6 +70,7 @@ abstract class AppDatabase : RoomDatabase() {
         private class DatabaseCallback : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
+                android.util.Log.d("AppDatabase", "🗄️ Database onCreate called - seeding workouts...")
                 // Seed predefined workouts only once when DB is created
                 CoroutineScope(Dispatchers.IO).launch {
                     INSTANCE?.let { database ->
@@ -80,7 +81,13 @@ abstract class AppDatabase : RoomDatabase() {
 
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
-                // No seeding needed on every app open
+                android.util.Log.d("AppDatabase", "🗄️ Database onOpen called")
+                // Also check and seed on open in case onCreate was missed
+                CoroutineScope(Dispatchers.IO).launch {
+                    INSTANCE?.let { database ->
+                        populateDatabaseIfEmpty(database)
+                    }
+                }
             }
         }
 
@@ -88,15 +95,21 @@ abstract class AppDatabase : RoomDatabase() {
          * Populate database only if predefined workouts are not already present
          */
         private suspend fun populateDatabaseIfEmpty(database: AppDatabase) {
-            val workoutDao = database.workoutDao()
-            val existingPredefined = workoutDao.getPreDefinedWorkoutsSuspend()
-            if (existingPredefined.isEmpty()) {
-                println("🎯 Loading predefined workouts into database")
-                val hardcodedWorkouts = getHardcodedWorkouts()
-                workoutDao.insertWorkouts(hardcodedWorkouts)
-                println("✅ Successfully loaded ${hardcodedWorkouts.size} workouts")
-            } else {
-                println("ℹ️ Predefined workouts already exist, skipping population")
+            try {
+                val workoutDao = database.workoutDao()
+                val existingPredefined = workoutDao.getPreDefinedWorkoutsSuspend()
+                android.util.Log.d("AppDatabase", "📊 Found ${existingPredefined.size} existing predefined workouts")
+                
+                if (existingPredefined.isEmpty()) {
+                    android.util.Log.d("AppDatabase", "🎯 Loading predefined workouts into database...")
+                    val hardcodedWorkouts = getHardcodedWorkouts()
+                    workoutDao.insertWorkouts(hardcodedWorkouts)
+                    android.util.Log.d("AppDatabase", "✅ Successfully loaded ${hardcodedWorkouts.size} predefined workouts!")
+                } else {
+                    android.util.Log.d("AppDatabase", "ℹ️ Predefined workouts already exist, skipping population")
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("AppDatabase", "❌ Error seeding workouts: ${e.message}", e)
             }
         }
 

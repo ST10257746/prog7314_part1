@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.model.Result
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.databinding.FragmentRegisterBinding
 import com.example.prog7314_part1.ui.viewmodel.AuthViewModel
 import com.example.prog7314_part1.utils.*
@@ -32,7 +32,7 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     
     private val viewModel: AuthViewModel by viewModels()
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: ApiUserRepository
     
     // Navigation args for Google Sign-In profile completion
     private val args: RegisterFragmentArgs by navArgs()
@@ -62,7 +62,7 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        userRepository = UserRepository(requireContext())
+        userRepository = ApiUserRepository(requireContext())
         
         setupSpinners()
         setupClickListeners()

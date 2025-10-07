@@ -44,6 +44,7 @@ data class WorkoutSession(
     // Metrics
     val caloriesBurned: Int = 0,
     val distanceKm: Double = 0.0,
+    val steps: Int = 0,  // ✅ ADDED: Steps during workout
     val avgHeartRate: Int = 0,
     val maxHeartRate: Int = 0,
     val avgPace: Double = 0.0,  // min/km
