@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Background"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:paddingBottom="100dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="100dp"
+                android:layout_height="56dp"
+                android:text="BACK"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/Primary"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="16dp"
+                android:letterSpacing="0.05"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nutrition Diary"
+                    android:textColor="@color/Text"
+                    android:textStyle="bold"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Review your nutrition history"
+                    android:textColor="@color/Text"
+                    android:textSize="16sp"
+                    android:alpha="0.8"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Date Selection -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Date"
+                android:textColor="@color/Text"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Calendar Widget -->
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/Primary"
+                android:theme="@android:style/Theme.Holo.Light" />
+
+            <Button
+                android:id="@+id/dateButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="October 06, 2025"
+                android:backgroundTint="@color/Primary"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:padding="16dp" />
+
+        </LinearLayout>
+
+        <!-- Daily Summary -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daily Summary"
+                android:textColor="@color/Text"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Summary Stats -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <!-- Total Calories -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Calories"
+                        android:textColor="@color/Text"
+                        android:textSize="14sp"
+                        android:alpha="0.7" />
+
+                    <TextView
+                        android:id="@+id/totalCaloriesText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 kcal"
+                        android:textColor="@color/Primary"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+                <!-- Total Protein -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Protein"
+                        android:textColor="@color/Text"
+                        android:textSize="14sp"
+                        android:alpha="0.7" />
+
+                    <TextView
+                        android:id="@+id/totalProteinText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0g"
+                        android:textColor="@color/Secondary"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+                <!-- Total Carbs -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Carbs"
+                        android:textColor="@color/Text"
+                        android:textSize="14sp"
+                        android:alpha="0.7" />
+
+                    <TextView
+                        android:id="@+id/totalCarbsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0g"
+                        android:textColor="@color/Primary"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+                <!-- Total Fats -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fats"
+                        android:textColor="@color/Text"
+                        android:textSize="14sp"
+                        android:alpha="0.7" />
+
+                    <TextView
+                        android:id="@+id/totalFatsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0g"
+                        android:textColor="@color/Accent"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="4dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Nutrition Entries -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="All Entries"
+                android:textColor="@color/Text"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/noEntriesText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No entries for this date"
+                android:textColor="@color/Text"
+                android:textSize="14sp"
+                android:alpha="0.7"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- RecyclerView for Nutrition Entries -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/entriesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+
+</ScrollView>

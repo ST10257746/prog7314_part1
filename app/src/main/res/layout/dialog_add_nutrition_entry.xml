@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/bg_card"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:minWidth="340dp">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Nutrition Entry"
+        android:textColor="@color/Text"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Meal Type -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Meal Type"
+        android:textColor="@color/Text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/mealTypeSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_card"
+        android:padding="12dp" />
+
+    <!-- Food Name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Food Name"
+        android:textColor="@color/Text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/foodNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_card"
+        android:hint="e.g., Grilled Chicken"
+        android:inputType="textCapWords"
+        android:padding="12dp"
+        android:textColor="@color/Text"
+        android:textColorHint="@color/Text"
+        android:alpha="0.7" />
+
+    <!-- Description (Optional) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description (Optional)"
+        android:textColor="@color/Text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/descriptionInput"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_card"
+        android:hint="e.g., with vegetables"
+        android:inputType="textCapSentences"
+        android:padding="12dp"
+        android:textColor="@color/Text"
+        android:textColorHint="@color/Text"
+        android:alpha="0.7" />
+
+    <!-- Serving Size -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Serving Size"
+        android:textColor="@color/Text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/servingSizeInput"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_card"
+        android:hint="e.g., 1 cup, 100g"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textColor="@color/Text"
+        android:textColorHint="@color/Text"
+        android:alpha="0.7" />
+
+    <!-- Nutrition Info -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nutrition Information"
+        android:textColor="@color/Text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Calories -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories"
+                android:textColor="@color/Text"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/caloriesInput"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_card"
+                android:hint="kcal"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textColor="@color/Text"
+                android:textColorHint="@color/Text"
+                android:alpha="0.7" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Protein (g)"
+                android:textColor="@color/Text"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/proteinInput"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_card"
+                android:hint="0.0"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:textColor="@color/Text"
+                android:textColorHint="@color/Text"
+                android:alpha="0.7" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Carbs and Fats -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Carbs (g)"
+                android:textColor="@color/Text"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/carbsInput"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_card"
+                android:hint="0.0"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:textColor="@color/Text"
+                android:textColorHint="@color/Text"
+                android:alpha="0.7" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fats (g)"
+                android:textColor="@color/Text"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/fatsInput"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_card"
+                android:hint="0.0"
+                android:inputType="numberDecimal"
+                android:padding="12dp"
+                android:textColor="@color/Text"
+                android:textColorHint="@color/Text"
+                android:alpha="0.7" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@color/Background"
+            android:text="Cancel"
+            android:textColor="@color/Text"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@color/Primary"
+            android:text="Add Entry"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>
