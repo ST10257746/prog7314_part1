@@ -2,16 +2,16 @@ package com.example.prog7314_part1.ui.nutrition
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.data.repository.DailyActivityRepository
 import com.example.prog7314_part1.data.repository.NutritionRepository
-import com.example.prog7314_part1.data.repository.UserRepository
 
 /**
  * ViewModelFactory for NutritionViewModel
  */
 class NutritionViewModelFactory(
     private val nutritionRepository: NutritionRepository,
-    private val userRepository: UserRepository,
+    private val userRepository: ApiUserRepository,
     private val dailyActivityRepository: DailyActivityRepository
 ) : ViewModelProvider.Factory {
 

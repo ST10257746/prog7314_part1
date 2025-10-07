@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.local.AppDatabase
 import com.example.prog7314_part1.data.local.entity.NutritionEntry
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.data.repository.DailyActivityRepository
 import com.example.prog7314_part1.data.repository.NutritionRepository
-import com.example.prog7314_part1.data.repository.UserRepository
 import com.example.prog7314_part1.utils.showToast
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -54,7 +54,7 @@ class NutritionDiaryFragment : Fragment() {
 
         // Initialize repositories and ViewModel
         val nutritionRepository = NutritionRepository(requireContext())
-        val userRepository = UserRepository(requireContext())
+        val userRepository = ApiUserRepository(requireContext())
         val dailyActivityRepository = DailyActivityRepository(
             AppDatabase.getDatabase(requireContext()).dailyActivityDao()
         )

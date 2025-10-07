@@ -6,10 +6,10 @@ import com.example.prog7314_part1.data.local.entity.MealType
 import com.example.prog7314_part1.data.local.entity.NutritionEntry
 import com.example.prog7314_part1.data.local.entity.User
 import com.example.prog7314_part1.data.model.Result
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.data.repository.DailyActivityRepository
 import com.example.prog7314_part1.data.repository.NutritionRepository
 import com.example.prog7314_part1.data.repository.NutritionSummary
-import com.example.prog7314_part1.data.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +35,7 @@ data class NutritionState(
  */
 class NutritionViewModel(
     private val nutritionRepository: NutritionRepository,
-    private val userRepository: UserRepository,
+    private val userRepository: ApiUserRepository,
     private val dailyActivityRepository: DailyActivityRepository
 ) : ViewModel() {
     
