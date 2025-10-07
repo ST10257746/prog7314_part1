@@ -20,6 +20,16 @@ data class WorkoutType(
     val description: String
 )
 
+data class WatchMetrics(
+    val heartRate: Int = 0,
+    val calories: Int = 0,
+    val steps: Int = 0,
+    val distanceKm: Double = 0.0,
+    val activeTimeMinutes: Int = 0,
+    val isConnected: Boolean = false,
+    val lastUpdateTime: Long = System.currentTimeMillis()
+)
+
 data class SessionState(
     val selectedWorkoutType: WorkoutType? = null,
     val isSessionActive: Boolean = false,
@@ -27,7 +37,8 @@ data class SessionState(
     val elapsedTimeSeconds: Long = 0,
     val timerText: String = "00:00:00",
     val sessionId: String? = null,
-    val startTime: Long? = null
+    val startTime: Long? = null,
+    val watchMetrics: WatchMetrics = WatchMetrics()
 )
 
 class SessionViewModel(
@@ -39,6 +50,7 @@ class SessionViewModel(
     val sessionState: StateFlow<SessionState> = _sessionState.asStateFlow()
 
     private var timerJob: Job? = null
+    private var metricsJob: Job? = null
 
     companion object {
         val availableWorkoutTypes = listOf(
@@ -53,6 +65,22 @@ class SessionViewModel(
 
     fun selectWorkoutType(workoutType: WorkoutType) {
         _sessionState.value = _sessionState.value.copy(selectedWorkoutType = workoutType)
+    }
+
+    fun connectWatch() {
+        val currentMetrics = _sessionState.value.watchMetrics
+        _sessionState.value = _sessionState.value.copy(
+            watchMetrics = currentMetrics.copy(isConnected = true)
+        )
+        startMetricsSimulation()
+    }
+
+    fun disconnectWatch() {
+        metricsJob?.cancel()
+        val currentMetrics = _sessionState.value.watchMetrics
+        _sessionState.value = _sessionState.value.copy(
+            watchMetrics = currentMetrics.copy(isConnected = false)
+        )
     }
 
     fun startSession() {
@@ -93,6 +121,7 @@ class SessionViewModel(
         if (!currentState.isSessionActive || currentState.sessionId == null) return
 
         timerJob?.cancel()
+        metricsJob?.cancel()
         
         // Save session to database
         viewModelScope.launch {
@@ -124,6 +153,88 @@ class SessionViewModel(
         return String.format("%02d:%02d:%02d", hours, minutes, secs)
     }
 
+    private fun startMetricsSimulation() {
+        metricsJob = viewModelScope.launch {
+            while (_sessionState.value.watchMetrics.isConnected) {
+                delay(3000) // Update metrics every 3 seconds
+                
+                if (_sessionState.value.isSessionActive && !_sessionState.value.isSessionPaused) {
+                    updateMetrics()
+                }
+            }
+        }
+    }
+
+    private fun updateMetrics() {
+        val currentMetrics = _sessionState.value.watchMetrics
+        val workoutType = _sessionState.value.selectedWorkoutType?.name ?: "General"
+        
+        // Simulate realistic metrics based on workout type and session duration
+        val newHeartRate = simulateHeartRate(workoutType, currentMetrics.heartRate)
+        val newCalories = currentMetrics.calories + calculateCalorieIncrement(workoutType)
+        val newSteps = currentMetrics.steps + calculateStepIncrement(workoutType)
+        val newDistance = calculateDistance(newSteps)
+        val newActiveTime = (_sessionState.value.elapsedTimeSeconds / 60).toInt()
+        
+        _sessionState.value = _sessionState.value.copy(
+            watchMetrics = currentMetrics.copy(
+                heartRate = newHeartRate,
+                calories = newCalories,
+                steps = newSteps,
+                distanceKm = newDistance,
+                activeTimeMinutes = newActiveTime,
+                lastUpdateTime = System.currentTimeMillis()
+            )
+        )
+    }
+
+    private fun simulateHeartRate(workoutType: String, currentHeartRate: Int): Int {
+        val baseHeartRate = when (workoutType) {
+            "Running" -> 150
+            "Cycling" -> 140
+            "Walking" -> 120
+            "Strength" -> 130
+            "Yoga" -> 90
+            "HIIT" -> 160
+            else -> 120
+        }
+        
+        // Add some variation to make it realistic
+        val variation = (-10..10).random()
+        return maxOf(60, minOf(200, baseHeartRate + variation))
+    }
+
+    private fun calculateCalorieIncrement(workoutType: String): Int {
+        val caloriesPerSecond = when (workoutType) {
+            "Running" -> 0.2
+            "Cycling" -> 0.15
+            "Walking" -> 0.08
+            "Strength" -> 0.1
+            "Yoga" -> 0.05
+            "HIIT" -> 0.25
+            else -> 0.1
+        }
+        return (caloriesPerSecond * 3).toInt() // 3-second intervals
+    }
+
+    private fun calculateStepIncrement(workoutType: String): Int {
+        val stepsPerSecond = when (workoutType) {
+            "Running" -> 2.5
+            "Cycling" -> 0.0 // Cycling doesn't count steps
+            "Walking" -> 1.8
+            "Strength" -> 0.2
+            "Yoga" -> 0.1
+            "HIIT" -> 1.5
+            else -> 1.0
+        }
+        return (stepsPerSecond * 3).toInt()
+    }
+
+    private fun calculateDistance(steps: Int): Double {
+        // Average step length is approximately 0.7 meters
+        return (steps * 0.7) / 1000.0 // Convert to kilometers
+    }
+
     private suspend fun saveSessionToDatabase(state: SessionState) {
         try {
             // Get current user from Room database
@@ -141,11 +252,13 @@ class SessionViewModel(
                 endTime = System.currentTimeMillis(),
                 durationSeconds = state.elapsedTimeSeconds.toInt(),
                 status = SessionStatus.COMPLETED,
-                caloriesBurned = 0, // Set to 0 for now as requested
-                distanceKm = 0.0, // Set to 0 for now as requested
-                avgHeartRate = 0, // Set to 0 for now as requested
-                maxHeartRate = 0, // Set to 0 for now as requested
-                avgPace = 0.0, // Set to 0 for now as requested
+                caloriesBurned = state.watchMetrics.calories,
+                distanceKm = state.watchMetrics.distanceKm,
+                avgHeartRate = state.watchMetrics.heartRate,
+                maxHeartRate = state.watchMetrics.heartRate, // For now, same as avg
+                avgPace = if (state.watchMetrics.distanceKm > 0) {
+                    (state.elapsedTimeSeconds / 60.0) / state.watchMetrics.distanceKm
+                } else 0.0,
                 routeData = null, // Set to null for now as requested
                 createdAt = System.currentTimeMillis(),
                 isSynced = false // Leave as false for now as requested
@@ -162,5 +275,6 @@ class SessionViewModel(
     override fun onCleared() {
         super.onCleared()
         timerJob?.cancel()
+        metricsJob?.cancel()
     }
 }

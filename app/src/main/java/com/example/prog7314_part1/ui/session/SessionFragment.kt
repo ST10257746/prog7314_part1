@@ -86,6 +86,16 @@ class SessionFragment : Fragment() {
         binding.btnStop.setOnClickListener {
             viewModel.stopSession()
         }
+        
+        // Watch connection button
+        binding.btnConnectWatch.setOnClickListener {
+            val state = viewModel.sessionState.value
+            if (state.watchMetrics.isConnected) {
+                viewModel.disconnectWatch()
+            } else {
+                viewModel.connectWatch()
+            }
+        }
     }
 
     private fun observeSessionState() {
@@ -147,6 +157,39 @@ class SessionFragment : Fragment() {
         workoutCards.forEach { card ->
             card.isEnabled = !state.isSessionActive
             card.alpha = if (state.isSessionActive) 0.5f else 1.0f
+        }
+
+        // Update watch metrics display
+        updateMetricsDisplay(state.watchMetrics)
+    }
+
+    private fun updateMetricsDisplay(metrics: WatchMetrics) {
+        // Update metric values
+        if (metrics.isConnected) {
+            binding.heartRateValue.text = metrics.heartRate.toString()
+            binding.caloriesValue.text = metrics.calories.toString()
+            binding.stepsValue.text = metrics.steps.toString()
+            binding.distanceValue.text = String.format("%.2f", metrics.distanceKm)
+            binding.activeTimeValue.text = metrics.activeTimeMinutes.toString()
+        } else {
+            binding.heartRateValue.text = "--"
+            binding.caloriesValue.text = "--"
+            binding.stepsValue.text = "--"
+            binding.distanceValue.text = "--"
+            binding.activeTimeValue.text = "--"
+        }
+
+        // Update watch connection status
+        if (metrics.isConnected) {
+            binding.watchStatusText.text = "Watch Connected"
+            binding.watchStatusSubtext.text = "Live metrics updating"
+            binding.btnConnectWatch.text = "Disconnect"
+            binding.watchStatusIcon.alpha = 1.0f
+        } else {
+            binding.watchStatusText.text = "Watch Disconnected"
+            binding.watchStatusSubtext.text = "Connect your smartwatch to see live metrics"
+            binding.btnConnectWatch.text = "Connect"
+            binding.watchStatusIcon.alpha = 0.5f
         }
     }
 
