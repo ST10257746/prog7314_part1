@@ -8,12 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.prog7314_part1.R
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import kotlinx.coroutines.launch
 
 class ProgressFragment : Fragment() {
     
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: ApiUserRepository
     
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,7 +22,7 @@ class ProgressFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_progress, container, false)
         
-        userRepository = UserRepository(requireContext())
+        userRepository = ApiUserRepository(requireContext())
         
         loadUserGoals(view)
         

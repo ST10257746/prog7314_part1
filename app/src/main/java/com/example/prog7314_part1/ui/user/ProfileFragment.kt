@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.model.Result
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.databinding.FragmentProfileBinding
 import com.example.prog7314_part1.utils.show
 import com.example.prog7314_part1.utils.showToast
@@ -30,7 +30,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: ApiUserRepository
     
     // Image picker launcher
     private val imagePickerLauncher = registerForActivityResult(
@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userRepository = UserRepository(requireContext())
+        userRepository = ApiUserRepository(requireContext())
 
         setupClickListeners()
         loadUserData()

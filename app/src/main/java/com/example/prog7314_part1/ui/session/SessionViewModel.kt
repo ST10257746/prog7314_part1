@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.prog7314_part1.data.local.dao.WorkoutSessionDao
 import com.example.prog7314_part1.data.local.entity.WorkoutSession
 import com.example.prog7314_part1.data.local.entity.SessionStatus
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +32,7 @@ data class SessionState(
 
 class SessionViewModel(
     private val workoutSessionDao: WorkoutSessionDao,
-    private val userRepository: UserRepository
+    private val userRepository: ApiUserRepository
 ) : ViewModel() {
 
     private val _sessionState = MutableStateFlow(SessionState())

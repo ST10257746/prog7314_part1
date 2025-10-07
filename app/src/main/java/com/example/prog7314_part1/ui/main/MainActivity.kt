@@ -14,7 +14,7 @@ import androidx.navigation.NavOptions
 
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.model.AuthState
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     
     private var isRecreatingForLogout = false
     
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: ApiUserRepository
     
     override fun onCreate(savedInstanceState: Bundle?) {
         // If this is a logout restart, don't restore navigation state
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Initialize repository
-        userRepository = UserRepository(this)
+        userRepository = ApiUserRepository(this)
         
         // Set up navigation
         setupNavigation()

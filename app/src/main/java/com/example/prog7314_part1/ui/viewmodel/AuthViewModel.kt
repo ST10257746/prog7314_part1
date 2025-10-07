@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.prog7314_part1.data.local.entity.User
 import com.example.prog7314_part1.data.model.AuthState
 import com.example.prog7314_part1.data.model.Result
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,10 +15,11 @@ import kotlinx.coroutines.launch
 /**
  * AuthViewModel
  * Manages authentication state and user operations
+ * NOW USING REST API via ApiUserRepository
  */
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
     
-    private val repository = UserRepository(application)
+    private val repository = ApiUserRepository(application)
     
     // Authentication state
     private val _authState = MutableStateFlow<AuthState>(AuthState.Loading)
@@ -61,7 +62,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
      */
     private fun observeCurrentUser() {
         viewModelScope.launch {
-            repository.getCurrentUser().collect { user ->
+            repository.getCurrentUserFlow().collect { user ->
                 _currentUser.value = user
             }
         }

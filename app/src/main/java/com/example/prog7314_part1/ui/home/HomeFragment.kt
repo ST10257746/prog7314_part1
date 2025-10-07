@@ -12,13 +12,13 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.prog7314_part1.R
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: ApiUserRepository
     
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         
-        userRepository = UserRepository(requireContext())
+        userRepository = ApiUserRepository(requireContext())
         
         setupProfileNavigation(view)
         loadUserData(view)

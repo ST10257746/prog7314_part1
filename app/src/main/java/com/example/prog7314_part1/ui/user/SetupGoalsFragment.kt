@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.model.Result
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.databinding.FragmentSetupGoalsBinding
 import com.example.prog7314_part1.utils.hideKeyboard
 import com.example.prog7314_part1.utils.showToast
@@ -24,7 +24,7 @@ class SetupGoalsFragment : Fragment() {
     private var _binding: FragmentSetupGoalsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: ApiUserRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +38,7 @@ class SetupGoalsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userRepository = UserRepository(requireContext())
+        userRepository = ApiUserRepository(requireContext())
 
         setupClickListeners()
         loadExistingGoals()

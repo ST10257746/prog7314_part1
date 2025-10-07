@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.model.Result
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.databinding.FragmentLoginBinding
 import com.example.prog7314_part1.ui.viewmodel.AuthViewModel
 import com.example.prog7314_part1.utils.*
@@ -29,7 +29,7 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     
     private val viewModel: AuthViewModel by viewModels()
-    private lateinit var userRepository: UserRepository
+    private lateinit var userRepository: ApiUserRepository
     
     // Google Sign-In launcher
     private val googleSignInLauncher = registerForActivityResult(
@@ -56,7 +56,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        userRepository = UserRepository(requireContext())
+        userRepository = ApiUserRepository(requireContext())
         
         setupClickListeners()
         observeViewModel()

@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.databinding.FragmentSessionBinding
 import com.example.prog7314_part1.data.local.AppDatabase
-import com.example.prog7314_part1.data.repository.UserRepository
+import com.example.prog7314_part1.data.repository.ApiUserRepository
 import kotlinx.coroutines.launch
 
 class SessionFragment : Fragment() {
@@ -32,7 +32,7 @@ class SessionFragment : Fragment() {
         
         // Initialize ViewModel with database and user repository
         val database = AppDatabase.getDatabase(requireContext())
-        val userRepository = UserRepository(requireContext())
+        val userRepository = ApiUserRepository(requireContext())
         viewModel = SessionViewModel(database.workoutSessionDao(), userRepository)
         
         setupWorkoutTypeSelection()
