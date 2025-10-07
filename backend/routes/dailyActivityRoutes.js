@@ -55,7 +55,10 @@ router.get('/:userId/:date', verifyToken, async (req, res) => {
 router.put('/:userId/:date', verifyToken, async (req, res) => {
   try {
     const { userId, date } = req.params;
-    const { steps, waterGlasses, caloriesBurned, activeMinutes, distance } = req.body;
+    const { 
+      steps, waterGlasses, caloriesBurned, activeMinutes, distance,
+      stepsIncrement, caloriesBurnedIncrement, activeMinutesIncrement, distanceIncrement
+    } = req.body;
     
     // Verify user can only update their own data
     if (req.user.uid !== userId) {
@@ -80,7 +83,7 @@ router.put('/:userId/:date', verifyToken, async (req, res) => {
       distance: 0
     };
     
-    // Update only provided fields
+    // Update with regular values or increments
     const updateData = {
       ...existingData,
       ...(steps !== undefined && { steps: parseInt(steps) }),
@@ -88,6 +91,19 @@ router.put('/:userId/:date', verifyToken, async (req, res) => {
       ...(caloriesBurned !== undefined && { caloriesBurned: parseInt(caloriesBurned) }),
       ...(activeMinutes !== undefined && { activeMinutes: parseInt(activeMinutes) }),
       ...(distance !== undefined && { distance: parseFloat(distance) }),
+      // Handle increments (add to existing values)
+      ...(stepsIncrement !== undefined && { 
+        steps: (existingData.steps || 0) + parseInt(stepsIncrement) 
+      }),
+      ...(caloriesBurnedIncrement !== undefined && { 
+        caloriesBurned: (existingData.caloriesBurned || 0) + parseInt(caloriesBurnedIncrement) 
+      }),
+      ...(activeMinutesIncrement !== undefined && { 
+        activeMinutes: (existingData.activeMinutes || 0) + parseInt(activeMinutesIncrement) 
+      }),
+      ...(distanceIncrement !== undefined && { 
+        distance: (existingData.distance || 0) + parseFloat(distanceIncrement) 
+      }),
       lastUpdated: Date.now()
     };
     

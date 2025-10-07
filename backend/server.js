@@ -37,6 +37,7 @@ app.get('/api/health', (req, res) => {
 // Import routes
 const userRoutes = require('./routes/userRoutes');
 const workoutRoutes = require('./routes/workoutRoutes');
+const customWorkoutRoutes = require('./routes/customWorkoutRoutes');
 const goalsRoutes = require('./routes/goalsRoutes');
 const progressRoutes = require('./routes/progressRoutes');
 const nutritionRoutes = require('./routes/nutritionRoutes');
@@ -45,6 +46,7 @@ const dailyActivityRoutes = require('./routes/dailyActivityRoutes');
 // Use routes
 app.use('/api/users', userRoutes);
 app.use('/api/workouts', workoutRoutes);
+app.use('/api/custom-workouts', customWorkoutRoutes);
 app.use('/api/goals', goalsRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/nutrition', nutritionRoutes);

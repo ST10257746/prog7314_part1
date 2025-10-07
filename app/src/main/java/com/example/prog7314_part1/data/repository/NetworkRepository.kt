@@ -132,129 +132,7 @@ class NetworkRepository(private val context: Context) {
             }
         }
     
-    // ==================== Workout Operations ====================
     
-    /**
-     * Sync local workouts to API
-     */
-    suspend fun syncWorkouts(): Result<Unit> = withContext(Dispatchers.IO) {
-        try {
-            val userId = auth.currentUser?.uid ?: throw Exception("User not authenticated")
-            
-            // Get unsynced workouts from local DB
-            val unsyncedWorkouts = database.workoutSessionDao().getUnsyncedSessions(userId)
-            
-            // Upload each unsynced workout
-            unsyncedWorkouts.forEach { workout ->
-                val workoutMap = mapOf(
-                    "workoutName" to workout.workoutName,
-                    "startTime" to workout.startTime,
-                    "endTime" to (workout.endTime ?: 0),
-                    "durationSeconds" to workout.durationSeconds,
-                    "caloriesBurned" to workout.caloriesBurned,
-                    "distanceKm" to workout.distanceKm,
-                    "status" to workout.status.name
-                )
-                
-                val response = workoutApi.createWorkout(workoutMap)
-                
-                if (response.isSuccessful) {
-                    // Mark as synced in local DB
-                    database.workoutSessionDao().updateSession(
-                        workout.copy(isSynced = true)
-                    )
-                }
-            }
-            
-            Result.Success(Unit)
-        } catch (e: Exception) {
-            Result.Error(e, e.message ?: "Sync failed")
-        }
-    }
-    
-    /**
-     * Fetch workouts from API
-     */
-    suspend fun fetchWorkouts(limit: Int = 50): Result<List<WorkoutDto>> = 
-        withContext(Dispatchers.IO) {
-            try {
-                val response = workoutApi.getWorkouts(limit)
-                
-                if (response.isSuccessful && response.body() != null) {
-                    Result.Success(response.body()!!.workouts)
-                } else {
-                    Result.Error(
-                        Exception("Failed to fetch workouts"),
-                        response.errorBody()?.string() ?: "Unknown error"
-                    )
-                }
-            } catch (e: Exception) {
-                Result.Error(e, e.message ?: "Network error")
-            }
-        }
-    
-    /**
-     * Create workout via API
-     */
-    suspend fun createWorkout(workout: Map<String, Any>): Result<WorkoutDto> = 
-        withContext(Dispatchers.IO) {
-            try {
-                val response = workoutApi.createWorkout(workout)
-                
-                if (response.isSuccessful && response.body() != null) {
-                    Result.Success(response.body()!!.workout)
-                } else {
-                    Result.Error(
-                        Exception("Failed to create workout"),
-                        response.errorBody()?.string() ?: "Unknown error"
-                    )
-                }
-            } catch (e: Exception) {
-                Result.Error(e, e.message ?: "Network error")
-            }
-        }
-    
-    /**
-     * Update workout via API
-     */
-    suspend fun updateWorkout(workoutId: String, updates: Map<String, Any>): Result<WorkoutDto> = 
-        withContext(Dispatchers.IO) {
-            try {
-                val response = workoutApi.updateWorkout(workoutId, updates)
-                
-                if (response.isSuccessful && response.body() != null) {
-                    Result.Success(response.body()!!.workout)
-                } else {
-                    Result.Error(
-                        Exception("Failed to update workout"),
-                        response.errorBody()?.string() ?: "Unknown error"
-                    )
-                }
-            } catch (e: Exception) {
-                Result.Error(e, e.message ?: "Network error")
-            }
-        }
-    
-    /**
-     * Delete workout via API
-     */
-    suspend fun deleteWorkout(workoutId: String): Result<Unit> = 
-        withContext(Dispatchers.IO) {
-            try {
-                val response = workoutApi.deleteWorkout(workoutId)
-                
-                if (response.isSuccessful) {
-                    Result.Success(Unit)
-                } else {
-                    Result.Error(
-                        Exception("Failed to delete workout"),
-                        response.errorBody()?.string() ?: "Unknown error"
-                    )
-                }
-            } catch (e: Exception) {
-                Result.Error(e, e.message ?: "Network error")
-            }
-        }
     
     // ==================== Goals Operations ====================
     
@@ -478,7 +356,34 @@ class NetworkRepository(private val context: Context) {
                 activeMinutes?.let { updates["activeMinutes"] = it }
                 distance?.let { updates["distance"] = it }
                 
-                val response = dailyActivityApi.updateDailyActivity(userId, date, updates)
+                val hashMapUpdates = HashMap(updates)
+                val response = dailyActivityApi.updateDailyActivity(userId, date, hashMapUpdates)
+                
+                if (response.isSuccessful && response.body() != null) {
+                    Result.Success(response.body()!!)
+                } else {
+                    Result.Error(
+                        Exception("Failed to update daily activity"),
+                        response.errorBody()?.string() ?: "Unknown error"
+                    )
+                }
+            } catch (e: Exception) {
+                Result.Error(e, e.message ?: "Network error")
+            }
+        }
+
+    /**
+     * Update daily activity with custom updates map (for increments from workouts)
+     */
+    suspend fun updateDailyActivityWithIncrements(
+        userId: String,
+        date: String,
+        updates: Map<String, Any>
+    ): Result<DailyActivityResponse> =
+        withContext(Dispatchers.IO) {
+            try {
+                val hashMapUpdates = HashMap(updates)
+                val response = dailyActivityApi.updateDailyActivity(userId, date, hashMapUpdates)
                 
                 if (response.isSuccessful && response.body() != null) {
                     Result.Success(response.body()!!)
@@ -515,5 +420,356 @@ class NetworkRepository(private val context: Context) {
                 Result.Error(e, e.message ?: "Network error")
             }
         }
+
+    // ==================== Custom Workout Operations ====================
+
+    /**
+     * Create custom workout via API
+     */
+    suspend fun createCustomWorkout(
+        name: String,
+        description: String,
+        category: String,
+        difficulty: String,
+        durationMinutes: Int,
+        estimatedCalories: Int,
+        exerciseCount: Int,
+        exercises: List<ExerciseDTO> = emptyList()
+    ): Result<CustomWorkoutResponse> = withContext(Dispatchers.IO) {
+        try {
+            val request = CreateWorkoutRequest(
+                name = name,
+                description = description,
+                category = category,
+                difficulty = difficulty,
+                durationMinutes = durationMinutes,
+                estimatedCalories = estimatedCalories,
+                exerciseCount = exerciseCount,
+                isCustom = true,
+                exercises = exercises
+            )
+
+            val response = RetrofitClient.create<CustomWorkoutApiService>().createCustomWorkout(request)
+
+            if (response.isSuccessful && response.body() != null) {
+                val body = response.body()!!
+                val workout = body["workout"] as? Map<String, Any>
+
+                if (workout != null) {
+                    // Parse exercises if present
+                    val exercisesList = (workout["exercises"] as? List<*>)?.mapNotNull { exerciseMap ->
+                        (exerciseMap as? Map<*, *>)?.let { map ->
+                            ExerciseDTO(
+                                name = map["name"] as? String ?: "",
+                                description = map["description"] as? String ?: "",
+                                muscleGroup = map["muscleGroup"] as? String ?: "",
+                                orderIndex = (map["orderIndex"] as? Number)?.toInt() ?: 0,
+                                sets = (map["sets"] as? Number)?.toInt(),
+                                reps = (map["reps"] as? Number)?.toInt(),
+                                durationSeconds = (map["durationSeconds"] as? Number)?.toInt(),
+                                restSeconds = (map["restSeconds"] as? Number)?.toInt() ?: 60,
+                                videoUrl = map["videoUrl"] as? String,
+                                imageUrl = map["imageUrl"] as? String
+                            )
+                        }
+                    } ?: emptyList()
+                    
+                    val workoutResponse = CustomWorkoutResponse(
+                        id = workout["id"] as? String ?: "",
+                        name = workout["name"] as? String ?: "",
+                        description = workout["description"] as? String ?: "",
+                        category = workout["category"] as? String ?: "",
+                        difficulty = workout["difficulty"] as? String ?: "",
+                        durationMinutes = (workout["durationMinutes"] as? Number)?.toInt() ?: 0,
+                        estimatedCalories = (workout["estimatedCalories"] as? Number)?.toInt() ?: 0,
+                        exerciseCount = (workout["exerciseCount"] as? Number)?.toInt() ?: 0,
+                        isCustom = workout["isCustom"] as? Boolean ?: true,
+                        createdBy = workout["createdBy"] as? String,
+                        createdAt = (workout["createdAt"] as? Number)?.toLong() ?: System.currentTimeMillis(),
+                        thumbnailUrl = workout["thumbnailUrl"] as? String,
+                        rating = (workout["rating"] as? Number)?.toDouble() ?: 0.0,
+                        exercises = exercisesList
+                    )
+                    Result.Success(workoutResponse)
+                } else {
+                    Result.Error(Exception("Invalid response format"), "No workout data in response")
+                }
+            } else {
+                Result.Error(
+                    Exception("Failed to create custom workout"),
+                    response.errorBody()?.string() ?: "Unknown error"
+                )
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("NetworkRepository", "❌ Error creating custom workout: ${e.message}", e)
+            Result.Error(e, e.message ?: "Network error")
+        }
+    }
+
+    // ==================== Workout Session Operations ====================
+
+    /**
+     * Create workout session via API
+     */
+    suspend fun createWorkoutSession(
+        workoutName: String,
+        workoutType: String,
+        startTime: Long,
+        endTime: Long?,
+        durationSeconds: Int,
+        caloriesBurned: Int,
+        distanceKm: Double,
+        steps: Int,
+        avgHeartRate: Int,
+        maxHeartRate: Int,
+        avgPace: Double,
+        notes: String?,
+        status: String = "COMPLETED"
+    ): Result<WorkoutSessionResponse> = withContext(Dispatchers.IO) {
+        try {
+            val request = CreateWorkoutSessionRequest(
+                workoutName = workoutName,
+                workoutType = workoutType,
+                startTime = startTime,
+                endTime = endTime,
+                durationSeconds = durationSeconds,
+                caloriesBurned = caloriesBurned,
+                distanceKm = distanceKm,
+                steps = steps,
+                avgHeartRate = avgHeartRate,
+                maxHeartRate = maxHeartRate,
+                avgPace = avgPace,
+                notes = notes,
+                status = status
+            )
+
+            val response = workoutApi.createWorkoutSession(request)
+
+            if (response.isSuccessful && response.body() != null) {
+                val body = response.body()!!
+                val workout = body["workout"] as? Map<String, Any>
+                
+                if (workout != null) {
+                    val sessionResponse = WorkoutSessionResponse(
+                        id = workout["id"] as? String ?: "",
+                        userId = workout["userId"] as? String ?: "",
+                        workoutName = workout["workoutName"] as? String ?: "",
+                        workoutType = workout["workoutType"] as? String ?: "OTHER",
+                        startTime = (workout["startTime"] as? Number)?.toLong() ?: 0L,
+                        endTime = (workout["endTime"] as? Number)?.toLong(),
+                        durationSeconds = (workout["durationSeconds"] as? Number)?.toInt() ?: 0,
+                        caloriesBurned = (workout["caloriesBurned"] as? Number)?.toInt() ?: 0,
+                        distanceKm = (workout["distanceKm"] as? Number)?.toDouble() ?: 0.0,
+                        steps = (workout["steps"] as? Number)?.toInt() ?: 0,
+                        avgHeartRate = (workout["avgHeartRate"] as? Number)?.toInt() ?: 0,
+                        maxHeartRate = (workout["maxHeartRate"] as? Number)?.toInt() ?: 0,
+                        avgPace = (workout["avgPace"] as? Number)?.toDouble() ?: 0.0,
+                        notes = workout["notes"] as? String,
+                        status = workout["status"] as? String ?: "COMPLETED",
+                        createdAt = (workout["createdAt"] as? Number)?.toLong() ?: System.currentTimeMillis(),
+                        isSynced = workout["isSynced"] as? Boolean ?: true
+                    )
+                    Result.Success(sessionResponse)
+                } else {
+                    Result.Error(Exception("Invalid response format"), "No workout data in response")
+                }
+            } else {
+                Result.Error(
+                    Exception("Failed to create workout session"),
+                    response.errorBody()?.string() ?: "Unknown error"
+                )
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("NetworkRepository", "❌ Error creating workout session: ${e.message}", e)
+            Result.Error(e, e.message ?: "Network error")
+        }
+    }
+
+    /**
+     * Get workout sessions for a user
+     */
+    suspend fun getWorkoutSessions(
+        limit: Int = 50,
+        status: String? = null
+    ): Result<List<WorkoutSessionResponse>> = withContext(Dispatchers.IO) {
+        try {
+            val response = workoutApi.getWorkoutSessions(limit, status)
+
+            if (response.isSuccessful && response.body() != null) {
+                val body = response.body()!!
+                val workouts = body.workouts.map { dto ->
+                    WorkoutSessionResponse(
+                        id = dto.id,
+                        userId = dto.userId,
+                        workoutName = dto.workoutName,
+                        workoutType = dto.workoutType ?: "OTHER",
+                        startTime = dto.startTime,
+                        endTime = dto.endTime,
+                        durationSeconds = dto.durationSeconds,
+                        caloriesBurned = dto.caloriesBurned ?: 0,
+                        distanceKm = dto.distanceKm ?: 0.0,
+                        steps = dto.steps ?: 0,
+                        avgHeartRate = dto.avgHeartRate ?: 0,
+                        maxHeartRate = dto.maxHeartRate ?: 0,
+                        avgPace = dto.avgPace ?: 0.0,
+                        notes = dto.notes,
+                        status = dto.status,
+                        createdAt = dto.createdAt ?: System.currentTimeMillis(),
+                        isSynced = true
+                    )
+                }
+                Result.Success(workouts)
+            } else {
+                Result.Error(
+                    Exception("Failed to fetch workout sessions"),
+                    response.errorBody()?.string() ?: "Unknown error"
+                )
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("NetworkRepository", "❌ Error fetching workout sessions: ${e.message}", e)
+            Result.Error(e, e.message ?: "Network error")
+        }
+    }
+
+    /**
+     * Delete workout session via API
+     */
+    suspend fun deleteWorkoutSession(workoutId: String): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                val response = workoutApi.deleteWorkoutSession(workoutId)
+
+                if (response.isSuccessful) {
+                    Result.Success(Unit)
+                } else {
+                    Result.Error(
+                        Exception("Failed to delete workout session"),
+                        response.errorBody()?.string() ?: "Unknown error"
+                    )
+                }
+            } catch (e: Exception) {
+                Result.Error(e, e.message ?: "Network error")
+            }
+        }
+
+    /**
+     * Sync workout sessions from Firebase to local DB
+     */
+    suspend fun syncWorkoutSessionsFromFirebase(userId: String): Result<List<com.example.prog7314_part1.data.local.entity.WorkoutSession>> =
+        withContext(Dispatchers.IO) {
+            try {
+                when (val result = getWorkoutSessions(limit = 100)) {
+                    is Result.Success -> {
+                        val sessions = result.data.map { dto ->
+                            com.example.prog7314_part1.data.local.entity.WorkoutSession(
+                                sessionId = dto.id,
+                                userId = dto.userId,
+                                workoutId = null,
+                                workoutName = dto.workoutName,
+                                startTime = dto.startTime,
+                                endTime = dto.endTime,
+                                durationSeconds = dto.durationSeconds,
+                                caloriesBurned = dto.caloriesBurned,
+                                distanceKm = dto.distanceKm,
+                                steps = dto.steps,              // ✅ From Firebase
+                                avgHeartRate = dto.avgHeartRate, // ✅ From Firebase
+                                maxHeartRate = dto.maxHeartRate, // ✅ From Firebase
+                                avgPace = dto.avgPace,          // ✅ From Firebase
+                                routeData = null,
+                                status = com.example.prog7314_part1.data.local.entity.SessionStatus.valueOf(
+                                    dto.status.uppercase()
+                                ),
+                                createdAt = dto.createdAt,
+                                isSynced = true
+                            )
+                        }
+
+                        // Save to local DB
+                        database.workoutSessionDao().insertSessions(sessions)
+                        android.util.Log.d("NetworkRepository", "✅ Synced ${sessions.size} workout sessions from Firebase")
+                        Result.Success(sessions)
+                    }
+                    is Result.Error -> {
+                        android.util.Log.w("NetworkRepository", "⚠️ Failed to sync workout sessions: ${result.message}")
+                        result
+                    }
+                    else -> Result.Error(Exception("Unknown error"), "Failed to sync")
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("NetworkRepository", "❌ Error syncing workout sessions: ${e.message}", e)
+                Result.Error(e, e.message ?: "Sync error")
+            }
+        }
+
+    /**
+     * Get workout statistics summary from Firebase
+     * Returns total calories, steps, distance, etc. for a date range
+     */
+    suspend fun getWorkoutStats(
+        startDate: Long? = null,
+        endDate: Long? = null
+    ): Result<Map<String, Any>> = withContext(Dispatchers.IO) {
+        try {
+            val response = workoutApi.getWorkoutStats(startDate, endDate)
+
+            if (response.isSuccessful && response.body() != null) {
+                val body = response.body()!!
+                val summary = body["summary"] as? Map<String, Any>
+
+                if (summary != null) {
+                    android.util.Log.d("NetworkRepository", "✅ Fetched workout stats: ${summary}")
+                    Result.Success(summary)
+                } else {
+                    Result.Error(Exception("Invalid stats format"), "No summary data")
+                }
+            } else {
+                Result.Error(
+                    Exception("Failed to fetch stats"),
+                    response.errorBody()?.string() ?: "Unknown error"
+                )
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("NetworkRepository", "❌ Error fetching workout stats: ${e.message}", e)
+            Result.Error(e, e.message ?: "Network error")
+        }
+    }
+
+    /**
+     * Get total calories and distance from workouts for today
+     * Useful for Home/Progress pages
+     */
+    suspend fun getTodayWorkoutTotals(): Result<Triple<Int, Double, Int>> = withContext(Dispatchers.IO) {
+        try {
+            // Get today's start timestamp (midnight)
+            val calendar = java.util.Calendar.getInstance()
+            calendar.set(java.util.Calendar.HOUR_OF_DAY, 0)
+            calendar.set(java.util.Calendar.MINUTE, 0)
+            calendar.set(java.util.Calendar.SECOND, 0)
+            calendar.set(java.util.Calendar.MILLISECOND, 0)
+            val todayStart = calendar.timeInMillis
+
+            // Get today's end timestamp
+            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1)
+            val todayEnd = calendar.timeInMillis
+
+            when (val result = getWorkoutStats(todayStart, todayEnd)) {
+                is Result.Success -> {
+                    val totalCalories = (result.data["totalCaloriesBurned"] as? Number)?.toInt() ?: 0
+                    val totalDistance = (result.data["totalDistanceKm"] as? Number)?.toDouble() ?: 0.0
+                    val totalWorkouts = (result.data["totalWorkouts"] as? Number)?.toInt() ?: 0
+                    android.util.Log.d("NetworkRepository", "✅ Today's workout totals: $totalCalories cal, $totalDistance km, $totalWorkouts workouts")
+                    Result.Success(Triple(totalCalories, totalDistance, totalWorkouts))
+                }
+                is Result.Error -> {
+                    android.util.Log.w("NetworkRepository", "⚠️ Failed to get today's totals: ${result.message}")
+                    Result.Error(result.exception, result.message)
+                }
+                else -> Result.Error(Exception("Unknown error"), "Failed to get totals")
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("NetworkRepository", "❌ Error getting today's totals: ${e.message}", e)
+            Result.Error(e, e.message ?: "Error")
+        }
+    }
 }
 

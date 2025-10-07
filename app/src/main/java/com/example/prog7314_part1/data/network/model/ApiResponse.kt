@@ -215,10 +215,22 @@ data class WorkoutDto(
     val durationSeconds: Int,
     
     @SerializedName("caloriesBurned")
-    val caloriesBurned: Int,
+    val caloriesBurned: Int? = 0,
     
     @SerializedName("distanceKm")
-    val distanceKm: Double,
+    val distanceKm: Double? = 0.0,
+    
+    @SerializedName("steps")
+    val steps: Int? = 0,
+    
+    @SerializedName("avgHeartRate")
+    val avgHeartRate: Int? = 0,
+    
+    @SerializedName("maxHeartRate")
+    val maxHeartRate: Int? = 0,
+    
+    @SerializedName("avgPace")
+    val avgPace: Double? = 0.0,
     
     @SerializedName("notes")
     val notes: String? = null,
@@ -407,26 +419,242 @@ data class NutritionDto(
 data class DailyActivityResponse(
     @SerializedName("userId")
     val userId: String,
-    
+
     @SerializedName("date")
     val date: String,
-    
+
     @SerializedName("steps")
     val steps: Int = 0,
-    
+
     @SerializedName("waterGlasses")
     val waterGlasses: Int = 0,
-    
+
     @SerializedName("caloriesBurned")
     val caloriesBurned: Int = 0,
-    
+
     @SerializedName("activeMinutes")
     val activeMinutes: Int = 0,
-    
+
     @SerializedName("distance")
     val distance: Double = 0.0,
-    
+
     @SerializedName("lastUpdated")
     val lastUpdated: Long
+)
+
+// ==================== Workout API Models ====================
+
+/**
+ * Request model for creating a custom workout template
+ */
+/**
+ * DTO for Exercise data in custom workout
+ */
+data class ExerciseDTO(
+    @SerializedName("name")
+    val name: String,
+    
+    @SerializedName("description")
+    val description: String = "",
+    
+    @SerializedName("muscleGroup")
+    val muscleGroup: String,
+    
+    @SerializedName("orderIndex")
+    val orderIndex: Int,
+    
+    @SerializedName("sets")
+    val sets: Int? = null,
+    
+    @SerializedName("reps")
+    val reps: Int? = null,
+    
+    @SerializedName("durationSeconds")
+    val durationSeconds: Int? = null,
+    
+    @SerializedName("restSeconds")
+    val restSeconds: Int = 60,
+    
+    @SerializedName("videoUrl")
+    val videoUrl: String? = null,
+    
+    @SerializedName("imageUrl")
+    val imageUrl: String? = null
+)
+
+data class CreateWorkoutRequest(
+    @SerializedName("name")
+    val name: String,
+
+    @SerializedName("description")
+    val description: String,
+
+    @SerializedName("category")
+    val category: String,
+
+    @SerializedName("difficulty")
+    val difficulty: String,
+
+    @SerializedName("durationMinutes")
+    val durationMinutes: Int,
+
+    @SerializedName("estimatedCalories")
+    val estimatedCalories: Int,
+
+    @SerializedName("exerciseCount")
+    val exerciseCount: Int,
+
+    @SerializedName("isCustom")
+    val isCustom: Boolean = true,
+    
+    @SerializedName("exercises")
+    val exercises: List<ExerciseDTO> = emptyList()
+)
+
+/**
+ * Response model for custom workout template
+ */
+data class CustomWorkoutResponse(
+    @SerializedName("id")
+    val id: String,
+
+    @SerializedName("name")
+    val name: String,
+
+    @SerializedName("description")
+    val description: String,
+
+    @SerializedName("category")
+    val category: String,
+
+    @SerializedName("difficulty")
+    val difficulty: String,
+
+    @SerializedName("durationMinutes")
+    val durationMinutes: Int,
+
+    @SerializedName("estimatedCalories")
+    val estimatedCalories: Int,
+
+    @SerializedName("exerciseCount")
+    val exerciseCount: Int,
+
+    @SerializedName("isCustom")
+    val isCustom: Boolean = false,
+
+    @SerializedName("createdBy")
+    val createdBy: String? = null,
+
+    @SerializedName("createdAt")
+    val createdAt: Long,
+
+    @SerializedName("thumbnailUrl")
+    val thumbnailUrl: String? = null,
+
+    @SerializedName("rating")
+    val rating: Double = 0.0,
+    
+    @SerializedName("exercises")
+    val exercises: List<ExerciseDTO> = emptyList()
+)
+
+/**
+ * Request model for creating workout session
+ */
+data class CreateWorkoutSessionRequest(
+    @SerializedName("workoutName")
+    val workoutName: String,
+
+    @SerializedName("workoutType")
+    val workoutType: String? = null,
+
+    @SerializedName("startTime")
+    val startTime: Long,
+
+    @SerializedName("endTime")
+    val endTime: Long? = null,
+
+    @SerializedName("durationSeconds")
+    val durationSeconds: Int = 0,
+
+    @SerializedName("caloriesBurned")
+    val caloriesBurned: Int = 0,
+
+    @SerializedName("distanceKm")
+    val distanceKm: Double = 0.0,
+
+    @SerializedName("steps")
+    val steps: Int = 0,
+
+    @SerializedName("avgHeartRate")
+    val avgHeartRate: Int = 0,
+
+    @SerializedName("maxHeartRate")
+    val maxHeartRate: Int = 0,
+
+    @SerializedName("avgPace")
+    val avgPace: Double = 0.0,
+
+    @SerializedName("notes")
+    val notes: String? = null,
+
+    @SerializedName("status")
+    val status: String = "COMPLETED"
+)
+
+/**
+ * Response model for workout session
+ */
+data class WorkoutSessionResponse(
+    @SerializedName("id")
+    val id: String,
+
+    @SerializedName("userId")
+    val userId: String,
+
+    @SerializedName("workoutName")
+    val workoutName: String,
+
+    @SerializedName("workoutType")
+    val workoutType: String,
+
+    @SerializedName("startTime")
+    val startTime: Long,
+
+    @SerializedName("endTime")
+    val endTime: Long? = null,
+
+    @SerializedName("durationSeconds")
+    val durationSeconds: Int = 0,
+
+    @SerializedName("caloriesBurned")
+    val caloriesBurned: Int = 0,
+
+    @SerializedName("distanceKm")
+    val distanceKm: Double = 0.0,
+
+    @SerializedName("steps")
+    val steps: Int = 0,
+
+    @SerializedName("avgHeartRate")
+    val avgHeartRate: Int = 0,
+
+    @SerializedName("maxHeartRate")
+    val maxHeartRate: Int = 0,
+
+    @SerializedName("avgPace")
+    val avgPace: Double = 0.0,
+
+    @SerializedName("notes")
+    val notes: String? = null,
+
+    @SerializedName("status")
+    val status: String,
+
+    @SerializedName("createdAt")
+    val createdAt: Long,
+
+    @SerializedName("isSynced")
+    val isSynced: Boolean = true
 )
 

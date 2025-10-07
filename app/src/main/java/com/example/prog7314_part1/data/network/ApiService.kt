@@ -29,30 +29,41 @@ interface UserApiService {
 }
 
 /**
- * Workout API Service
+ * Custom Workout API Service
+ */
+interface CustomWorkoutApiService {
+    @POST("api/custom-workouts")
+    suspend fun createCustomWorkout(@Body workout: CreateWorkoutRequest): Response<Map<String, Any>>
+
+    @GET("api/custom-workouts/{userId}")
+    suspend fun getCustomWorkouts(@Path("userId") userId: String): Response<Map<String, Any>>
+}
+
+/**
+ * Workout Session API Service
  */
 interface WorkoutApiService {
     
     @GET("api/workouts")
-    suspend fun getWorkouts(
+    suspend fun getWorkoutSessions(
         @Query("limit") limit: Int = 50,
         @Query("status") status: String? = null
     ): Response<WorkoutsResponse>
     
     @GET("api/workouts/{workoutId}")
-    suspend fun getWorkout(@Path("workoutId") workoutId: String): Response<WorkoutResponse>
+    suspend fun getWorkoutSession(@Path("workoutId") workoutId: String): Response<Map<String, Any>>
     
     @POST("api/workouts")
-    suspend fun createWorkout(@Body workout: Map<String, Any>): Response<WorkoutResponse>
+    suspend fun createWorkoutSession(@Body session: CreateWorkoutSessionRequest): Response<Map<String, Any>>
     
     @PUT("api/workouts/{workoutId}")
-    suspend fun updateWorkout(
+    suspend fun updateWorkoutSession(
         @Path("workoutId") workoutId: String,
         @Body updates: Map<String, Any>
-    ): Response<WorkoutResponse>
+    ): Response<Map<String, Any>>
     
     @DELETE("api/workouts/{workoutId}")
-    suspend fun deleteWorkout(@Path("workoutId") workoutId: String): Response<ApiResponse<Unit>>
+    suspend fun deleteWorkoutSession(@Path("workoutId") workoutId: String): Response<ApiResponse<Unit>>
     
     @GET("api/workouts/stats/summary")
     suspend fun getWorkoutStats(
@@ -170,7 +181,7 @@ interface DailyActivityApiService {
     suspend fun updateDailyActivity(
         @Path("userId") userId: String,
         @Path("date") date: String,
-        @Body updates: Map<String, Any>
+        @Body updates: HashMap<String, Any>
     ): Response<DailyActivityResponse>
     
     @POST("api/daily-activity/{userId}/{date}/water")

@@ -159,15 +159,17 @@ class WorkoutFragment : Fragment() {
     /** Observe custom workouts created by the current user */
     private fun observeCustomWorkouts() {
         val userId = UserSession.userId ?: return
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCustomWorkoutsByUser(userId).collectLatest { customWorkouts ->
-                if (customWorkouts.isEmpty()) {
-                    binding.tvNoCustomWorkouts.visibility = View.VISIBLE
-                    binding.rvCustomWorkouts.visibility = View.GONE
-                } else {
-                    binding.tvNoCustomWorkouts.visibility = View.GONE
-                    binding.rvCustomWorkouts.visibility = View.VISIBLE
-                    customWorkoutAdapter.submitList(customWorkouts)
+                _binding?.let { binding ->
+                    if (customWorkouts.isEmpty()) {
+                        binding.tvNoCustomWorkouts.visibility = View.VISIBLE
+                        binding.rvCustomWorkouts.visibility = View.GONE
+                    } else {
+                        binding.tvNoCustomWorkouts.visibility = View.GONE
+                        binding.rvCustomWorkouts.visibility = View.VISIBLE
+                        customWorkoutAdapter.submitList(customWorkouts)
+                    }
                 }
             }
         }

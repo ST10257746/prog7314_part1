@@ -17,7 +17,9 @@ import com.example.prog7314_part1.data.local.entity.Exercise
 import com.example.prog7314_part1.data.local.entity.Workout
 import com.example.prog7314_part1.data.local.entity.WorkoutCategory
 import com.example.prog7314_part1.data.local.entity.WorkoutDifficulty
+import com.example.prog7314_part1.data.model.Result
 import com.example.prog7314_part1.data.repository.WorkoutRepository
+import com.example.prog7314_part1.data.repository.NetworkRepository
 import com.example.prog7314_part1.databinding.FragmentCreateCustomWorkoutBinding
 import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModel
 import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModelFactory
@@ -219,12 +221,53 @@ class CreateCustomWorkoutFragment : Fragment() {
             )
         }
 
-        // Save to database
+        // Save to database and sync to Firebase
         lifecycleScope.launch {
             try {
                 val database = AppDatabase.getDatabase(requireContext())
+                
+                // Step 1: Save to local database
                 database.workoutDao().insertWorkout(workout)
                 database.exerciseDao().insertExercises(finalExercises)
+
+                // Step 2: Sync to Firebase via API
+                val networkRepository = NetworkRepository(requireContext())
+                
+                // Convert exercises to DTOs
+                val exerciseDTOs = finalExercises.map { exercise ->
+                    com.example.prog7314_part1.data.network.model.ExerciseDTO(
+                        name = exercise.name,
+                        description = exercise.description,
+                        muscleGroup = exercise.muscleGroup,
+                        orderIndex = exercise.orderIndex,
+                        sets = exercise.sets,
+                        reps = exercise.reps,
+                        durationSeconds = exercise.durationSeconds,
+                        restSeconds = exercise.restSeconds,
+                        videoUrl = exercise.videoUrl,
+                        imageUrl = exercise.imageUrl
+                    )
+                }
+                
+                when (val result = networkRepository.createCustomWorkout(
+                    name = workout.name,
+                    description = workout.description,
+                    category = workout.category.name,
+                    difficulty = workout.difficulty.name,
+                    durationMinutes = workout.durationMinutes,
+                    estimatedCalories = workout.estimatedCalories,
+                    exerciseCount = workout.exerciseCount,
+                    exercises = exerciseDTOs
+                )) {
+                    is Result.Success -> {
+                        android.util.Log.d("CreateWorkout", "✅ Custom workout synced to Firebase: ${result.data.id}")
+                    }
+                    is Result.Error -> {
+                        android.util.Log.w("CreateWorkout", "⚠️ Failed to sync custom workout: ${result.message}")
+                        // Workout is saved locally, sync can be retried later
+                    }
+                    else -> {}
+                }
 
                 Toast.makeText(requireContext(), "Custom workout saved successfully!", Toast.LENGTH_LONG).show()
                 findNavController().navigateUp()

@@ -30,10 +30,10 @@ class SessionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        // Initialize ViewModel with database and user repository
+        // Initialize ViewModel with database, user repository, and context for API sync
         val database = AppDatabase.getDatabase(requireContext())
         val userRepository = ApiUserRepository(requireContext())
-        viewModel = SessionViewModel(database.workoutSessionDao(), userRepository)
+        viewModel = SessionViewModel(database.workoutSessionDao(), userRepository, requireContext())
         
         setupWorkoutTypeSelection()
         setupControlButtons()

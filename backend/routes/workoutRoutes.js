@@ -104,6 +104,10 @@ router.post('/', verifyToken, async (req, res) => {
       durationSeconds,
       caloriesBurned,
       distanceKm,
+      steps,
+      avgHeartRate,
+      maxHeartRate,
+      avgPace,
       notes,
       status = 'COMPLETED'
     } = req.body;
@@ -125,6 +129,10 @@ router.post('/', verifyToken, async (req, res) => {
       durationSeconds: durationSeconds || 0,
       caloriesBurned: caloriesBurned || 0,
       distanceKm: distanceKm || 0,
+      steps: steps || 0,
+      avgHeartRate: avgHeartRate || 0,
+      maxHeartRate: maxHeartRate || 0,
+      avgPace: avgPace || 0.0,
       notes: notes || '',
       status,
       createdAt: Date.now(),
