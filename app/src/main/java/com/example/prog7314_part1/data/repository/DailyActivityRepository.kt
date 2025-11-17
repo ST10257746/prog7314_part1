@@ -95,6 +95,16 @@ class DailyActivityRepository(
                 when (val apiResult = repo.updateWaterIntake(userId, today, glasses)) {
                     is Result.Success -> {
                         Log.d(TAG, "✅ Water intake synced to Firebase: ${apiResult.data} glasses")
+                        // Send FCM notification about water intake change
+                        try {
+                            val changeText = if (glasses > 0) "+$glasses" else "$glasses"
+                            repo.sendNotification(
+                                title = "Water intake updated",
+                                body = "Water glasses changed by $changeText. Current total: $newWaterCount"
+                            )
+                        } catch (e: Exception) {
+                            Log.w(TAG, "⚠️ Failed to send water intake notification: ${e.message}")
+                        }
                     }
                     is Result.Error -> {
                         Log.w(TAG, "⚠️ Failed to sync water to Firebase: ${apiResult.message}")

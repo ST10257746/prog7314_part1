@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -93,6 +94,20 @@ class ApiUserRepository(private val context: Context) {
                     userDao.insertUser(localUser)
                     android.util.Log.d("ApiUserRepository", "✅ Registration complete!")
                     
+                    // Register FCM token for this user
+                    try {
+                        val fcmToken = FirebaseMessaging.getInstance().token.await()
+                        networkRepo.registerFcmToken(fcmToken)
+                    } catch (e: Exception) {
+                        android.util.Log.w("ApiUserRepository", "⚠️ Failed to register FCM token: ${'$'}{e.message}")
+                    }
+                    
+                    // Send welcome notification via backend/FCM
+                    networkRepo.sendNotification(
+                        title = "Welcome to FitTrackr",
+                        body = "Your account has been created successfully!"
+                    )
+
                     Result.Success(localUser)
                 }
                 is Result.Error -> {
@@ -129,6 +144,20 @@ class ApiUserRepository(private val context: Context) {
                     val localUser = userDto.toUser()
                     userDao.insertUser(localUser)
                     
+                    // Register FCM token for this user
+                    try {
+                        val fcmToken = FirebaseMessaging.getInstance().token.await()
+                        networkRepo.registerFcmToken(fcmToken)
+                    } catch (e: Exception) {
+                        android.util.Log.w("ApiUserRepository", "⚠️ Failed to register FCM token on login: ${'$'}{e.message}")
+                    }
+                    
+                    // Send login notification via backend/FCM
+                    networkRepo.sendNotification(
+                        title = "Login successful",
+                        body = "Welcome back, ${localUser.displayName}!"
+                    )
+
                     Result.Success(localUser)
                 }
                 is Result.Error -> apiResult
@@ -282,13 +311,11 @@ class ApiUserRepository(private val context: Context) {
             
             val user: User
             if (userExists) {
-                // Existing user - fetch from API
                 when (val apiResult = networkRepo.getUserProfile(userId)) {
                     is Result.Success -> user = apiResult.data.toUser()
                     else -> throw Exception("Failed to fetch user data")
                 }
             } else {
-                // New user - create via API first
                 when (val createResult = networkRepo.registerUser(
                     email = email,
                     displayName = displayName,
@@ -300,7 +327,6 @@ class ApiUserRepository(private val context: Context) {
                         user = createResult.data.toUser()
                     }
                     else -> {
-                        // If API fails, create local user as fallback
                         user = User(
                             userId = userId,
                             email = email,
@@ -313,8 +339,19 @@ class ApiUserRepository(private val context: Context) {
                 }
             }
             
-            // Save to Room
             userDao.insertUser(user)
+
+            try {
+                val fcmToken = FirebaseMessaging.getInstance().token.await()
+                networkRepo.registerFcmToken(fcmToken)
+            } catch (e: Exception) {
+                android.util.Log.w("ApiUserRepository", "⚠️ Failed to register FCM token on Google sign-in: ${e.message}")
+            }
+
+            networkRepo.sendNotification(
+                title = "Login successful",
+                body = "Welcome back, ${user.displayName}!"
+            )
             
             Result.Success(user)
         } catch (e: Exception) {

@@ -260,7 +260,11 @@ class CreateCustomWorkoutFragment : Fragment() {
                     exercises = exerciseDTOs
                 )) {
                     is Result.Success -> {
-                        android.util.Log.d("CreateWorkout", "✅ Custom workout synced to Firebase: ${result.data.id}")
+                        android.util.Log.d("CreateWorkout", "✅ Custom workout synced to Firebase: ${'$'}{result.data.id}")
+                        networkRepository.sendNotification(
+                            title = "Workout created",
+                            body = "Your custom workout \"$workoutName\" has been saved."
+                        )
                     }
                     is Result.Error -> {
                         android.util.Log.w("CreateWorkout", "⚠️ Failed to sync custom workout: ${result.message}")

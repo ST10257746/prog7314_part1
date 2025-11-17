@@ -1,21 +1,20 @@
 package com.example.prog7314_part1.ui.main
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
-import android.widget.Toast
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.NavOptions
 
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.model.AuthState
@@ -27,25 +26,13 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private const val TAG = "MainActivity"
         private const val EXTRA_IS_LOGOUT = "extra_is_logout"
-        private const val KEY_HAS_BIOMETRIC_AUTH = "key_has_biometric_auth"
-        private const val BIOMETRIC_AUTHENTICATORS =
-            BiometricManager.Authenticators.BIOMETRIC_STRONG or
-                    BiometricManager.Authenticators.DEVICE_CREDENTIAL
-
-        private const val PROMPT_TITLE = "Unlock your account"
-        private const val PROMPT_SUBTITLE = "Confirm it's really you"
-        private const val PROMPT_DESCRIPTION = "Use your fingerprint or face to continue"
-        private const val PROMPT_ERROR = "Biometric authentication required to continue"
+        private const val REQUEST_CODE_NOTIFICATIONS = 1001
     }
 
     private var isRecreatingForLogout = false
 
     private lateinit var userRepository: ApiUserRepository
-    private var hasAuthenticatedThisSession = false
-    private var biometricPrompt: BiometricPrompt? = null
-    private var biometricPromptInfo: BiometricPrompt.PromptInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // If this is a logout restart, don't restore navigation state
@@ -64,35 +51,16 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        hasAuthenticatedThisSession =
-            savedState?.getBoolean(KEY_HAS_BIOMETRIC_AUTH, false) ?: false
-
         // Initialize repository
         userRepository = ApiUserRepository(this)
-        setupBiometricPrompt()
 
         // Set up navigation
         setupNavigation()
 
         // Observe authentication state
         observeAuthState()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        enforceBiometricIfNeeded()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (!isChangingConfigurations) {
-            hasAuthenticatedThisSession = false
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(KEY_HAS_BIOMETRIC_AUTH, hasAuthenticatedThisSession)
+        requestNotificationPermissionIfNeeded()
     }
 
     private fun setupNavigation() {
@@ -144,87 +112,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupBiometricPrompt() {
-        val executor = ContextCompat.getMainExecutor(this)
-        biometricPrompt = BiometricPrompt(
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return
+        }
+
+        val hasPermission = ContextCompat.checkSelfPermission(
             this,
-            executor,
-            object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                    hasAuthenticatedThisSession = true
-                }
+            Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
 
-                override fun onAuthenticationFailed() {
-                    Toast.makeText(this@MainActivity, PROMPT_ERROR, Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    hasAuthenticatedThisSession = false
-                    Toast.makeText(this@MainActivity, errString, Toast.LENGTH_SHORT).show()
-                    if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON ||
-                        errorCode == BiometricPrompt.ERROR_USER_CANCELED ||
-                        errorCode == BiometricPrompt.ERROR_LOCKOUT ||
-                        errorCode == BiometricPrompt.ERROR_LOCKOUT_PERMANENT
-                    ) {
-                        handleBiometricRejection()
-                    }
-                }
-            }
-        )
-
-        biometricPromptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(PROMPT_TITLE)
-            .setSubtitle(PROMPT_SUBTITLE)
-            .setDescription(PROMPT_DESCRIPTION)
-            .setAllowedAuthenticators(BIOMETRIC_AUTHENTICATORS)
-            .build()
-    }
-
-    private fun enforceBiometricIfNeeded() {
-        if (!userRepository.isLoggedIn()) {
-            hasAuthenticatedThisSession = false
-            return
+        if (!hasPermission) {
+            requestPermissions(
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                REQUEST_CODE_NOTIFICATIONS
+            )
         }
-        if (hasAuthenticatedThisSession) {
-            return
-        }
-
-        val prompt = biometricPrompt ?: return
-        val promptInfo = biometricPromptInfo ?: return
-        val biometricManager = BiometricManager.from(this)
-        val capability = biometricManager.canAuthenticate(BIOMETRIC_AUTHENTICATORS)
-
-        when (capability) {
-            BiometricManager.BIOMETRIC_SUCCESS -> prompt.authenticate(promptInfo)
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                kotlin.runCatching {
-                    val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                        putExtra(
-                            Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                            BIOMETRIC_AUTHENTICATORS
-                        )
-                    }
-                    startActivity(enrollIntent)
-                }.onFailure {
-                    Log.e(TAG, "Unable to launch biometric enrollment settings", it)
-                }
-                handleBiometricRejection()
-            }
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE,
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                Log.w(TAG, "Biometric hardware unavailable, skipping biometric gate.")
-                hasAuthenticatedThisSession = true
-            }
-            else -> {
-                Log.w(TAG, "Biometric authentication failed with code=$capability")
-                handleBiometricRejection()
-            }
-        }
-    }
-
-    private fun handleBiometricRejection() {
-        Toast.makeText(this, PROMPT_ERROR, Toast.LENGTH_SHORT).show()
-        moveTaskToBack(true)
     }
 
     var database: FirebaseDatabase = FirebaseDatabase.getInstance()

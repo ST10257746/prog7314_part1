@@ -109,6 +109,22 @@ data class CreateNutritionRequest(
     val timestamp: Long
 )
 
+data class FcmTokenRequest(
+    @SerializedName("token")
+    val token: String
+)
+
+data class SendNotificationRequest(
+    @SerializedName("title")
+    val title: String? = null,
+
+    @SerializedName("body")
+    val body: String? = null,
+
+    @SerializedName("data")
+    val data: Map<String, String>? = null
+)
+
 /**
  * User API responses
  */
