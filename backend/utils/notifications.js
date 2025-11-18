@@ -43,17 +43,30 @@ async function sendNotification(userId, title, body, data = {}) {
     if (response.failureCount > 0) {
       console.warn(`⚠️ Failed to send to ${response.failureCount} device(s)`);
       
-      // Remove invalid tokens
+      // Log detailed error information
+      response.responses.forEach((resp, idx) => {
+        if (!resp.success) {
+          const errorCode = resp.error?.code;
+          const errorMessage = resp.error?.message;
+          console.log(`❌ Token ${idx} failed: ${errorCode} - ${errorMessage}`);
+          console.log(`   Token: ${tokens[idx].substring(0, 30)}...`);
+        }
+      });
+      
+      // Remove only permanently invalid tokens (not transient errors)
       const invalidTokens = [];
       response.responses.forEach((resp, idx) => {
         if (!resp.success) {
           const errorCode = resp.error?.code;
-          // Remove tokens that are invalid, unregistered, or expired
+          // Only remove tokens that are permanently invalid
+          // Don't remove for "not-registered" as it might be a timing issue
           if (errorCode === 'messaging/invalid-registration-token' ||
-              errorCode === 'messaging/registration-token-not-registered' ||
               errorCode === 'messaging/invalid-argument') {
             invalidTokens.push(tokens[idx]);
-            console.log(`Removing invalid token: ${tokens[idx].substring(0, 20)}... (${errorCode})`);
+            console.log(`🗑️ Marking token for removal: ${tokens[idx].substring(0, 20)}... (${errorCode})`);
+          } else if (errorCode === 'messaging/registration-token-not-registered') {
+            // Log but don't remove - might be transient or emulator token
+            console.log(`⚠️ Token not registered (might be emulator/test): ${tokens[idx].substring(0, 20)}...`);
           }
         }
       });
@@ -64,7 +77,7 @@ async function sendNotification(userId, title, body, data = {}) {
         await userRef.update({
           fcmTokens: admin.firestore.FieldValue.arrayRemove(...invalidTokens)
         });
-        console.log(`🗑️ Removed ${invalidTokens.length} invalid FCM token(s) for user ${userId}`);
+        console.log(`🗑️ Removed ${invalidTokens.length} permanently invalid FCM token(s) for user ${userId}`);
       }
     }
     

@@ -11,6 +11,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.repository.NetworkRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.CoroutineScope
@@ -24,14 +25,29 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         android.util.Log.d("FCM", "🔄 New FCM token received: $token")
-        scope.launch {
-            try {
-                val repository = NetworkRepository(applicationContext)
-                repository.registerFcmToken(token)
-                android.util.Log.d("FCM", "✅ Token registered with backend")
-            } catch (e: Exception) {
-                android.util.Log.e("FCM", "❌ Failed to register token: ${e.message}")
+        
+        // Only register token if user is logged in
+        // Otherwise, token will be registered during login/registration
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            scope.launch {
+                try {
+                    val repository = NetworkRepository(applicationContext)
+                    when (val result = repository.registerFcmToken(token)) {
+                        is com.example.prog7314_part1.data.model.Result.Success -> {
+                            android.util.Log.d("FCM", "✅ Token registered with backend")
+                        }
+                        is com.example.prog7314_part1.data.model.Result.Error -> {
+                            android.util.Log.w("FCM", "⚠️ Failed to register token: ${result.message}")
+                        }
+                        else -> {}
+                    }
+                } catch (e: Exception) {
+                    android.util.Log.e("FCM", "❌ Failed to register token: ${e.message}")
+                }
             }
+        } else {
+            android.util.Log.d("FCM", "⏸️ User not logged in, token will be registered on login")
         }
     }
 
