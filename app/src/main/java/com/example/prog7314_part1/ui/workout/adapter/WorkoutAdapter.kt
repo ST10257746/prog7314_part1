@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.local.entity.Workout
 import com.example.prog7314_part1.data.local.entity.WorkoutCategory
+import com.example.prog7314_part1.data.local.entity.WorkoutDifficulty
 import com.example.prog7314_part1.databinding.ItemWorkoutBinding
+import com.example.prog7314_part1.utils.WorkoutLocalizationHelper
 
 class WorkoutAdapter(
     private val onWorkoutClick: (Workout) -> Unit,
@@ -41,12 +43,18 @@ class WorkoutAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(workout: Workout, selectedCategory: WorkoutCategory?) {
+            val context = binding.root.context
             binding.apply {
-                tvWorkoutName.text = workout.name
-                tvWorkoutMeta.text = buildMetaString(workout, selectedCategory)
-                tvRating.text = "⭐ ${String.format("%.1f", workout.rating)}"
-                tvCalories.text = "🔥 ${workout.estimatedCalories} kcal"
-                tvExerciseCount.text = "${getCategoryEmoji(workout.category)} ${workout.exerciseCount} exercises"
+                // Use localized workout name, fallback to original if custom workout
+                tvWorkoutName.text = if (workout.isCustom == true) {
+                    workout.name // Custom workouts keep their original name
+                } else {
+                    WorkoutLocalizationHelper.getLocalizedWorkoutName(context, workout)
+                }
+                tvWorkoutMeta.text = buildMetaString(context, workout, selectedCategory)
+                tvRating.text = context.getString(R.string.rating_format, workout.rating)
+                tvCalories.text = context.getString(R.string.calories_format, workout.estimatedCalories)
+                tvExerciseCount.text = "${getCategoryEmoji(workout.category)} ${workout.exerciseCount} ${context.getString(R.string.exercises)}"
 
                 // Show CUSTOM badge if user-created
                 if (workout.isCustom == true) {
@@ -60,24 +68,32 @@ class WorkoutAdapter(
             }
         }
 
-        private fun buildMetaString(workout: Workout, selectedCategory: WorkoutCategory?): String {
-            val duration = "${workout.durationMinutes} min"
-            val difficulty = workout.difficulty.name.lowercase().replaceFirstChar { it.uppercase() }
-            val categoryDisplay = if (workout.category == selectedCategory) "★ ${formatCategoryName(workout.category)}"
-            else formatCategoryName(workout.category)
+        private fun buildMetaString(context: android.content.Context, workout: Workout, selectedCategory: WorkoutCategory?): String {
+            val duration = context.getString(R.string.min_format, workout.durationMinutes)
+            val difficulty = getLocalizedDifficulty(context, workout.difficulty)
+            val categoryDisplay = if (workout.category == selectedCategory) "★ ${formatCategoryName(context, workout.category)}"
+            else formatCategoryName(context, workout.category)
             return "$duration • $difficulty • $categoryDisplay"
         }
+        
+        private fun getLocalizedDifficulty(context: android.content.Context, difficulty: WorkoutDifficulty): String {
+            return when (difficulty) {
+                WorkoutDifficulty.BEGINNER -> context.getString(R.string.difficulty_beginner)
+                WorkoutDifficulty.INTERMEDIATE -> context.getString(R.string.difficulty_intermediate)
+                WorkoutDifficulty.ADVANCED -> context.getString(R.string.difficulty_advanced)
+            }
+        }
 
-        private fun formatCategoryName(category: WorkoutCategory) = when (category) {
-            WorkoutCategory.HIIT -> "HIIT"
-            WorkoutCategory.FULL_BODY -> "Full Body"
-            WorkoutCategory.UPPER_BODY -> "Upper Body"
-            WorkoutCategory.LOWER_BODY -> "Lower Body"
-            WorkoutCategory.CARDIO -> "Cardio"
-            WorkoutCategory.STRENGTH -> "Strength"
-            WorkoutCategory.YOGA -> "Yoga"
-            WorkoutCategory.FLEXIBILITY -> "Flexibility"
-            WorkoutCategory.CORE -> "Core"
+        private fun formatCategoryName(context: android.content.Context, category: WorkoutCategory) = when (category) {
+            WorkoutCategory.HIIT -> context.getString(R.string.hiit)
+            WorkoutCategory.FULL_BODY -> context.getString(R.string.full_body)
+            WorkoutCategory.UPPER_BODY -> context.getString(R.string.upper_body)
+            WorkoutCategory.LOWER_BODY -> context.getString(R.string.lower_body)
+            WorkoutCategory.CARDIO -> context.getString(R.string.cardio)
+            WorkoutCategory.STRENGTH -> context.getString(R.string.strength)
+            WorkoutCategory.YOGA -> context.getString(R.string.yoga)
+            WorkoutCategory.FLEXIBILITY -> context.getString(R.string.flexibility)
+            WorkoutCategory.CORE -> context.getString(R.string.core)
         }
 
         private fun getCategoryEmoji(category: WorkoutCategory) = when (category) {

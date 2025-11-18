@@ -29,7 +29,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Your Progress"
+                    android:text="@string/your_progress"
                     android:textColor="@color/Text"
                     android:textStyle="bold"
                     android:textSize="26sp" />
@@ -37,7 +37,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Track your fitness journey"
+                    android:text="@string/track_fitness_journey"
                     android:textColor="@color/Text"
                     android:textSize="18sp"
                     android:alpha="0.8"
@@ -59,7 +59,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This Week Overview"
+            android:text="@string/this_week_overview"
             android:textColor="@color/Text"
             android:textStyle="bold"
             android:textSize="22sp"
@@ -97,7 +97,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Steps"
+                            android:text="@string/steps"
                             android:textColor="@color/Text"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -172,7 +172,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Workouts"
+                            android:text="@string/workouts"
                             android:textColor="@color/Text"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -247,7 +247,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Calories Burned"
+                            android:text="@string/calories_burned"
                             android:textColor="@color/Text"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -303,7 +303,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Historical Trends"
+            android:text="@string/historical_trends"
             android:textColor="@color/Text"
             android:textStyle="bold"
             android:textSize="22sp"
@@ -337,7 +337,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Avg Workout"
+                    android:text="@string/avg_workout"
                     android:textColor="@color/Text"
                     android:textSize="12sp"
                     android:alpha="0.7"
@@ -364,7 +364,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Distance"
+                    android:text="@string/total_distance"
                     android:textColor="@color/Text"
                     android:textSize="12sp"
                     android:alpha="0.7"
@@ -391,7 +391,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="This Week"
+                    android:text="@string/this_week"
                     android:textColor="@color/Text"
                     android:textSize="12sp"
                     android:alpha="0.7"
@@ -694,68 +694,68 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Mon"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:gravity="center" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/monday"
+                        android:textColor="@color/Text"
+                        android:textSize="12sp"
+                        android:gravity="center" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Tue"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:gravity="center" />
+                    android:text="@string/tuesday"
+                        android:textColor="@color/Text"
+                        android:textSize="12sp"
+                        android:gravity="center" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Wed"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:gravity="center" />
+                    android:text="@string/wednesday"
+                        android:textColor="@color/Text"
+                        android:textSize="12sp"
+                        android:gravity="center" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Thu"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:gravity="center" />
+                    android:text="@string/thursday"
+                        android:textColor="@color/Text"
+                        android:textSize="12sp"
+                        android:gravity="center" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Fri"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:gravity="center" />
+                    android:text="@string/friday"
+                        android:textColor="@color/Text"
+                        android:textSize="12sp"
+                        android:gravity="center" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sat"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:gravity="center" />
+                    android:text="@string/saturday"
+                        android:textColor="@color/Text"
+                        android:textSize="12sp"
+                        android:gravity="center" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sun"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:gravity="center" />
+                    android:text="@string/sunday"
+                        android:textColor="@color/Text"
+                        android:textSize="12sp"
+                        android:gravity="center" />
 
             </LinearLayout>
 
@@ -1065,7 +1065,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recent Activities"
+            android:text="@string/recent_activities"
             android:textColor="@color/Text"
             android:textStyle="bold"
             android:textSize="22sp"
@@ -1083,7 +1083,7 @@
             android:id="@+id/emptyRecentActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No recent activities yet. Start a workout to see your progress!"
+            android:text="@string/no_recent_activities"
             android:textColor="@color/Text"
             android:textSize="16sp"
             android:alpha="0.7"

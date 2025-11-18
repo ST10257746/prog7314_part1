@@ -21,6 +21,8 @@ import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModel
 import com.example.prog7314_part1.ui.viewmodel.WorkoutViewModelFactory
 import com.example.prog7314_part1.ui.workout.adapter.WorkoutAdapter
 import com.example.prog7314_part1.utils.UserSession
+import com.example.prog7314_part1.utils.WorkoutLocalizationHelper
+import com.example.prog7314_part1.R
 import kotlinx.coroutines.launch
 
 /**
@@ -73,7 +75,7 @@ class WorkoutListFragment : Fragment() {
         val category = getCategoryFromString(categoryName)
 
         binding.apply {
-            tvCategoryTitle.text = if (categoryName == "All") "All Workouts" else "$categoryName Workouts"
+            tvCategoryTitle.text = if (categoryName == "All") getString(R.string.all_workouts) else getString(R.string.workouts_format, categoryName)
             tvCategoryDescription.text = getCategoryDescription(category)
         }
     }
@@ -137,9 +139,9 @@ class WorkoutListFragment : Fragment() {
 
     private fun updateWorkoutCount(count: Int) {
         val countText = when (count) {
-            0 -> "No workouts found"
-            1 -> "1 workout found"
-            else -> "$count workouts found"
+            0 -> getString(R.string.no_workouts_found)
+            1 -> getString(R.string.workout_found_singular)
+            else -> getString(R.string.workouts_found_format, count)
         }
         binding.tvWorkoutCount.text = countText
     }
@@ -172,18 +174,7 @@ class WorkoutListFragment : Fragment() {
     }
 
     private fun getCategoryDescription(category: WorkoutCategory?): String {
-        return when (category) {
-            WorkoutCategory.CARDIO -> "Burn calories and improve endurance"
-            WorkoutCategory.STRENGTH -> "Build muscle and power"
-            WorkoutCategory.YOGA -> "Improve flexibility and mindfulness"
-            WorkoutCategory.HIIT -> "High-intensity interval training"
-            WorkoutCategory.FLEXIBILITY -> "Improve mobility and range of motion"
-            WorkoutCategory.FULL_BODY -> "Complete body conditioning"
-            WorkoutCategory.UPPER_BODY -> "Focus on arms, chest, and back"
-            WorkoutCategory.LOWER_BODY -> "Strengthen legs and glutes"
-            WorkoutCategory.CORE -> "Build core strength and stability"
-            null -> "All available workouts"
-        }
+        return WorkoutLocalizationHelper.getLocalizedCategoryDescription(requireContext(), category)
     }
 
     private fun formatCategoryName(category: WorkoutCategory): String {

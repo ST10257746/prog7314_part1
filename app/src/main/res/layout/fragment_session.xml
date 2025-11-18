@@ -30,7 +30,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Workout Session"
+                    android:text="@string/workout_session"
                     android:textColor="@color/Text"
                     android:textStyle="bold"
                     android:textSize="26sp" />
@@ -38,7 +38,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Track your performance in real-time"
+                    android:text="@string/track_performance_realtime"
                     android:textColor="@color/Text"
                     android:textSize="18sp"
                     android:alpha="0.8"
@@ -60,7 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose Workout Type"
+            android:text="@string/choose_workout_type"
             android:textColor="@color/Text"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -105,7 +105,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Running"
+                        android:text="@string/running"
                         android:textColor="@color/Text"
                         android:textStyle="bold"
                         android:textSize="16sp" />
@@ -113,7 +113,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Outdoor"
+                        android:text="@string/outdoor"
                         android:textColor="@color/Text"
                         android:textSize="14sp"
                         android:alpha="0.7" />
@@ -146,7 +146,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cycling"
+                        android:text="@string/cycling"
                         android:textColor="@color/Text"
                         android:textStyle="bold"
                         android:textSize="16sp" />
@@ -154,7 +154,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Outdoor"
+                        android:text="@string/outdoor"
                         android:textColor="@color/Text"
                         android:textSize="14sp"
                         android:alpha="0.7" />
@@ -186,7 +186,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Walking"
+                        android:text="@string/walking"
                         android:textColor="@color/Text"
                         android:textStyle="bold"
                         android:textSize="16sp" />
@@ -194,7 +194,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Outdoor"
+                        android:text="@string/outdoor"
                         android:textColor="@color/Text"
                         android:textSize="14sp"
                         android:alpha="0.7" />
@@ -234,7 +234,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Strength"
+                        android:text="@string/strength"
                         android:textColor="@color/Text"
                         android:textStyle="bold"
                         android:textSize="16sp" />
@@ -242,7 +242,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gym"
+                        android:text="@string/gym"
                         android:textColor="@color/Text"
                         android:textSize="14sp"
                         android:alpha="0.7" />
@@ -275,7 +275,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Yoga"
+                        android:text="@string/yoga"
                         android:textColor="@color/Text"
                         android:textStyle="bold"
                         android:textSize="16sp" />
@@ -283,7 +283,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Flexibility"
+                        android:text="@string/flexibility"
                         android:textColor="@color/Text"
                         android:textSize="14sp"
                         android:alpha="0.7" />
@@ -315,7 +315,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="HIIT"
+                        android:text="@string/hiit"
                         android:textColor="@color/Text"
                         android:textStyle="bold"
                         android:textSize="16sp" />
@@ -323,7 +323,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cardio"
+                        android:text="@string/cardio"
                         android:textColor="@color/Text"
                         android:textSize="14sp"
                         android:alpha="0.7" />
@@ -347,13 +347,13 @@
                 android:id="@+id/selectedWorkoutName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selected Workout" />
+                android:text="@string/selected_workout" />
 
             <TextView
                 android:id="@+id/selectedWorkoutDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Workout Details" />
+                android:text="@string/workout_details" />
         </LinearLayout>
 
         <!-- RecyclerView for exercises -->
@@ -369,7 +369,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Watch Metrics"
+            android:text="@string/watch_metrics"
             android:textColor="@color/Text"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -397,7 +397,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Heart Rate"
+                    android:text="@string/heart_rate"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
                     android:alpha="0.8" />
@@ -415,7 +415,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="bpm"
+                    android:text="@string/bpm"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
                     android:alpha="0.7" />
@@ -437,7 +437,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Calories"
+                    android:text="@string/calories_label"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
                     android:alpha="0.8" />
@@ -476,7 +476,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Steps"
+                    android:text="@string/steps"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
                     android:alpha="0.8" />
@@ -524,7 +524,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Distance"
+                    android:text="@string/distance"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
                     android:alpha="0.8" />
@@ -563,7 +563,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Active Time"
+                    android:text="@string/active_time"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
                     android:alpha="0.8" />
@@ -619,7 +619,7 @@
                     android:id="@+id/watchStatusText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Watch Disconnected"
+                    android:text="@string/watch_disconnected"
                     android:textColor="@color/Text"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -628,7 +628,7 @@
                     android:id="@+id/watchStatusSubtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Connect your smartwatch to see live metrics"
+                    android:text="@string/connect_smartwatch"
                     android:textColor="@color/Text"
                     android:textSize="14sp"
                     android:alpha="0.8" />
@@ -639,7 +639,7 @@
                 android:id="@+id/btnConnectWatch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Connect"
+                android:text="@string/connect"
                 android:textSize="14sp"
                 android:backgroundTint="@color/Primary"
                 android:textColor="@android:color/white"
@@ -670,7 +670,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Workout Duration"
+                android:text="@string/workout_duration"
                 android:textColor="@color/Text"
                 android:textSize="16sp"
                 android:alpha="0.8" />
@@ -689,7 +689,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="▶ START"
+                android:text="@string/start_button"
                 android:textSize="18sp"
                 android:backgroundTint="@color/Primary"
                 android:textColor="@android:color/white"
@@ -702,7 +702,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="⏸ PAUSE"
+                android:text="@string/pause_button"
                 android:textSize="18sp"
                 android:backgroundTint="@color/Secondary"
                 android:textColor="@color/Text"
@@ -716,7 +716,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="⏹ STOP"
+                android:text="@string/stop_button"
                 android:textSize="18sp"
                 android:backgroundTint="@color/Accent"
                 android:textColor="@android:color/white"

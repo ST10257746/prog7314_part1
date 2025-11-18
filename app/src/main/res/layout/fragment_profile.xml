@@ -16,7 +16,7 @@
             android:id="@+id/profileTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Profile"
+            android:text="@string/profile"
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -104,13 +104,13 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Personal Info"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/personal_info"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black" />
 
                 <!-- Age -->
                 <LinearLayout
@@ -123,7 +123,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Age:"
+                        android:text="@string/age"
                         android:textSize="16sp" />
 
                     <TextView
@@ -146,7 +146,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Weight:"
+                        android:text="@string/weight"
                         android:textSize="16sp" />
 
                     <TextView
@@ -171,7 +171,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Height:"
+                        android:text="@string/height"
                         android:textSize="16sp" />
 
                     <TextView
@@ -206,7 +206,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Your Goals"
+                    android:text="@string/your_goals"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black" />
@@ -223,7 +223,7 @@
                     android:id="@+id/editGoalsButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Edit Goals"
+                    android:text="@string/edit_goals"
                     android:backgroundTint="@android:color/holo_blue_light"
                     android:layout_marginTop="12dp" />
             </LinearLayout>
@@ -234,7 +234,7 @@
             android:id="@+id/settingsTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Settings"
+            android:text="@string/settings"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -243,15 +243,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="24dp" />
 
+        <!-- Settings Button -->
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/change_language"
+            android:textSize="16sp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            app:layout_constraintTop_toBottomOf="@id/settingsTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp" />
+
         <!-- Edit Profile Button -->
         <Button
             android:id="@+id/editProfileButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
+            android:text="@string/edit_profile"
             android:textSize="16sp"
             android:backgroundTint="@android:color/holo_blue_dark"
-            app:layout_constraintTop_toBottomOf="@id/settingsTitle"
+            app:layout_constraintTop_toBottomOf="@id/settingsButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp" />
@@ -261,7 +274,7 @@
             android:id="@+id/logoutButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Logout"
+            android:text="@string/logout"
             android:textSize="16sp"
             android:backgroundTint="@android:color/holo_red_dark"
             app:layout_constraintTop_toBottomOf="@id/editProfileButton"

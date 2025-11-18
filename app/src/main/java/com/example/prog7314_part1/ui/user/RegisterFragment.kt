@@ -98,7 +98,7 @@ class RegisterFragment : Fragment() {
                 googleRegisterButton.visibility = View.GONE
                 
                 // Change button text
-                registerButton.text = "Complete Profile"
+                registerButton.text = getString(R.string.complete_profile)
                 
                 // Change title/label if needed
                 // You could add a TextView above the form that says "Complete Your Profile"
@@ -302,7 +302,7 @@ class RegisterFragment : Fragment() {
             // Observe loading state
             viewModel.isLoading.collect { isLoading ->
                 binding.registerButton.isEnabled = !isLoading
-                binding.registerButton.text = if (isLoading) "Creating Account..." else "Register"
+                binding.registerButton.text = if (isLoading) getString(R.string.creating_account) else getString(R.string.register)
                 
                 // Disable inputs during loading
                 binding.nameInput.isEnabled = !isLoading

@@ -4,22 +4,22 @@
 
     <item
         android:id="@+id/nav_home"
-        android:title="Home"
+        android:title="@string/nav_home"
         android:icon="@drawable/icon_home" />
     <item
         android:id="@+id/nav_progress"
-        android:title="Progress"
+        android:title="@string/nav_progress"
         android:icon="@drawable/icon_progress" />
     <item
         android:id="@+id/nav_session"
-        android:title="Session"
+        android:title="@string/nav_session"
         android:icon="@drawable/icon_session" />
     <item
         android:id="@+id/nav_workout"
-        android:title="Workout"
+        android:title="@string/nav_workout"
         android:icon="@drawable/icon_workout" />
     <item
         android:id="@+id/nav_nutrition"
-        android:title="Nutrition"
+        android:title="@string/nav_nutrition"
         android:icon="@drawable/icon_nutrition" />
 </menu>

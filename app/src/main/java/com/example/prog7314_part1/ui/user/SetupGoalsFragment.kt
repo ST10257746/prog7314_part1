@@ -149,7 +149,7 @@ class SetupGoalsFragment : Fragment() {
 
         // Show loading
         binding.continueButton.isEnabled = false
-        binding.continueButton.text = "Saving..."
+        binding.continueButton.text = getString(R.string.saving)
 
         // Save profile (height + goals)
         viewLifecycleOwner.lifecycleScope.launch {
@@ -185,7 +185,7 @@ class SetupGoalsFragment : Fragment() {
                     
                     requireContext().showToast("Error: ${result.message}")
                     binding.continueButton.isEnabled = true
-                    binding.continueButton.text = "Continue"
+                    binding.continueButton.text = getString(R.string.continue_button)
                 }
                 else -> {}
             }

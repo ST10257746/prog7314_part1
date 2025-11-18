@@ -3,6 +3,7 @@ package com.example.prog7314_part1.ui.workout.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.local.entity.Exercise
 import com.example.prog7314_part1.databinding.ItemExerciseBinding
 
@@ -31,11 +32,12 @@ class ExerciseAdapter : RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(exercise: Exercise) {
+            val context = binding.root.context
             binding.exerciseName.text = exercise.name
             binding.exerciseDetails.text = when {
-                exercise.reps != null -> "${exercise.sets ?: 1} sets × ${exercise.reps} reps"
-                exercise.durationSeconds != null -> "${exercise.durationSeconds} sec"
-                else -> "No details"
+                exercise.reps != null -> context.getString(R.string.sets_x_reps_format, exercise.sets ?: 1, exercise.reps)
+                exercise.durationSeconds != null -> context.getString(R.string.sec_format, exercise.durationSeconds)
+                else -> context.getString(R.string.no_details)
             }
 
             binding.exerciseCheckbox.setOnCheckedChangeListener(null)

@@ -1,5 +1,360 @@
 <resources>
-    <string name="app_name">PROG7314_Part1</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">FitTrackr</string>
+    
+    <!-- Common -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <!-- Settings -->
+    <string name="edit_profile">Edit Profile</string>
+    <string name="set_fitness_goals">Set Fitness Goals</string>
+    <string name="notification_preferences">Notification Preferences</string>
+    <string name="change_language">Change Language</string>
+    <string name="log_out">Log Out</string>
+    <string name="profile_picture">Profile Picture</string>
+    
+    <!-- Home -->
+    <string name="good_morning">Good morning!</string>
+    <string name="steps_today">steps today</string>
+    <string name="calories">calories</string>
+    <string name="active_min">active min</string>
+    <string name="distance_km">distance km</string>
+    <string name="steps">Steps</string>
+    
+    <!-- Days of week -->
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
+    <string name="sunday">Sun</string>
+    
+    <!-- Goals -->
+    <string name="drink_water">Drink 2L of water</string>
+    <string name="run_5km">Run 5km</string>
+    <string name="meditate_10min">Meditate for 10 minutes</string>
+    <string name="read_20min">Read for 20 minutes</string>
+    
+    <!-- Login -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="dont_have_account">Don\'t have an account? Sign Up</string>
+    
+    <!-- Nutrition -->
+    <string name="nutrition">Nutrition</string>
+    <string name="track_daily_intake">Track your daily intake</string>
+    <string name="todays_progress">Today\'s Progress</string>
+    <string name="calories_consumed">Calories Consumed</string>
+    <string name="macronutrients">Macronutrients</string>
+    <string name="protein">Protein</string>
+    <string name="carbs">Carbs</string>
+    <string name="fats">Fats</string>
+    <string name="of">of</string>
+    <string name="daily_breakdown">Daily Breakdown</string>
+    <string name="kcal_total">kcal total</string>
+    <string name="carbohydrates">Carbohydrates</string>
+    <string name="todays_meals">Today\'s Meals</string>
+    <string name="no_meals_logged">No meals logged yet</string>
+    <string name="water_intake">Water Intake</string>
+    <string name="glasses">glasses</string>
+    <string name="remove">Remove</string>
+    <string name="add_glass">+ Add Glass</string>
+    <string name="log_new_meal">Log New Meal</string>
+    <string name="view_nutrition_diary">View Nutrition Diary</string>
+    
+    <!-- Workout -->
+    <string name="workout_name">Workout Name</string>
+    <string name="custom">CUSTOM</string>
+    <string name="workouts_found">workouts found</string>
+    <string name="exercise_details">Exercise Details</string>
+    <string name="muscle_group">Muscle Group</string>
+    
+    <!-- Workout Goals -->
+    <string name="weight_goal">Weight Goal (kg)</string>
+    <string name="workout_frequency">Workout Frequency (times per week)</string>
+    <string name="steps_goal">Steps Goal (per day)</string>
+    <string name="calories_goal">Calories Goal (kcal per day)</string>
+    <string name="protein_intake_goal">Protein Intake Goal (g per day)</string>
+    <string name="personal_challenges">Personal Challenges / Milestones</string>
+    
+    <!-- Recent Activity -->
+    <string name="today">Today</string>
+    
+    <!-- Nutrition Entry -->
+    <string name="breakfast">BREAKFAST</string>
+    <string name="food_name">Food Name</string>
+    <string name="description">Description</string>
+    <string name="delete">DELETE</string>
+    
+    <!-- Language Selection -->
+    <string name="select_language">Select Language</string>
+    <string name="english">English</string>
+    <string name="zulu">isiZulu</string>
+    <string name="afrikaans">Afrikaans</string>
+    <string name="language_changed">Language changed successfully</string>
+    <string name="restart_required">Please restart the app for changes to take effect</string>
+    
+    <!-- Additional Home Page Strings -->
+    <string name="calories_label">Calories</string>
+    <string name="weekly_target">Weekly Target</string>
+    <string name="this_weeks_goals">This Week\'s Goals</string>
+    <string name="goals_todo_list">Goals To-Do List</string>
+    <string name="add_goal">+ Add Goal</string>
+    <string name="weekly_progress">Weekly Progress</string>
+    <string name="daily_step_count_past_7_days">Daily step count for the past 7 days</string>
+    <string name="of_steps">of %1$d steps</string>
+    <string name="steps_format">%1$d of %2$d steps</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_progress">Progress</string>
+    <string name="nav_session">Session</string>
+    <string name="nav_workout">Workout</string>
+    <string name="nav_nutrition">Nutrition</string>
+    
+    <!-- Profile -->
+    <string name="profile">Profile</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="age">Age:</string>
+    <string name="weight">Weight:</string>
+    <string name="height">Height:</string>
+    <string name="your_goals">Your Goals</string>
+    <string name="edit_goals">Edit Goals</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    
+    <!-- Workout Item -->
+    <string name="workout_name_placeholder">Workout Name</string>
+    <string name="workout_duration_format">%1$d min • %2$s • %3$s</string>
+    <string name="rating_format">⭐ %1$.1f</string>
+    <string name="calories_format">🔥 %1$d kcal</string>
+    <string name="start">Start</string>
+    
+    <!-- Recent Activity -->
+    <string name="today_format">Today, %1$s</string>
+    <string name="activity_format">%1$d cal • %2$d steps</string>
+    
+    <!-- Progress Page -->
+    <string name="your_progress">Your Progress</string>
+    <string name="track_fitness_journey">Track your fitness journey</string>
+    <string name="this_week_overview">This Week Overview</string>
+    <string name="workouts">Workouts</string>
+    <string name="completed">completed</string>
+    <string name="target">Target:</string>
+    <string name="calories_burned">Calories Burned</string>
+    <string name="historical_trends">Historical Trends</string>
+    <string name="avg_workout">Avg Workout</string>
+    <string name="total_distance">Total Distance</string>
+    <string name="this_week">This Week</string>
+    <string name="weekly_step_count">Weekly Step Count</string>
+    <string name="daily_step_count_target">Daily step count (target: 10k)</string>
+    <string name="avg">Avg:</string>
+    <string name="workout_duration_trends">Workout Duration Trends</string>
+    <string name="weekly_workout_minutes">Weekly Workout Minutes</string>
+    <string name="total">Total:</string>
+    <string name="recent_activities">Recent Activities</string>
+    <string name="no_recent_activities">No recent activities yet. Start a workout to see your progress!</string>
+    <string name="this_week_lowercase">this week</string>
+    <string name="kcal_this_week">kcal this week</string>
+    <string name="workouts_lowercase">workouts</string>
+    <string name="steps_lowercase">steps</string>
+    <string name="steps_this_week_format">%1$s this week</string>
+    <string name="target_steps_format">Target: %1$s steps</string>
+    <string name="completed_format">%1$d completed</string>
+    <string name="target_workouts_format">Target: %1$d workouts</string>
+    <string name="kcal_this_week_format">%1$s kcal this week</string>
+    <string name="target_kcal_format">Target: %1$s kcal</string>
+    <string name="workouts_format">%1$d workouts</string>
+    
+    <!-- Workout Library -->
+    <string name="workout_library">Workout Library</string>
+    <string name="discover_perfect_workout">Discover your perfect workout</string>
+    <string name="search_workouts">Search workouts…</string>
+    <string name="categories">Categories</string>
+    <string name="all">All</string>
+    <string name="cardio">Cardio</string>
+    <string name="strength">Strength</string>
+    <string name="yoga">Yoga</string>
+    <string name="hiit">HIIT</string>
+    <string name="flexibility">Flexibility</string>
+    <string name="browse_all_workouts">Browse All Workouts</string>
+    <string name="create_custom_workout">+ Create Custom Workout</string>
+    <string name="no_custom_workouts">No custom workouts yet</string>
+    
+    <!-- Workout List -->
+    <string name="category_workouts">Category Workouts</string>
+    <string name="workouts_for_category">Workouts for this category</string>
+    <string name="all_workouts">All Workouts</string>
+    <string name="workouts_found_format">%1$d workouts found</string>
+    <string name="workout_found_singular">1 workout found</string>
+    <string name="no_workouts_found">No workouts found</string>
+    <string name="try_adjusting_search">Try adjusting your search or check back later</string>
+    
+    <!-- Session -->
+    <string name="workout_session">Workout Session</string>
+    <string name="track_performance_realtime">Track your performance in real-time</string>
+    <string name="choose_workout_type">Choose Workout Type</string>
+    <string name="running">Running</string>
+    <string name="cycling">Cycling</string>
+    <string name="walking">Walking</string>
+    <string name="outdoor">Outdoor</string>
+    <string name="gym">Gym</string>
+    <string name="selected_workout">Selected Workout</string>
+    <string name="workout_details">Workout Details</string>
+    <string name="watch_metrics">Watch Metrics</string>
+    <string name="heart_rate">Heart Rate</string>
+    <string name="bpm">bpm</string>
+    <string name="distance">Distance</string>
+    <string name="active_time">Active Time</string>
+    <string name="min">min</string>
+    <string name="watch_disconnected">Watch Disconnected</string>
+    <string name="connect_smartwatch">Connect your smartwatch to see live metrics</string>
+    <string name="connect">Connect</string>
+    <string name="workout_duration">Workout Duration</string>
+    <string name="start_button">▶ START</string>
+    <string name="pause_button">⏸ PAUSE</string>
+    <string name="stop_button">⏹ STOP</string>
+    
+    <!-- Workout Goals -->
+    <string name="save_goals">Save Goals</string>
+    
+    <!-- Setup Goals -->
+    <string name="complete_your_profile">Complete Your Profile</string>
+    <string name="add_height_set_goals">Add your height and set your fitness goals</string>
+    <string name="height_cm_optional">Height (cm) - Optional</string>
+    <string name="your_fitness_goals">Your Fitness Goals</string>
+    <string name="daily_step_goal">Daily Step Goal</string>
+    <string name="daily_calorie_goal">Daily Calorie Goal</string>
+    <string name="daily_water_goal_glasses">Daily Water Goal (glasses)</string>
+    <string name="weekly_workout_goal_sessions">Weekly Workout Goal (sessions)</string>
+    <string name="daily_nutrition_goals">Daily Nutrition Goals</string>
+    <string name="protein_grams">Protein (grams)</string>
+    <string name="carbohydrates_grams">Carbohydrates (grams)</string>
+    <string name="fats_grams">Fats (grams)</string>
+    <string name="continue_button">Continue</string>
+    
+    <!-- Adapter Strings -->
+    <string name="exercises">exercises</string>
+    <string name="sets_x_reps_format">%1$d sets × %2$d reps</string>
+    <string name="sec_format">%1$d sec</string>
+    <string name="no_details">No details</string>
+    <string name="selected_colon">Selected: %1$s</string>
+    <string name="resume_button">▶ RESUME</string>
+    <string name="active_button">▶ ACTIVE</string>
+    
+    <!-- Profile Strings -->
+    <string name="years">years</string>
+    <string name="kg">kg</string>
+    <string name="cm">cm</string>
+    <string name="no_goals_set">No goals set yet</string>
+    <string name="not_logged_in">Not logged in</string>
+    <string name="logging_out">Logging out…</string>
+    
+    <!-- Setup Goals Strings -->
+    <string name="save_changes">Save Changes</string>
+    <string name="saving">Saving…</string>
+    
+    <!-- Register Strings -->
+    <string name="complete_profile">Complete Profile</string>
+    <string name="creating_account">Creating Account…</string>
+    <string name="register">Register</string>
+    
+    <!-- Login Strings -->
+    <string name="logging_in">Logging In…</string>
+    
+    <!-- Workout Adapter -->
+    <string name="full_body">Full Body</string>
+    <string name="upper_body">Upper Body</string>
+    <string name="lower_body">Lower Body</string>
+    <string name="core">Core</string>
+    <string name="exercises_format">%1$d exercises</string>
+    <string name="min_format">%1$d min</string>
+    <string name="years_format">%1$d years</string>
+    <string name="kg_format">%1$.0f kg</string>
+    <string name="cm_format">%1$.0f cm</string>
+    
+    <!-- Session Watch Status -->
+    <string name="watch_connected">Watch Connected</string>
+    <string name="live_metrics_updating">Live metrics updating</string>
+    <string name="disconnect">Disconnect</string>
+    
+    <!-- Profile Goals Format -->
+    <string name="goals_format">Steps: %1$d | Calories: %2$d\nWater: %3$d glasses | Workouts: %4$d/week\nProtein: %5$dg | Carbs: %6$dg | Fats: %7$dg</string>
+    
+    <!-- Progress Format -->
+    <string name="percentage_format">%1$d%%</string>
+    <string name="min_format_simple">%1$d min</string>
+    
+    <!-- Workout Names -->
+    <string name="workout_cardio_burn">Cardio Burn</string>
+    <string name="workout_fat_burning_cardio">Fat Burning Cardio</string>
+    <string name="workout_beginner_cardio">Beginner Cardio</string>
+    <string name="workout_dance_cardio">Dance Cardio</string>
+    <string name="workout_running_intervals">Running Intervals</string>
+    <string name="workout_strength_builder">Strength Builder</string>
+    <string name="workout_power_lifting">Power Lifting</string>
+    <string name="workout_beginner_strength">Beginner Strength</string>
+    <string name="workout_upper_body_blast">Upper Body Blast</string>
+    <string name="workout_lower_body_power">Lower Body Power</string>
+    <string name="workout_morning_yoga_flow">Morning Yoga Flow</string>
+    <string name="workout_power_yoga">Power Yoga</string>
+    <string name="workout_relaxing_yoga">Relaxing Yoga</string>
+    <string name="workout_hot_yoga_challenge">Hot Yoga Challenge</string>
+    <string name="workout_20min_hiit_blast">20-Min HIIT Blast</string>
+    <string name="workout_hiit_tabata">HIIT Tabata</string>
+    <string name="workout_beginner_hiit">Beginner HIIT</string>
+    <string name="workout_full_body_hiit">Full Body HIIT</string>
+    <string name="workout_flexibility_focus">Flexibility Focus</string>
+    <string name="workout_deep_stretch">Deep Stretch</string>
+    <string name="workout_quick_stretch">Quick Stretch</string>
+    <string name="workout_post_workout_recovery">Post-Workout Recovery</string>
+    <string name="workout_core_crusher">Core Crusher</string>
+    <string name="workout_beginner_core">Beginner Core</string>
+    <string name="workout_advanced_ab_shredder">Advanced Ab Shredder</string>
+    
+    <!-- Workout Descriptions -->
+    <string name="workout_desc_cardio_burn">High-energy cardio session to burn calories fast</string>
+    <string name="workout_desc_fat_burning_cardio">Intense cardio workout for maximum fat burn</string>
+    <string name="workout_desc_beginner_cardio">Easy cardio workout for beginners</string>
+    <string name="workout_desc_dance_cardio">Fun dance moves that get your heart pumping</string>
+    <string name="workout_desc_running_intervals">Interval running for endurance and speed</string>
+    <string name="workout_desc_strength_builder">Build muscle and increase strength</string>
+    <string name="workout_desc_power_lifting">Advanced strength training with heavy weights</string>
+    <string name="workout_desc_beginner_strength">Perfect introduction to strength training</string>
+    <string name="workout_desc_upper_body_blast">Target your arms, chest, and shoulders</string>
+    <string name="workout_desc_lower_body_power">Build strong legs and glutes</string>
+    <string name="workout_desc_morning_yoga_flow">Start your day with mindfulness and flexibility</string>
+    <string name="workout_desc_power_yoga">Dynamic yoga for strength and flexibility</string>
+    <string name="workout_desc_relaxing_yoga">Gentle yoga for stress relief and relaxation</string>
+    <string name="workout_desc_hot_yoga_challenge">Intense yoga practice in heated environment</string>
+    <string name="workout_desc_20min_hiit_blast">High-intensity interval training for maximum results</string>
+    <string name="workout_desc_hiit_tabata">4-minute intense Tabata workout</string>
+    <string name="workout_desc_beginner_hiit">Introduction to high-intensity interval training</string>
+    <string name="workout_desc_full_body_hiit">Complete body workout with high intensity intervals</string>
+    <string name="workout_desc_flexibility_focus">Improve your flexibility and range of motion</string>
+    <string name="workout_desc_deep_stretch">Advanced stretching for improved mobility</string>
+    <string name="workout_desc_quick_stretch">Fast stretching routine for busy schedules</string>
+    <string name="workout_desc_post_workout_recovery">Essential stretches for muscle recovery</string>
+    <string name="workout_desc_core_crusher">Intense core workout for strong abs</string>
+    <string name="workout_desc_beginner_core">Build your core foundation safely</string>
+    <string name="workout_desc_advanced_ab_shredder">Elite level core training for maximum definition</string>
+    
+    <!-- Category Descriptions -->
+    <string name="category_desc_cardio">Burn calories and improve endurance</string>
+    <string name="category_desc_strength">Build muscle and power</string>
+    <string name="category_desc_yoga">Improve flexibility and mindfulness</string>
+    <string name="category_desc_hiit">High-intensity interval training</string>
+    <string name="category_desc_flexibility">Improve mobility and range of motion</string>
+    <string name="category_desc_full_body">Complete body conditioning</string>
+    <string name="category_desc_upper_body">Focus on arms, chest, and back</string>
+    <string name="category_desc_lower_body">Strengthen legs and glutes</string>
+    <string name="category_desc_core">Build core strength and stability</string>
+    <string name="category_desc_all">All available workouts</string>
+    
+    <!-- Difficulty Levels -->
+    <string name="difficulty_beginner">Beginner</string>
+    <string name="difficulty_intermediate">Intermediate</string>
+    <string name="difficulty_advanced">Advanced</string>
 </resources>

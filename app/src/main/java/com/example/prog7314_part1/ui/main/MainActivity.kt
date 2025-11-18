@@ -1,5 +1,6 @@
 package com.example.prog7314_part1.ui.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
@@ -14,12 +15,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.model.AuthState
 import com.example.prog7314_part1.data.repository.ApiUserRepository
+import com.example.prog7314_part1.utils.LocaleHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
@@ -46,6 +49,10 @@ class MainActivity : AppCompatActivity() {
     private var hasAuthenticatedThisSession = false
     private var biometricPrompt: BiometricPrompt? = null
     private var biometricPromptInfo: BiometricPrompt.PromptInfo? = null
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.let { LocaleHelper.onAttach(it) })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // If this is a logout restart, don't restore navigation state

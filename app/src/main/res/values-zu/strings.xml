@@ -1,0 +1,361 @@
+<resources>
+    <string name="app_name">FitTrackr</string>
+    
+    <!-- Common -->
+    <string name="hello_blank_fragment">Sawubona fragment engenalutho</string>
+    
+    <!-- Settings -->
+    <string name="edit_profile">Hlela Iphrofayili</string>
+    <string name="set_fitness_goals">Setha Izinjongo Zokuzivocavoca</string>
+    <string name="notification_preferences">Okukhethiweyo Zezaziso</string>
+    <string name="change_language">Shintsha Ulimi</string>
+    <string name="log_out">Phuma</string>
+    <string name="profile_picture">Isithombe Seprofayili</string>
+    
+    <!-- Home -->
+    <string name="good_morning">Sawubona ekuseni!</string>
+    <string name="steps_today">izinyathelo namuhla</string>
+    <string name="calories">amakhalori</string>
+    <string name="active_min">imizuzu esebenzayo</string>
+    <string name="distance_km">ibanga km</string>
+    <string name="steps">Izinyathelo</string>
+    
+    <!-- Days of week -->
+    <string name="monday">Mso</string>
+    <string name="tuesday">Bil</string>
+    <string name="wednesday">Tha</string>
+    <string name="thursday">Sin</string>
+    <string name="friday">Hla</string>
+    <string name="saturday">Mgq</string>
+    <string name="sunday">Son</string>
+    
+    <!-- Goals -->
+    <string name="drink_water">Phuza u-2L wamanzi</string>
+    <string name="run_5km">Gijima u-5km</string>
+    <string name="meditate_10min">Cabanga imizuzu eyi-10</string>
+    <string name="read_20min">Funda imizuzu engu-20</string>
+    
+    <!-- Login -->
+    <string name="email">I-imeyili</string>
+    <string name="password">Iphasiwedi</string>
+    <string name="log_in">Ngena</string>
+    <string name="continue_with_google">Qhubeka nge-Google</string>
+    <string name="dont_have_account">Awunayo i-akhawunti? Bhalisa</string>
+    
+    <!-- Nutrition -->
+    <string name="nutrition">Ukudla Okunomsoco</string>
+    <string name="track_daily_intake">Landela ukudla kwakho kwansuku zonke</string>
+    <string name="todays_progress">Intuthuko Yanamuhla</string>
+    <string name="calories_consumed">Amakhalori Adliwe</string>
+    <string name="macronutrients">Ama-Macronutrient</string>
+    <string name="protein">I-Protein</string>
+    <string name="carbs">Ama-Carbohydrate</string>
+    <string name="fats">Amafutha</string>
+    <string name="of">kwe</string>
+    <string name="daily_breakdown">Ukuhlukaniswa Kwansuku Zonke</string>
+    <string name="kcal_total">amakhalori esewonke</string>
+    <string name="carbohydrates">Ama-Carbohydrate</string>
+    <string name="todays_meals">Ukudla Kwanamuhla</string>
+    <string name="no_meals_logged">Akukho ukudla okurekhodiwe okwamanje</string>
+    <string name="water_intake">Ukusebenzisa Amanzi</string>
+    <string name="glasses">izigilazi</string>
+    <string name="remove">Susa</string>
+    <string name="add_glass">+ Engeza Isigilazi</string>
+    <string name="log_new_meal">Rekhoda Ukudla Okusha</string>
+    <string name="view_nutrition_diary">Buka Idayari Yokudla</string>
+    
+    <!-- Workout -->
+    <string name="workout_name">Igama Lokuzivocavoca</string>
+    <string name="custom">NGOKWAKHO</string>
+    <string name="workouts_found">ukuzivocavoca okutholakele</string>
+    <string name="exercise_details">Imininingwane Yokuzivocavoca</string>
+    <string name="muscle_group">Iqembu Lemsipha</string>
+    
+    <!-- Workout Goals -->
+    <string name="weight_goal">Injongo Yesisindo (kg)</string>
+    <string name="workout_frequency">Amandla Okuzivocavoca (izikhathi ngeviki)</string>
+    <string name="steps_goal">Injongo Yezinyathelo (ngosuku)</string>
+    <string name="calories_goal">Injongo Yamakhalori (kcal ngosuku)</string>
+    <string name="protein_intake_goal">Injongo Yokudla I-Protein (g ngosuku)</string>
+    <string name="personal_challenges">Izinselele Zomuntu Siqu / Amaphuzu Amakhulu</string>
+    
+    <!-- Recent Activity -->
+    <string name="today">Namuhla</string>
+    
+    <!-- Nutrition Entry -->
+    <string name="breakfast">ISIDLO SASEKUSENI</string>
+    <string name="food_name">Igama Lokudla</string>
+    <string name="description">Incazelo</string>
+    <string name="delete">SUSA</string>
+    
+    <!-- Language Selection -->
+    <string name="select_language">Khetha Ulimi</string>
+    <string name="english">IsiNgisi</string>
+    <string name="zulu">isiZulu</string>
+    <string name="afrikaans">IsiBhunu</string>
+    <string name="language_changed">Ulimi lushintshiwe ngempumelelo</string>
+    <string name="restart_required">Sicela uvule kabusha uhlelo lokusebenza ukuze izinguquko zisebenze</string>
+    
+    <!-- Additional Home Page Strings -->
+    <string name="calories_label">Amakhalori</string>
+    <string name="weekly_target">Injongo Yeviki</string>
+    <string name="this_weeks_goals">Izinjongo Zale Viki</string>
+    <string name="goals_todo_list">Uhlu Lwezinjongo</string>
+    <string name="add_goal">+ Engeza Injongo</string>
+    <string name="weekly_progress">Intuthuko Yeviki</string>
+    <string name="daily_step_count_past_7_days">Isibalo sezinyathelo zansuku zonke ezinsukwini eziyisikhombisa ezedlule</string>
+    <string name="of_steps">kwezinyathelo ezingu-%1$d</string>
+    <string name="steps_format">%1$d kwezinyathelo ezingu-%2$d</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Ikhaya</string>
+    <string name="nav_progress">Intuthuko</string>
+    <string name="nav_session">Iseshini</string>
+    <string name="nav_workout">Ukuzivocavoca</string>
+    <string name="nav_nutrition">Ukudla Okunomsoco</string>
+    
+    <!-- Profile -->
+    <string name="profile">Iphrofayili</string>
+    <string name="personal_info">Ulwazi Lwakho</string>
+    <string name="age">Iminyaka:</string>
+    <string name="weight">Isisindo:</string>
+    <string name="height">Ukuphakama:</string>
+    <string name="your_goals">Izinjongo Zakho</string>
+    <string name="edit_goals">Hlela Izinjongo</string>
+    <string name="settings">Izilungiselelo</string>
+    <string name="logout">Phuma</string>
+    
+    <!-- Workout Item -->
+    <string name="workout_name_placeholder">Igama Lokuzivocavoca</string>
+    <string name="workout_duration_format">%1$d imizuzu • %2$s • %3$s</string>
+    <string name="rating_format">⭐ %1$.1f</string>
+    <string name="calories_format">🔥 %1$d amakhalori</string>
+    <string name="start">Qala</string>
+    
+    <!-- Recent Activity -->
+    <string name="today_format">Namuhla, %1$s</string>
+    <string name="activity_format">%1$d amakhalori • %2$d izinyathelo</string>
+    
+    <!-- Progress Page -->
+    <string name="your_progress">Intuthuko Yakho</string>
+    <string name="track_fitness_journey">Landela uhambo lwakho lokuzivocavoca</string>
+    <string name="this_week_overview">Isibonakaliso Sale Viki</string>
+    <string name="workouts">Ukuzivocavoca</string>
+    <string name="completed">kuqediwe</string>
+    <string name="target">Injongo:</string>
+    <string name="calories_burned">Amakhalori Asetshenzisiwe</string>
+    <string name="historical_trends">Ama-Trends Omlando</string>
+    <string name="avg_workout">Ukuzivocavoca Okumaphakathi</string>
+    <string name="total_distance">Ibanga Esewonke</string>
+    <string name="this_week">Le Viki</string>
+    <string name="weekly_step_count">Isibalo Sezinyathelo Zeviki</string>
+    <string name="daily_step_count_target">Isibalo sezinyathelo zansuku zonke (injongo: 10k)</string>
+    <string name="avg">Okumaphakathi:</string>
+    <string name="workout_duration_trends">Ama-Trends Wesikhathi Sokuzivocavoca</string>
+    <string name="weekly_workout_minutes">Imizuzu Yokuzivocavoca Yeviki</string>
+    <string name="total">Isamba:</string>
+    <string name="recent_activities">Imisebenzi Yakamuva</string>
+    <string name="no_recent_activities">Awukho imisebenzi yakamuva okwamanje. Qala ukuzivocavoca ukuze ubone intuthuko yakho!</string>
+    <string name="this_week_lowercase">le viki</string>
+    <string name="kcal_this_week">amakhalori le viki</string>
+    <string name="workouts_lowercase">ukuzivocavoca</string>
+    <string name="steps_lowercase">izinyathelo</string>
+    <string name="steps_this_week_format">%1$s le viki</string>
+    <string name="target_steps_format">Injongo: %1$s izinyathelo</string>
+    <string name="completed_format">%1$d kuqediwe</string>
+    <string name="target_workouts_format">Injongo: %1$d ukuzivocavoca</string>
+    <string name="kcal_this_week_format">%1$s amakhalori le viki</string>
+    <string name="target_kcal_format">Injongo: %1$s amakhalori</string>
+    <string name="workouts_format">%1$d ukuzivocavoca</string>
+    
+    <!-- Workout Library -->
+    <string name="workout_library">Umtapo Wolwazi Lokuzivocavoca</string>
+    <string name="discover_perfect_workout">Thola ukuzivocavoca okuphelele</string>
+    <string name="search_workouts">Sesha ukuzivocavoca…</string>
+    <string name="categories">Izigaba</string>
+    <string name="all">Konke</string>
+    <string name="cardio">I-Cardio</string>
+    <string name="strength">Amandla</string>
+    <string name="yoga">I-Yoga</string>
+    <string name="hiit">I-HIIT</string>
+    <string name="flexibility">Ukuguquguquka</string>
+    <string name="browse_all_workouts">Bheka Konke Ukuzivocavoca</string>
+    <string name="create_custom_workout">+ Dala Ukuzivocavoca Ngokwakho</string>
+    <string name="no_custom_workouts">Awukho ukuzivocavoca ngokwakho okwamanje</string>
+    
+    <!-- Workout List -->
+    <string name="category_workouts">Ukuzivocavoca Kwezigaba</string>
+    <string name="workouts_for_category">Ukuzivocavoca kwalesi sigaba</string>
+    <string name="all_workouts">Konke Ukuzivocavoca</string>
+    <string name="workouts_found_format">%1$d ukuzivocavoca okutholakele</string>
+    <string name="workout_found_singular">1 ukuzivocavoca okutholakele</string>
+    <string name="no_workouts_found">Akukho ukuzivocavoca okutholakele</string>
+    <string name="try_adjusting_search">Zama ukulungisa ukusesha kwakho noma buyela kamuva</string>
+    
+    <!-- Session -->
+    <string name="workout_session">Iseshini Yokuzivocavoca</string>
+    <string name="track_performance_realtime">Landela ukusebenza kwakho ngesikhathi sangempela</string>
+    <string name="choose_workout_type">Khetha Uhlobo Lokuzivocavoca</string>
+    <string name="running">Ukugijima</string>
+    <string name="cycling">Ukubhayisikili</string>
+    <string name="walking">Ukuhamba</string>
+    <string name="outdoor">Ngaphandle</string>
+    <string name="gym">I-Gym</string>
+    <string name="selected_workout">Ukuzivocavoca Okukhethiwe</string>
+    <string name="workout_details">Imininingwane Yokuzivocavoca</string>
+    <string name="watch_metrics">Izilinganiso Zewashi</string>
+    <string name="heart_rate">Isilinganiso Senhliziyo</string>
+    <string name="bpm">bpm</string>
+    <string name="distance">Ibanga</string>
+    <string name="active_time">Isikhathi Esisebenzayo</string>
+    <string name="min">imizuzu</string>
+    <string name="watch_disconnected">I-Watch Ihlukanisiwe</string>
+    <string name="connect_smartwatch">Xhuma i-smartwatch yakho ukuze ubone izilinganiso eziphilayo</string>
+    <string name="connect">Xhuma</string>
+    <string name="workout_duration">Isikhathi Sokuzivocavoca</string>
+    <string name="start_button">▶ QALA</string>
+    <string name="pause_button">⏸ MAKHA</string>
+    <string name="stop_button">⏹ YEMA</string>
+    
+    <!-- Workout Goals -->
+    <string name="save_goals">Gcina Izinjongo</string>
+    
+    <!-- Setup Goals -->
+    <string name="complete_your_profile">Gcwalisa Iphrofayili Yakho</string>
+    <string name="add_height_set_goals">Engeza ukuphakama kwakho bese ubeka izinjongo zakho zokuzivocavoca</string>
+    <string name="height_cm_optional">Ukuphakama (cm) - Okukhethwayo</string>
+    <string name="your_fitness_goals">Izinjongo Zakho Zokuzivocavoca</string>
+    <string name="daily_step_goal">Injongo Yezinyathelo Zosuku</string>
+    <string name="daily_calorie_goal">Injongo Yamakhalori Osuku</string>
+    <string name="daily_water_goal_glasses">Injongo Yamanzi Osuku (izigilazi)</string>
+    <string name="weekly_workout_goal_sessions">Injongo Yokuzivocavoca Yeviki (izikhathi)</string>
+    <string name="daily_nutrition_goals">Izinjongo Zokudla Okunomsoco Zosuku</string>
+    <string name="protein_grams">I-Protein (amagremu)</string>
+    <string name="carbohydrates_grams">Ama-Carbohydrates (amagremu)</string>
+    <string name="fats_grams">Ama-Fats (amagremu)</string>
+    <string name="continue_button">Qhubeka</string>
+    
+    <!-- Adapter Strings -->
+    <string name="exercises">ukuzivocavoca</string>
+    <string name="sets_x_reps_format">%1$d amasethi × %2$d izindawo</string>
+    <string name="sec_format">%1$d imizuzwana</string>
+    <string name="no_details">Awukho imininingwane</string>
+    <string name="selected_colon">Okukhethiwe: %1$s</string>
+    <string name="resume_button">▶ BUYELA</string>
+    <string name="active_button">▶ SEBENZAYO</string>
+    
+    <!-- Profile Strings -->
+    <string name="years">iminyaka</string>
+    <string name="kg">kg</string>
+    <string name="cm">cm</string>
+    <string name="no_goals_set">Azikho izinjongo ezibekiwe okwamanje</string>
+    <string name="not_logged_in">Awukho ngaphakathi</string>
+    <string name="logging_out">Uyaphuma…</string>
+    
+    <!-- Setup Goals Strings -->
+    <string name="save_changes">Gcina Izinguquko</string>
+    <string name="saving">Iyasonga…</string>
+    
+    <!-- Register Strings -->
+    <string name="complete_profile">Gcwalisa Iphrofayili</string>
+    <string name="creating_account">Idala I-akhawunti…</string>
+    <string name="register">Bhalisa</string>
+    
+    <!-- Login Strings -->
+    <string name="logging_in">Ungena ngaphakathi…</string>
+    
+    <!-- Workout Adapter -->
+    <string name="full_body">Umzimba Wonke</string>
+    <string name="upper_body">Umzimba Ongaphezulu</string>
+    <string name="lower_body">Umzimba Ongaphansi</string>
+    <string name="core">Isisekelo</string>
+    <string name="exercises_format">%1$d ukuzivocavoca</string>
+    <string name="min_format">%1$d imizuzu</string>
+    <string name="years_format">%1$d iminyaka</string>
+    <string name="kg_format">%1$.0f kg</string>
+    <string name="cm_format">%1$.0f cm</string>
+    
+    <!-- Session Watch Status -->
+    <string name="watch_connected">I-Watch Ixhunywe</string>
+    <string name="live_metrics_updating">Izilinganiso eziphilayo ziyavuselela</string>
+    <string name="disconnect">Hlukanisa</string>
+    
+    <!-- Profile Goals Format -->
+    <string name="goals_format">Izinyathelo: %1$d | Amakhalori: %2$d\nAmanzi: %3$d izigilazi | Ukuzivocavoca: %4$d/iviki\nI-Protein: %5$dg | Ama-Carbs: %6$dg | Ama-Fats: %7$dg</string>
+    
+    <!-- Progress Format -->
+    <string name="percentage_format">%1$d%%</string>
+    <string name="min_format_simple">%1$d imizuzu</string>
+    
+    <!-- Workout Names -->
+    <string name="workout_cardio_burn">Ukushisa kwe-Cardio</string>
+    <string name="workout_fat_burning_cardio">I-Cardio Yokubasa Ama-Fat</string>
+    <string name="workout_beginner_cardio">I-Cardio Yabaqalayo</string>
+    <string name="workout_dance_cardio">I-Cardio Yomdanso</string>
+    <string name="workout_running_intervals">Izikhathi Zokugijima</string>
+    <string name="workout_strength_builder">Umakhi Wamandla</string>
+    <string name="workout_power_lifting">Ukuphakamisa Amandla</string>
+    <string name="workout_beginner_strength">Amandla Abaqalayo</string>
+    <string name="workout_upper_body_blast">Ukubhoboza Umzimba Ongaphezulu</string>
+    <string name="workout_lower_body_power">Amandla Omzimba Ongaphansi</string>
+    <string name="workout_morning_yoga_flow">Ukugobhoza Kwe-Yoga Ekuseni</string>
+    <string name="workout_power_yoga">I-Yoga Yamandla</string>
+    <string name="workout_relaxing_yoga">I-Yoga Yokukhululeka</string>
+    <string name="workout_hot_yoga_challenge">Inselele Ye-Yoga Eshisayo</string>
+    <string name="workout_20min_hiit_blast">I-HIIT Engu-20 Min</string>
+    <string name="workout_hiit_tabata">I-HIIT Tabata</string>
+    <string name="workout_beginner_hiit">I-HIIT Yabaqalayo</string>
+    <string name="workout_full_body_hiit">I-HIIT Yomzimba Wonke</string>
+    <string name="workout_flexibility_focus">Ukugxila Ekuguquguqukeni</string>
+    <string name="workout_deep_stretch">Ukunwebeka Okujulile</string>
+    <string name="workout_quick_stretch">Ukunwebeka Okusheshayo</string>
+    <string name="workout_post_workout_recovery">Ukubuyisela Emva Kokuzivocavoca</string>
+    <string name="workout_core_crusher">Isicubuli Sesisekelo</string>
+    <string name="workout_beginner_core">Isisekelo Sabaqalayo</string>
+    <string name="workout_advanced_ab_shredder">Isihluzi Se-Abs Esithuthukile</string>
+    
+    <!-- Workout Descriptions -->
+    <string name="workout_desc_cardio_burn">Iseshini ye-cardio enamandla amakhulu ukuze ushise amakhalori ngokushesha</string>
+    <string name="workout_desc_fat_burning_cardio">Ukuzivocavoca okunzima kwe-cardio ukuze ushise ama-fat ngokuphelele</string>
+    <string name="workout_desc_beginner_cardio">Ukuzivocavoca okulula kwe-cardio kwabaqalayo</string>
+    <string name="workout_desc_dance_cardio">Ukunyakaza komdanso okujabulisayo okwenza inhliziyo yakho iphume</string>
+    <string name="workout_desc_running_intervals">Ukugijima ngamaphuzu ukuze uthuthukise ukubekezelela nesivinini</string>
+    <string name="workout_desc_strength_builder">Akha imisipha futhi wandise amandla</string>
+    <string name="workout_desc_power_lifting">Ukuqeqesha amandla athuthukile ngamasisindo asindayo</string>
+    <string name="workout_desc_beginner_strength">Isingeniso esiphelele sokufundisa amandla</string>
+    <string name="workout_desc_upper_body_blast">Gxila izandla zakho, isifuba, namahlombe</string>
+    <string name="workout_desc_lower_body_power">Akha imilenze namathanga anamandla</string>
+    <string name="workout_desc_morning_yoga_flow">Qala usuku lwakho ngokukhumbula nokuguquguquka</string>
+    <string name="workout_desc_power_yoga">I-yoga enamandla yamandla nokuguquguquka</string>
+    <string name="workout_desc_relaxing_yoga">I-yoga ethambile yokukhululeka nokuphumula</string>
+    <string name="workout_desc_hot_yoga_challenge">Ukuzivocavoca kwe-yoga okunzima endaweni eshisayo</string>
+    <string name="workout_desc_20min_hiit_blast">Ukuqeqesha izikhathi ezinamandla amakhulu ukuze uthole imiphumela ephezulu</string>
+    <string name="workout_desc_hiit_tabata">Ukuzivocavoca kwe-Tabata okunzima okwemizuzu emi-4</string>
+    <string name="workout_desc_beginner_hiit">Isingeniso sokufundisa izikhathi ezinamandla amakhulu</string>
+    <string name="workout_desc_full_body_hiit">Ukuzivocavoca komzimba wonke ngamaphuzu anamandla amakhulu</string>
+    <string name="workout_desc_flexibility_focus">Thuthukisa ukuguquguquka kwakho nebanga lokunyakaza</string>
+    <string name="workout_desc_deep_stretch">Ukunwebeka okuthuthukile ukuze uthuthukise ukuhamba</string>
+    <string name="workout_desc_quick_stretch">Isimiso sokunwebeka okusheshayo sezikhathi ezibucayi</string>
+    <string name="workout_desc_post_workout_recovery">Ukunwebeka okubalulekile kokubuyisela imisipha</string>
+    <string name="workout_desc_core_crusher">Ukuzivocavoca okunzima kwesisekelo samandla amakhulu</string>
+    <string name="workout_desc_beginner_core">Akha isisekelo sakho ngokuphepha</string>
+    <string name="workout_desc_advanced_ab_shredder">Ukuqeqesha kwesisekelo sezinga eliphezulu ukuze uthole ukuchazwa okuphezulu</string>
+    
+    <!-- Category Descriptions -->
+    <string name="category_desc_cardio">Shisa amakhalori futhi uthuthukise ukubekezelela</string>
+    <string name="category_desc_strength">Akha imisipha namandla</string>
+    <string name="category_desc_yoga">Thuthukisa ukuguquguquka nokukhumbula</string>
+    <string name="category_desc_hiit">Ukuqeqesha izikhathi ezinamandla amakhulu</string>
+    <string name="category_desc_flexibility">Thuthukisa ukuhamba nebanga lokunyakaza</string>
+    <string name="category_desc_full_body">Ukulungisa umzimba wonke</string>
+    <string name="category_desc_upper_body">Gxila izandla, isifuba, nengemuva</string>
+    <string name="category_desc_lower_body">Qinisa imilenze namathanga</string>
+    <string name="category_desc_core">Akha amandla esisekelo nokuma</string>
+    <string name="category_desc_all">Konke ukuzivocavoca okutholakalayo</string>
+    
+    <!-- Difficulty Levels -->
+    <string name="difficulty_beginner">Obaqalayo</string>
+    <string name="difficulty_intermediate">Ophakathi</string>
+    <string name="difficulty_advanced">Othuthukile</string>
+</resources>
+

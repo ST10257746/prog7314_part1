@@ -65,10 +65,10 @@ class ProgressFragment : Fragment() {
                         } else 0
                         
                         view.findViewById<TextView>(R.id.stepsCurrentText)?.text = 
-                            String.format("%,d this week", totalSteps)
+                            getString(R.string.steps_this_week_format, String.format("%,d", totalSteps))
                         view.findViewById<TextView>(R.id.stepsTargetText)?.text = 
-                            "Target: ${String.format("%,d", weeklyGoal)}"
-                        view.findViewById<TextView>(R.id.stepsPercentageText)?.text = "$stepsProgress%"
+                            getString(R.string.target_steps_format, String.format("%,d", weeklyGoal))
+                        view.findViewById<TextView>(R.id.stepsPercentageText)?.text = getString(R.string.percentage_format, stepsProgress)
                         view.findViewById<android.widget.ProgressBar>(R.id.stepsProgress)?.progress = stepsProgress
                     }
                     
@@ -79,10 +79,10 @@ class ProgressFragment : Fragment() {
                         } else 0
                         
                         view.findViewById<TextView>(R.id.workoutsCurrentText)?.text = 
-                            "$totalWorkouts completed"
+                            getString(R.string.completed_format, totalWorkouts)
                         view.findViewById<TextView>(R.id.workoutsTargetText)?.text = 
-                            "Target: $workoutGoal workouts"
-                        view.findViewById<TextView>(R.id.workoutsPercentageText)?.text = "$workoutsProgress%"
+                            getString(R.string.target_workouts_format, workoutGoal)
+                        view.findViewById<TextView>(R.id.workoutsPercentageText)?.text = getString(R.string.percentage_format, workoutsProgress)
                         view.findViewById<android.widget.ProgressBar>(R.id.workoutsProgress)?.progress = workoutsProgress
                     }
                     
@@ -94,10 +94,10 @@ class ProgressFragment : Fragment() {
                         } else 0
                         
                         view.findViewById<TextView>(R.id.caloriesCurrentText)?.text = 
-                            String.format("%,d kcal this week", totalCalories)
+                            getString(R.string.kcal_this_week_format, String.format("%,d", totalCalories))
                         view.findViewById<TextView>(R.id.caloriesTargetText)?.text = 
-                            "Target: ${String.format("%,d", weeklyGoal)} kcal"
-                        view.findViewById<TextView>(R.id.caloriesPercentageText)?.text = "$caloriesProgress%"
+                            getString(R.string.target_kcal_format, String.format("%,d", weeklyGoal))
+                        view.findViewById<TextView>(R.id.caloriesPercentageText)?.text = getString(R.string.percentage_format, caloriesProgress)
                         view.findViewById<android.widget.ProgressBar>(R.id.caloriesProgress)?.progress = caloriesProgress
                     }
                     
@@ -133,7 +133,7 @@ class ProgressFragment : Fragment() {
             sessions.map { it.durationSeconds / 60 }.average().toInt()
         } else 0
         
-        view.findViewById<TextView>(R.id.avgWorkoutText)?.text = "$avgDuration min"
+        view.findViewById<TextView>(R.id.avgWorkoutText)?.text = getString(R.string.min_format_simple, avgDuration)
         
         // Total distance
         view.findViewById<TextView>(R.id.totalDistanceText)?.text = 
@@ -141,7 +141,7 @@ class ProgressFragment : Fragment() {
         
         // Workout frequency (this week vs last week)
         view.findViewById<TextView>(R.id.workoutFrequencyText)?.text = 
-            "$totalWorkouts workouts"
+            getString(R.string.workouts_format, totalWorkouts)
     }
     
     private fun updateRecentActivity(view: View, sessions: List<WorkoutSession>) {
@@ -178,8 +178,9 @@ class RecentActivityAdapter(private val sessions: List<WorkoutSession>) :
     
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val session = sessions[position]
+        val context = holder.itemView.context
         holder.workoutName.text = session.workoutName
-        holder.workoutStats.text = "${session.caloriesBurned} cal • ${session.steps} steps"
+        holder.workoutStats.text = context.getString(R.string.activity_format, session.caloriesBurned, session.steps)
         
         val dateFormat = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
         holder.workoutDate.text = dateFormat.format(Date(session.startTime))

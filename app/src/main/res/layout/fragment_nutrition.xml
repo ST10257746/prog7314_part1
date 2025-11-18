@@ -30,7 +30,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nutrition"
+                    android:text="@string/nutrition"
                     android:textColor="@color/Text"
                     android:textStyle="bold"
                     android:textSize="26sp" />
@@ -38,7 +38,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Track your daily intake"
+                    android:text="@string/track_daily_intake"
                     android:textColor="@color/Text"
                     android:textSize="18sp"
                     android:alpha="0.8"
@@ -60,7 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Today's Progress"
+            android:text="@string/todays_progress"
             android:textColor="@color/Text"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -91,7 +91,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Calories Consumed"
+                        android:text="@string/calories_consumed"
                         android:textColor="@color/Text"
                         android:textStyle="bold"
                         android:textSize="20sp" />
@@ -133,7 +133,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Macronutrients"
+            android:text="@string/macronutrients"
             android:textColor="@color/Text"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -159,7 +159,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Protein"
+                    android:text="@string/protein"
                     android:textColor="@color/Text"
                     android:textStyle="bold"
                     android:textSize="18sp" />
@@ -210,7 +210,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Carbs"
+                    android:text="@string/carbs"
                     android:textColor="@color/Text"
                     android:textStyle="bold"
                     android:textSize="18sp" />
@@ -260,7 +260,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fats"
+                    android:text="@string/fats"
                     android:textColor="@color/Text"
                     android:textStyle="bold"
                     android:textSize="18sp" />
@@ -310,7 +310,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Daily Breakdown"
+                android:text="@string/daily_breakdown"
                 android:textColor="@color/Text"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -348,7 +348,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="kcal total"
+                        android:text="@string/kcal_total"
                         android:textColor="@color/Text"
                         android:textSize="16sp"
                         android:alpha="0.8" />
@@ -381,7 +381,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Protein (30%)"
+                        android:text="@string/protein"
                         android:textColor="@color/Text"
                         android:textSize="16sp" />
 
@@ -414,7 +414,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Carbohydrates (45%)"
+                        android:text="@string/carbohydrates"
                         android:textColor="@color/Text"
                         android:textSize="16sp" />
 
@@ -446,7 +446,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Fats (25%)"
+                        android:text="@string/fats"
                         android:textColor="@color/Text"
                         android:textSize="16sp" />
 
@@ -477,7 +477,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Today's Meals"
+                android:text="@string/todays_meals"
                 android:textColor="@color/Text"
                 android:textStyle="bold"
                 android:textSize="18sp" />
@@ -486,7 +486,7 @@
                 android:id="@+id/noMealsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No meals logged yet"
+                android:text="@string/no_meals_logged"
                 android:textColor="@color/Text"
                 android:textSize="14sp"
                 android:alpha="0.7"
@@ -534,7 +534,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Water Intake"
+                        android:text="@string/water_intake"
                         android:textColor="@color/Text"
                         android:textStyle="bold"
                         android:textSize="20sp" />
@@ -583,7 +583,7 @@
                     android:id="@+id/removeWaterButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="- Remove"
+                    android:text="@string/remove"
                     android:backgroundTint="@color/Accent"
                     android:textColor="@android:color/white"
                     android:textSize="12sp"
@@ -595,7 +595,7 @@
                     android:id="@+id/addWaterButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+ Add Glass"
+                    android:text="@string/add_glass"
                     android:backgroundTint="@color/Primary"
                     android:textColor="@android:color/white"
                     android:textSize="12sp"
@@ -616,7 +616,7 @@
                 android:id="@+id/logMealButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Log New Meal"
+                android:text="@string/log_new_meal"
                 android:backgroundTint="@color/Primary"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
@@ -629,7 +629,7 @@
                 android:id="@+id/viewDiaryButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="View Nutrition Diary"
+                android:text="@string/view_nutrition_diary"
                 android:backgroundTint="@color/Secondary"
                 android:textColor="@color/Text"
                 android:textStyle="bold"

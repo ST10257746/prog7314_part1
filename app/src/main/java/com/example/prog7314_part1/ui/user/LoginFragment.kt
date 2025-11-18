@@ -184,7 +184,7 @@ class LoginFragment : Fragment() {
             // Observe loading state
             viewModel.isLoading.collect { isLoading ->
                 binding.loginButton.isEnabled = !isLoading
-                binding.loginButton.text = if (isLoading) "Logging In..." else "Log In"
+                binding.loginButton.text = if (isLoading) getString(R.string.logging_in) else getString(R.string.log_in)
                 
                 // Disable inputs during loading
                 binding.emailInput.isEnabled = !isLoading

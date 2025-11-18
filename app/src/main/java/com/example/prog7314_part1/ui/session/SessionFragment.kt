@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.local.AppDatabase
 import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.databinding.FragmentSessionBinding
@@ -83,10 +84,10 @@ class SessionFragment : Fragment() {
             val state = viewModel.sessionState.value
             if (state.isSessionPaused) {
                 viewModel.resumeSession()
-                binding.btnPause.text = "⏸ PAUSE"
+                binding.btnPause.text = getString(R.string.pause_button)
             } else {
                 viewModel.pauseSession()
-                binding.btnPause.text = "▶ RESUME"
+                binding.btnPause.text = getString(R.string.resume_button)
             }
         }
 
@@ -112,7 +113,7 @@ class SessionFragment : Fragment() {
             viewModel.selectedWorkout.collect { workout ->
                 if (workout != null) {
                     binding.selectedWorkoutInfo.visibility = View.VISIBLE
-                    binding.selectedWorkoutName.text = "Selected: ${workout.name}"
+                    binding.selectedWorkoutName.text = getString(R.string.selected_colon, workout.name)
                     binding.selectedWorkoutDetails.text = workout.description
                     binding.exercisesRecyclerView.visibility = View.VISIBLE
                     exerciseAdapter.submitList(workout.exercises)
@@ -141,24 +142,24 @@ class SessionFragment : Fragment() {
         when {
             state.isSessionActive && !state.isSessionPaused -> {
                 binding.btnStart.isEnabled = false
-                binding.btnStart.text = "▶ ACTIVE"
+                binding.btnStart.text = getString(R.string.active_button)
                 binding.btnPause.isEnabled = true
-                binding.btnPause.text = "⏸ PAUSE"
+                binding.btnPause.text = getString(R.string.pause_button)
                 binding.btnStop.isEnabled = true
             }
             state.isSessionPaused -> {
                 binding.btnStart.isEnabled = false
-                binding.btnStart.text = "▶ ACTIVE"
+                binding.btnStart.text = getString(R.string.active_button)
                 binding.btnPause.isEnabled = true
-                binding.btnPause.text = "▶ RESUME"
+                binding.btnPause.text = getString(R.string.resume_button)
                 binding.btnStop.isEnabled = true
             }
             else -> {
                 binding.btnStart.isEnabled =
                     state.selectedWorkoutType != null || viewModel.selectedWorkout.value != null
-                binding.btnStart.text = "▶ START"
+                binding.btnStart.text = getString(R.string.start_button)
                 binding.btnPause.isEnabled = false
-                binding.btnPause.text = "⏸ PAUSE"
+                binding.btnPause.text = getString(R.string.pause_button)
                 binding.btnStop.isEnabled = false
             }
         }
@@ -208,9 +209,9 @@ class SessionFragment : Fragment() {
             binding.stepsValue.text = metrics.steps.toString()
             binding.distanceValue.text = String.format("%.2f", metrics.distanceKm)
             binding.activeTimeValue.text = metrics.activeTimeMinutes.toString()
-            binding.watchStatusText.text = "Watch Connected"
-            binding.watchStatusSubtext.text = "Live metrics updating"
-            binding.btnConnectWatch.text = "Disconnect"
+            binding.watchStatusText.text = getString(R.string.watch_connected)
+            binding.watchStatusSubtext.text = getString(R.string.live_metrics_updating)
+            binding.btnConnectWatch.text = getString(R.string.disconnect)
             binding.watchStatusIcon.alpha = 1.0f
         } else {
             binding.heartRateValue.text = "--"
@@ -218,9 +219,9 @@ class SessionFragment : Fragment() {
             binding.stepsValue.text = "--"
             binding.distanceValue.text = "--"
             binding.activeTimeValue.text = "--"
-            binding.watchStatusText.text = "Watch Disconnected"
-            binding.watchStatusSubtext.text = "Connect your smartwatch to see live metrics"
-            binding.btnConnectWatch.text = "Connect"
+            binding.watchStatusText.text = getString(R.string.watch_disconnected)
+            binding.watchStatusSubtext.text = getString(R.string.connect_smartwatch)
+            binding.btnConnectWatch.text = getString(R.string.connect)
             binding.watchStatusIcon.alpha = 0.5f
         }
     }

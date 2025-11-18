@@ -17,7 +17,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/icon_default_profile"
-            android:contentDescription="Profile Picture"
+            android:contentDescription="@string/profile_picture"
             android:scaleType="centerCrop"
             android:background="@drawable/circle_background"
             android:layout_marginBottom="16dp" />
@@ -27,7 +27,7 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="John Doe"
+            android:text="User"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/Primary"
@@ -38,7 +38,7 @@
             android:id="@+id/editProfileButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
+            android:text="@string/edit_profile"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/Primary"
             android:layout_marginBottom="16dp" />
@@ -48,7 +48,7 @@
             android:id="@+id/setGoalsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Set Fitness Goals"
+            android:text="@string/set_fitness_goals"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/Primary"
             android:layout_marginBottom="16dp" />
@@ -58,7 +58,7 @@
             android:id="@+id/notificationsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Notification Preferences"
+            android:text="@string/notification_preferences"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/Primary"
             android:layout_marginBottom="16dp" />
@@ -68,7 +68,7 @@
             android:id="@+id/languageButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change Language"
+            android:text="@string/change_language"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/Primary"
             android:layout_marginBottom="16dp" />
@@ -78,7 +78,7 @@
             android:id="@+id/logoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log Out"
+            android:text="@string/log_out"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/Accent" />
 

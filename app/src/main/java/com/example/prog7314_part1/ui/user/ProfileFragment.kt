@@ -70,8 +70,8 @@ class ProfileFragment : Fragment() {
                     // Update UI with user data
                     binding.userNameText.text = user.displayName
                     binding.userEmailText.text = user.email
-                    binding.ageText.text = "${user.age} years"
-                    binding.weightText.text = "${user.weightKg} kg"
+                    binding.ageText.text = getString(R.string.years_format, user.age)
+                    binding.weightText.text = getString(R.string.kg_format, user.weightKg)
 
                     // Load profile image
                     loadProfileImage(user.profileImageUrl)
@@ -79,22 +79,26 @@ class ProfileFragment : Fragment() {
                     // Height (if available)
                     user.heightCm?.let {
                         binding.heightLayout.show()
-                        binding.heightText.text = "$it cm"
+                        binding.heightText.text = getString(R.string.cm_format, it)
                     }
 
                     // Goals
                     if (user.dailyStepGoal != null) {
-                        val goalsText = buildString {
-                            append("Steps: ${user.dailyStepGoal} | Calories: ${user.dailyCalorieGoal}\n")
-                            append("Water: ${user.dailyWaterGoal} glasses | Workouts: ${user.weeklyWorkoutGoal}/week\n")
-                            append("Protein: ${user.proteinGoalG}g | Carbs: ${user.carbsGoalG}g | Fats: ${user.fatsGoalG}g")
-                        }
+                        val goalsText = getString(R.string.goals_format,
+                            user.dailyStepGoal ?: 0,
+                            user.dailyCalorieGoal ?: 0,
+                            user.dailyWaterGoal ?: 0,
+                            user.weeklyWorkoutGoal ?: 0,
+                            user.proteinGoalG ?: 0,
+                            user.carbsGoalG ?: 0,
+                            user.fatsGoalG ?: 0
+                        )
                         binding.goalsText.text = goalsText
                     } else {
-                        binding.goalsText.text = "No goals set yet"
+                        binding.goalsText.text = getString(R.string.no_goals_set)
                     }
                 } else {
-                    binding.userNameText.text = "Not logged in"
+                    binding.userNameText.text = getString(R.string.not_logged_in)
                     binding.userEmailText.text = ""
                 }
             }
@@ -158,6 +162,11 @@ class ProfileFragment : Fragment() {
         // Edit Goals
         binding.editGoalsButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_setupGoalsFragment)
+        }
+
+        // Settings Button - Navigate to Settings (Language selection)
+        binding.settingsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
         }
 
         // Edit Profile (placeholder for now)
@@ -266,7 +275,7 @@ class ProfileFragment : Fragment() {
      */
     private fun handleLogout() {
         binding.logoutButton.isEnabled = false
-        binding.logoutButton.text = "Logging out..."
+        binding.logoutButton.text = getString(R.string.logging_out)
 
         viewLifecycleOwner.lifecycleScope.launch {
             when (val result = userRepository.logout()) {
@@ -283,7 +292,7 @@ class ProfileFragment : Fragment() {
                     if (_binding != null) {
                         requireContext().showToast("Logout failed: ${result.message}")
                         binding.logoutButton.isEnabled = true
-                        binding.logoutButton.text = "Logout"
+                        binding.logoutButton.text = getString(R.string.logout)
                     }
                 }
                 else -> {}
