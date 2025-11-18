@@ -2,10 +2,13 @@ package com.example.prog7314_part1.ui.main
 
 import android.content.Context
 import android.content.Intent
+import android.Manifest
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
         private const val EXTRA_IS_LOGOUT = "extra_is_logout"
         private const val KEY_HAS_BIOMETRIC_AUTH = "key_has_biometric_auth"
+        private const val REQUEST_CODE_NOTIFICATIONS = 1001
         private const val BIOMETRIC_AUTHENTICATORS =
             BiometricManager.Authenticators.BIOMETRIC_STRONG or
                     BiometricManager.Authenticators.DEVICE_CREDENTIAL
@@ -83,6 +87,9 @@ class MainActivity : AppCompatActivity() {
 
         // Observe authentication state
         observeAuthState()
+
+        // Request notification permission if needed
+        requestNotificationPermissionIfNeeded()
     }
 
     override fun onResume() {
@@ -232,6 +239,24 @@ class MainActivity : AppCompatActivity() {
     private fun handleBiometricRejection() {
         Toast.makeText(this, PROMPT_ERROR, Toast.LENGTH_SHORT).show()
         moveTaskToBack(true)
+    }
+
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return
+        }
+
+        val hasPermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (!hasPermission) {
+            requestPermissions(
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                REQUEST_CODE_NOTIFICATIONS
+            )
+        }
     }
 
     var database: FirebaseDatabase = FirebaseDatabase.getInstance()

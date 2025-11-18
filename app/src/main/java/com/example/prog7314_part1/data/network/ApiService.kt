@@ -192,3 +192,11 @@ interface DailyActivityApiService {
     ): Response<Map<String, Any>>
 }
 
+interface NotificationApiService {
+    @POST("api/notifications/register-token")
+    suspend fun registerFcmToken(@Body request: FcmTokenRequest): Response<Map<String, Any>>
+
+    @POST("api/notifications/send-test")
+    suspend fun sendTestNotification(@Body request: SendNotificationRequest): Response<Map<String, Any>>
+}
+

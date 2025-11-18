@@ -1,5 +1,14 @@
 const admin = require('firebase-admin');
-require('dotenv').config();
+const fs = require('fs');
+const dotenv = require('dotenv');
+
+if (fs.existsSync('.env')) {
+  dotenv.config();
+} else if (fs.existsSync('.env.local')) {
+  dotenv.config({ path: '.env.local' });
+} else {
+  dotenv.config();
+}
 
 // Initialize Firebase Admin SDK
 // Option 1: Using service account key file (recommended for local dev)

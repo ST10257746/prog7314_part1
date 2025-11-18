@@ -141,6 +141,21 @@ class SessionViewModel(
             timerText = "00:00:00"
         )
 
+        val workoutName = currentState.selectedWorkoutType?.name ?: "Workout"
+
+        networkRepository?.let { repo ->
+            viewModelScope.launch {
+                try {
+                    repo.sendNotification(
+                        title = "Workout started",
+                        body = "Your $workoutName session has started."
+                    )
+                } catch (e: Exception) {
+                    Log.w(TAG, "⚠️ Failed to send workout start notification: ${e.message}")
+                }
+            }
+        }
+
         // Auto-connect watch AFTER setting session state
         if (!currentState.watchMetrics.isConnected) {
             connectWatch()
@@ -357,6 +372,15 @@ class SessionViewModel(
                         
                         // Step 3: Update daily activity with workout data
                         updateDailyActivityFromWorkout(currentUser.userId, session)
+
+                        try {
+                            repo.sendNotification(
+                                title = "Workout completed",
+                                body = "You completed a ${session.workoutName} session and burned ${session.caloriesBurned} calories."
+                            )
+                        } catch (e: Exception) {
+                            Log.w(TAG, "⚠️ Failed to send workout completed notification: ${e.message}")
+                        }
                     }
                     is Result.Error -> {
                         Log.w(TAG, "⚠️ Failed to sync workout to Firebase: ${result.message}")

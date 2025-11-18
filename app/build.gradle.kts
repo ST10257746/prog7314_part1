@@ -49,7 +49,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.biometric)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,12 +64,13 @@ dependencies {
     // Firebase BOM (manages Firebase versions)
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
 
-    // ✅ Firebase core + services (add only what you need)
+    // Firebase core + services (add only what you need)
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-database-ktx") // Optional: Realtime DB
     implementation("com.google.firebase:firebase-storage-ktx") // Optional: File storage
+    implementation("com.google.firebase:firebase-messaging-ktx")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     

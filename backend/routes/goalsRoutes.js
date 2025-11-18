@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { db } = require('../config/firebase');
+const { db, admin } = require('../config/firebase');
 const { verifyToken } = require('../middleware/auth');
 
 /**
@@ -244,6 +244,41 @@ router.put('/:goalId/progress', verifyToken, async (req, res) => {
     });
     
     const updatedDoc = await db.collection('goals').doc(goalId).get();
+    
+    if (isCompleted) {
+      try {
+        const userDoc = await db.collection('users').doc(userId).get();
+        if (userDoc.exists) {
+          const tokens = userDoc.data().fcmTokens || [];
+          if (tokens.length > 0) {
+            const message = {
+              tokens,
+              notification: {
+                title: 'Goal completed',
+                body: `You have completed your ${goalData.goalType} goal`
+              },
+              data: {
+                type: 'GOAL_COMPLETED',
+                goalId: goalId
+              }
+            };
+            await admin.messaging().sendEachForMulticast(message);
+            const notificationData = {
+              userId,
+              title: message.notification.title,
+              body: message.notification.body,
+              data: message.data,
+              createdAt: Date.now(),
+              read: false,
+              goalId
+            };
+            await db.collection('notifications').add(notificationData);
+          }
+        }
+      } catch (notifyError) {
+        console.error('Send goal completion notification error:', notifyError);
+      }
+    }
     
     res.json({
       message: 'Goal progress updated successfully',

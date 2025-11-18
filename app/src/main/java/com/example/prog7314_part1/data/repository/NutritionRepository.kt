@@ -85,6 +85,10 @@ class NutritionRepository(context: Context) {
             when (val apiResult = networkRepo.createNutrition(nutritionRequest)) {
                 is Result.Success -> {
                     android.util.Log.d("NutritionRepo", "✅ Nutrition entry synced to Firebase")
+                    networkRepo.sendNotification(
+                        title = "Meal added",
+                        body = "You logged a new meal: $foodName"
+                    )
                 }
                 is Result.Error -> {
                     android.util.Log.w("NutritionRepo", "⚠️ API sync failed: ${apiResult.message}")
@@ -123,6 +127,16 @@ class NutritionRepository(context: Context) {
             // Note: We would need the Firebase document ID to delete from API
             // For now, we'll just delete locally and log the sync attempt
             android.util.Log.d("NutritionRepo", "✅ Nutrition entry deleted locally (API sync coming soon)")
+            
+            // Send FCM notification about deleted meal
+            try {
+                networkRepo.sendNotification(
+                    title = "Meal deleted",
+                    body = "You deleted the meal: ${entry.foodName}"
+                )
+            } catch (e: Exception) {
+                android.util.Log.w("NutritionRepo", "⚠️ Failed to send delete meal notification: ${e.message}")
+            }
             
             Result.Success(Unit)
         } catch (e: Exception) {

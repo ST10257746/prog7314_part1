@@ -9,7 +9,7 @@ object ApiConfig {
     // Local development: Android emulator accessing localhost:3000
     // For physical device, use: "http://YOUR_COMPUTER_IP:3000/"
     // For production: "https://your-api.render.com/"
-    const val BASE_URL = "https://fittrackr-api-c87x.onrender.com/"
+    const val BASE_URL = "http://192.168.8.79:3000/"
     
     // API endpoints
     object Endpoints {

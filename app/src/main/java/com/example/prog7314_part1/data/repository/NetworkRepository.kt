@@ -26,6 +26,7 @@ class NetworkRepository(private val context: Context) {
     private val progressApi: ProgressApiService = RetrofitClient.create()
     private val nutritionApi: NutritionApiService = RetrofitClient.create()
     private val dailyActivityApi: DailyActivityApiService = RetrofitClient.create()
+    private val notificationApi: NotificationApiService = RetrofitClient.create()
     
     // ==================== User Operations ====================
     
@@ -67,6 +68,50 @@ class NetworkRepository(private val context: Context) {
             }
         } catch (e: Exception) {
             android.util.Log.e("NetworkRepository", "💥 Exception during registration: ${e.message}", e)
+            Result.Error(e, e.message ?: "Network error")
+        }
+    }
+
+    suspend fun registerFcmToken(token: String): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            val request = FcmTokenRequest(token)
+            val response = notificationApi.registerFcmToken(request)
+
+            if (response.isSuccessful) {
+                Result.Success(Unit)
+            } else {
+                Result.Error(
+                    Exception("Failed to register FCM token"),
+                    response.errorBody()?.string() ?: "Unknown error"
+                )
+            }
+        } catch (e: Exception) {
+            Result.Error(e, e.message ?: "Network error")
+        }
+    }
+    
+    suspend fun sendNotification(
+        title: String,
+        body: String,
+        data: Map<String, String>? = null
+    ): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            val request = SendNotificationRequest(
+                title = title,
+                body = body,
+                data = data
+            )
+            val response = notificationApi.sendTestNotification(request)
+
+            if (response.isSuccessful) {
+                Result.Success(Unit)
+            } else {
+                Result.Error(
+                    Exception("Failed to send notification"),
+                    response.errorBody()?.string() ?: "Unknown error"
+                )
+            }
+        } catch (e: Exception) {
             Result.Error(e, e.message ?: "Network error")
         }
     }

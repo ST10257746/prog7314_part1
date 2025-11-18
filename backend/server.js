@@ -42,6 +42,7 @@ const goalsRoutes = require('./routes/goalsRoutes');
 const progressRoutes = require('./routes/progressRoutes');
 const nutritionRoutes = require('./routes/nutritionRoutes');
 const dailyActivityRoutes = require('./routes/dailyActivityRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 // Use routes
 app.use('/api/users', userRoutes);
@@ -51,6 +52,7 @@ app.use('/api/goals', goalsRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/nutrition', nutritionRoutes);
 app.use('/api/daily-activity', dailyActivityRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
