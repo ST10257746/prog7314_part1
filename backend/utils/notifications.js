@@ -67,6 +67,7 @@ async function sendNotification(userId, title, body, data = {}) {
           } else if (errorCode === 'messaging/registration-token-not-registered') {
             // Log but don't remove - might be transient or emulator token
             console.log(`⚠️ Token not registered (might be emulator/test): ${tokens[idx].substring(0, 20)}...`);
+            console.log(`   ℹ️  Note: Emulator FCM tokens often fail with this error. Test on a physical device for reliable notifications.`);
           }
         }
       });

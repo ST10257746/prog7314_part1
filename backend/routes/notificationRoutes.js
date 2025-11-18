@@ -42,6 +42,7 @@ router.post('/register-token', verifyToken, async (req, res) => {
     });
 
     console.log(`✅ FCM token registered for user ${userId}: ${token.substring(0, 20)}...`);
+    console.log(`   ℹ️  Note: If notifications fail, ensure you're testing on a physical device (emulator tokens may not work)`);
 
     res.json({
       message: 'Token registered'
