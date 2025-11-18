@@ -111,6 +111,8 @@
     <string name="daily_step_count_past_7_days">Daaglikse treetelling vir die afgelope 7 dae</string>
     <string name="of_steps">van %1$d treë</string>
     <string name="steps_format">%1$d van %2$d treë</string>
+    <string name="reach_steps_goal">Bereik %1$s treë vandag</string>
+    <string name="reach_calories_goal">Verbrand %1$s kalorieë vandag</string>
     
     <!-- Bottom Navigation -->
     <string name="nav_home">Tuis</string>

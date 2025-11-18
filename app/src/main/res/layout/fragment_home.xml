@@ -500,6 +500,7 @@
 
                 <!-- Monday -->
                 <LinearLayout
+                    android:id="@+id/mondayContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -507,12 +508,13 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/mondayCheckmark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="✓"
-                        android:textColor="@color/Secondary"
+                        android:text="○"
+                        android:textColor="@color/Text"
                         android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:alpha="0.5" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -525,6 +527,7 @@
 
                 <!-- Tuesday -->
                 <LinearLayout
+                    android:id="@+id/tuesdayContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -532,12 +535,13 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/tuesdayCheckmark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="✓"
-                        android:textColor="@color/Secondary"
+                        android:text="○"
+                        android:textColor="@color/Text"
                         android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:alpha="0.5" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -550,6 +554,7 @@
 
                 <!-- Wednesday -->
                 <LinearLayout
+                    android:id="@+id/wednesdayContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -557,12 +562,13 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/wednesdayCheckmark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="✓"
-                        android:textColor="@color/Secondary"
+                        android:text="○"
+                        android:textColor="@color/Text"
                         android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:alpha="0.5" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -575,6 +581,7 @@
 
                 <!-- Thursday -->
                 <LinearLayout
+                    android:id="@+id/thursdayContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -582,6 +589,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/thursdayCheckmark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="○"
@@ -600,6 +608,7 @@
 
                 <!-- Friday -->
                 <LinearLayout
+                    android:id="@+id/fridayContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -607,6 +616,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/fridayCheckmark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="○"
@@ -625,6 +635,7 @@
 
                 <!-- Saturday -->
                 <LinearLayout
+                    android:id="@+id/saturdayContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -632,6 +643,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/saturdayCheckmark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="○"
@@ -650,6 +662,7 @@
 
                 <!-- Sunday -->
                 <LinearLayout
+                    android:id="@+id/sundayContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -657,6 +670,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/sundayCheckmark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="○"
@@ -695,140 +709,29 @@
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Goal 1 -->
+            <!-- Goals List Container (Dynamic) -->
             <LinearLayout
+                android:id="@+id/goalsListContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="12dp"
-                android:padding="8dp">
+                android:orientation="vertical" />
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:checked="true" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/drink_water"
-                    android:textColor="@color/Text"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="✓"
-                    android:textColor="@color/Secondary"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <!-- Goal 2 -->
-            <LinearLayout
+            <!-- Empty State -->
+            <TextView
+                android:id="@+id/goalsEmptyState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="12dp"
-                android:padding="8dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:checked="false" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/run_5km"
-                    android:textColor="@color/Text"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="○"
-                    android:textColor="@color/Text"
-                    android:textSize="16sp"
-                    android:alpha="0.5" />
-
-            </LinearLayout>
-
-            <!-- Goal 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="12dp"
-                android:padding="8dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:checked="true" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/meditate_10min"
-                    android:textColor="@color/Text"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="✓"
-                    android:textColor="@color/Secondary"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <!-- Goal 4 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="12dp"
-                android:padding="8dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:checked="false" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/read_20min"
-                    android:textColor="@color/Text"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="○"
-                    android:textColor="@color/Text"
-                    android:textSize="16sp"
-                    android:alpha="0.5" />
-
-            </LinearLayout>
+                android:text="@string/no_goals_today"
+                android:textColor="@color/Text"
+                android:textSize="14sp"
+                android:alpha="0.7"
+                android:gravity="center"
+                android:padding="16dp"
+                android:visibility="gone" />
 
             <!-- Add New Goal Button -->
             <Button
+                android:id="@+id/addGoalButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_goal"
@@ -937,191 +840,15 @@
 
                 </LinearLayout>
 
-                <!-- Chart bars -->
+                <!-- Chart bars (Dynamic) -->
                 <LinearLayout
+                    android:id="@+id/weeklyChartBars"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="horizontal"
                     android:gravity="bottom"
-                    android:layout_marginStart="8dp">
-
-                    <!-- Monday: 8,600 steps -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:padding="2dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="8.6K"
-                            android:textColor="@color/Text"
-                            android:textSize="11sp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="4dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="110dp"
-                            android:background="@color/Primary" />
-
-                    </LinearLayout>
-
-                    <!-- Tuesday: 6,200 steps -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:padding="2dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="6.2K"
-                            android:textColor="@color/Text"
-                            android:textSize="11sp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="4dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="78dp"
-                            android:background="@color/Primary" />
-
-                    </LinearLayout>
-
-                    <!-- Wednesday: 9,400 steps -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:padding="2dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="9.4K"
-                            android:textColor="@color/Text"
-                            android:textSize="11sp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="4dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            android:background="@color/Primary" />
-
-                    </LinearLayout>
-
-                    <!-- Thursday: 7,800 steps -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:padding="2dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="7.8K"
-                            android:textColor="@color/Text"
-                            android:textSize="11sp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="4dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="98dp"
-                            android:background="@color/Primary" />
-
-                    </LinearLayout>
-
-                    <!-- Friday: 8,200 steps -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:padding="2dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="8.2K"
-                            android:textColor="@color/Text"
-                            android:textSize="11sp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="4dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="103dp"
-                            android:background="@color/Primary" />
-
-                    </LinearLayout>
-
-                    <!-- Saturday: 11,200 steps -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:padding="2dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="11.2K"
-                            android:textColor="@color/Text"
-                            android:textSize="11sp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="4dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="130dp"
-                            android:background="@color/Primary" />
-
-                    </LinearLayout>
-
-                    <!-- Sunday: 5,400 steps -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:padding="2dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5.4K"
-                            android:textColor="@color/Text"
-                            android:textSize="11sp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="4dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="68dp"
-                            android:background="@color/Primary" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:layout_marginStart="8dp" />
 
             </LinearLayout>
 

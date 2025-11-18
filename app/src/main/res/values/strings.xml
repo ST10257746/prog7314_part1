@@ -111,6 +111,8 @@
     <string name="daily_step_count_past_7_days">Daily step count for the past 7 days</string>
     <string name="of_steps">of %1$d steps</string>
     <string name="steps_format">%1$d of %2$d steps</string>
+    <string name="reach_steps_goal">Reach %1$s steps today</string>
+    <string name="reach_calories_goal">Burn %1$s calories today</string>
     
     <!-- Bottom Navigation -->
     <string name="nav_home">Home</string>
@@ -257,6 +259,7 @@
     <string name="kg">kg</string>
     <string name="cm">cm</string>
     <string name="no_goals_set">No goals set yet</string>
+    <string name="no_goals_today">No goals for today</string>
     <string name="not_logged_in">Not logged in</string>
     <string name="logging_out">Logging out…</string>
     
