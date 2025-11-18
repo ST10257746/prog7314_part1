@@ -94,19 +94,26 @@ class ApiUserRepository(private val context: Context) {
                     userDao.insertUser(localUser)
                     android.util.Log.d("ApiUserRepository", "✅ Registration complete!")
                     
-                    // Register FCM token for this user
+                    // Register FCM token for this user and wait for it to complete
                     try {
                         val fcmToken = FirebaseMessaging.getInstance().token.await()
-                        networkRepo.registerFcmToken(fcmToken)
+                        when (val tokenResult = networkRepo.registerFcmToken(fcmToken)) {
+                            is Result.Success -> {
+                                android.util.Log.d("ApiUserRepository", "✅ FCM token registered successfully")
+                                // Send welcome notification AFTER token is registered
+                                networkRepo.sendNotification(
+                                    title = "Welcome to FitTrackr",
+                                    body = "Your account has been created successfully!"
+                                )
+                            }
+                            is Result.Error -> {
+                                android.util.Log.w("ApiUserRepository", "⚠️ Failed to register FCM token: ${tokenResult.message}")
+                            }
+                            else -> {}
+                        }
                     } catch (e: Exception) {
-                        android.util.Log.w("ApiUserRepository", "⚠️ Failed to register FCM token: ${'$'}{e.message}")
+                        android.util.Log.w("ApiUserRepository", "⚠️ Failed to get/register FCM token: ${'$'}{e.message}")
                     }
-                    
-                    // Send welcome notification via backend/FCM
-                    networkRepo.sendNotification(
-                        title = "Welcome to FitTrackr",
-                        body = "Your account has been created successfully!"
-                    )
 
                     Result.Success(localUser)
                 }
@@ -144,20 +151,27 @@ class ApiUserRepository(private val context: Context) {
                     val localUser = userDto.toUser()
                     userDao.insertUser(localUser)
                     
-                    // Register FCM token for this user
+                    // Register FCM token for this user and wait for it to complete
                     try {
                         val fcmToken = FirebaseMessaging.getInstance().token.await()
-                        networkRepo.registerFcmToken(fcmToken)
+                        when (val tokenResult = networkRepo.registerFcmToken(fcmToken)) {
+                            is Result.Success -> {
+                                android.util.Log.d("ApiUserRepository", "✅ FCM token registered on login")
+                                // Send login notification AFTER token is registered
+                                networkRepo.sendNotification(
+                                    title = "Login successful",
+                                    body = "Welcome back, ${localUser.displayName}!"
+                                )
+                            }
+                            is Result.Error -> {
+                                android.util.Log.w("ApiUserRepository", "⚠️ Failed to register FCM token on login: ${tokenResult.message}")
+                            }
+                            else -> {}
+                        }
                     } catch (e: Exception) {
-                        android.util.Log.w("ApiUserRepository", "⚠️ Failed to register FCM token on login: ${'$'}{e.message}")
+                        android.util.Log.w("ApiUserRepository", "⚠️ Failed to get/register FCM token on login: ${'$'}{e.message}")
                     }
                     
-                    // Send login notification via backend/FCM
-                    networkRepo.sendNotification(
-                        title = "Login successful",
-                        body = "Welcome back, ${localUser.displayName}!"
-                    )
-
                     Result.Success(localUser)
                 }
                 is Result.Error -> apiResult

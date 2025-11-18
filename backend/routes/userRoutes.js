@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { db, auth } = require('../config/firebase');
 const { verifyToken } = require('../middleware/auth');
+const { sendNotification } = require('../utils/notifications');
 
 /**
  * POST /api/users/register
@@ -52,6 +53,19 @@ router.post('/register', verifyToken, async (req, res) => {
     
     await db.collection('users').doc(userId).set(userData);
     
+    // Send welcome notification
+    try {
+      await sendNotification(
+        userId,
+        'Welcome to FitTrackr!',
+        `Hi ${displayName}! Your account has been created successfully. Start tracking your fitness journey today!`,
+        { type: 'REGISTRATION' }
+      );
+    } catch (notifyError) {
+      console.error('Failed to send registration notification:', notifyError);
+      // Don't fail registration if notification fails
+    }
+    
     res.status(201).json({
       message: 'User registered successfully',
       user: userData
@@ -85,9 +99,24 @@ router.post('/login', verifyToken, async (req, res) => {
       });
     }
     
+    const userData = userDoc.data();
+    
+    // Send welcome back notification
+    try {
+      await sendNotification(
+        userId,
+        'Welcome back!',
+        `Hi ${userData.displayName || 'there'}! Ready to continue your fitness journey?`,
+        { type: 'LOGIN' }
+      );
+    } catch (notifyError) {
+      console.error('Failed to send login notification:', notifyError);
+      // Don't fail login if notification fails
+    }
+    
     res.json({
       message: 'Login successful',
-      user: userDoc.data()
+      user: userData
     });
     
   } catch (error) {

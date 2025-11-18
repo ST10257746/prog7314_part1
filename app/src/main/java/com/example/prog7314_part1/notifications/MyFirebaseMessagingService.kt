@@ -23,28 +23,43 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
+        android.util.Log.d("FCM", "🔄 New FCM token received: $token")
         scope.launch {
             try {
                 val repository = NetworkRepository(applicationContext)
                 repository.registerFcmToken(token)
-            } catch (_: Exception) {
+                android.util.Log.d("FCM", "✅ Token registered with backend")
+            } catch (e: Exception) {
+                android.util.Log.e("FCM", "❌ Failed to register token: ${e.message}")
             }
         }
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        android.util.Log.d("FCM", "📨 Message received!")
+        android.util.Log.d("FCM", "From: ${remoteMessage.from}")
+        android.util.Log.d("FCM", "Data: ${remoteMessage.data}")
+        android.util.Log.d("FCM", "Notification title: ${remoteMessage.notification?.title}")
+        android.util.Log.d("FCM", "Notification body: ${remoteMessage.notification?.body}")
+        
         val title = remoteMessage.notification?.title ?: "FitTrackr"
         val body = remoteMessage.notification?.body ?: ""
+        
+        android.util.Log.d("FCM", "📤 Showing notification: $title - $body")
         showNotification(title, body)
     }
 
     private fun showNotification(title: String, body: String) {
+        android.util.Log.d("FCM", "🔔 Attempting to show notification...")
+        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val hasPermission = ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
+            android.util.Log.d("FCM", "📋 Notification permission: $hasPermission")
             if (!hasPermission) {
+                android.util.Log.w("FCM", "⚠️ Notification permission not granted!")
                 return
             }
         }
@@ -67,8 +82,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
 
-        with(NotificationManagerCompat.from(this)) {
-            notify(System.currentTimeMillis().toInt(), builder.build())
+        try {
+            with(NotificationManagerCompat.from(this)) {
+                notify(System.currentTimeMillis().toInt(), builder.build())
+                android.util.Log.d("FCM", "✅ Notification displayed successfully!")
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("FCM", "❌ Failed to show notification: ${e.message}", e)
         }
     }
 }

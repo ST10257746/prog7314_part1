@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { db } = require('../config/firebase');
 const { verifyToken } = require('../middleware/auth');
+const { sendNotification } = require('../utils/notifications');
 
 /**
  * GET /api/workouts
@@ -140,6 +141,19 @@ router.post('/', verifyToken, async (req, res) => {
     };
     
     const docRef = await db.collection('workoutSessions').add(workoutData);
+    
+    // Send notification
+    try {
+      await sendNotification(
+        userId,
+        'Workout logged!',
+        `Great job! You've logged "${workoutName}". Keep up the amazing work!`,
+        { type: 'WORKOUT_LOGGED', workoutId: docRef.id }
+      );
+    } catch (notifyError) {
+      console.error('Failed to send workout notification:', notifyError);
+      // Don't fail workout creation if notification fails
+    }
     
     res.status(201).json({
       message: 'Workout created successfully',

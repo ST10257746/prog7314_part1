@@ -28,7 +28,11 @@ import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.utils.LocaleHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity() {
 
@@ -78,23 +82,41 @@ class MainActivity : AppCompatActivity() {
         hasAuthenticatedThisSession =
             savedState?.getBoolean(KEY_HAS_BIOMETRIC_AUTH, false) ?: false
 
-        // Initialize repository
-        userRepository = ApiUserRepository(this)
-        setupBiometricPrompt()
-
-        // Set up navigation
+        // Set up navigation first (non-blocking, must be done immediately)
         setupNavigation()
 
-        // Observe authentication state
-        observeAuthState()
+        // Defer everything else to allow onCreate() to finish quickly
+        // This prevents ANR by letting the activity complete startup
+        lifecycleScope.launch {
+            // Wait for Firebase to finish initializing (can be slow on emulator)
+            delay(1000)
+            
+            // Setup biometric prompt (non-blocking)
+            setupBiometricPrompt()
 
-        // Request notification permission if needed
-        requestNotificationPermissionIfNeeded()
+            // Request notification permission if needed (non-blocking)
+            requestNotificationPermissionIfNeeded()
+            
+            // Initialize repository on background thread
+            withContext(Dispatchers.IO) {
+                userRepository = ApiUserRepository(this@MainActivity)
+            }
+            
+            // Once repository is ready, observe auth state on main thread
+            observeAuthState()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         enforceBiometricIfNeeded()
+        
+        // Get FCM token after app is fully loaded (non-blocking)
+        lifecycleScope.launch {
+            // Delay to ensure Firebase is fully initialized
+            delay(2000)
+            getFcmToken()
+        }
     }
 
     override fun onStop() {
@@ -195,6 +217,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun enforceBiometricIfNeeded() {
+        // Skip if repository not initialized yet
+        if (!::userRepository.isInitialized) {
+            return
+        }
+        
         if (!userRepository.isLoggedIn()) {
             hasAuthenticatedThisSession = false
             return
@@ -256,6 +283,40 @@ class MainActivity : AppCompatActivity() {
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                 REQUEST_CODE_NOTIFICATIONS
             )
+        }
+    }
+
+    /**
+     * Get FCM token for testing push notifications
+     * Token will be logged to logcat - use: adb logcat | grep FCM_TOKEN
+     * Called asynchronously to avoid blocking startup
+     */
+    private suspend fun getFcmToken() {
+        withContext(Dispatchers.IO) {
+            try {
+                FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                        return@addOnCompleteListener
+                    }
+
+                    // Get new FCM registration token
+                    val token = task.result
+                    Log.d(TAG, "FCM_TOKEN: $token")
+                    Log.d(TAG, "📱 Copy this token to send test notifications via Firebase Console")
+                    
+                    // Show toast on main thread
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "FCM Token logged - check logcat",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.w(TAG, "Error getting FCM token", e)
+            }
         }
     }
 

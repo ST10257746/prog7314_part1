@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { db } = require('../config/firebase');
 const { verifyToken } = require('../middleware/auth');
+const { sendNotification } = require('../utils/notifications');
 
 /**
  * GET /api/nutrition/:userId
@@ -172,6 +173,19 @@ router.post('/', verifyToken, async (req, res) => {
     };
     
     const docRef = await db.collection('nutritionEntries').add(nutritionData);
+    
+    // Send notification
+    try {
+      await sendNotification(
+        userId,
+        'Meal logged!',
+        `You've logged "${foodName}" for ${mealType}. ${calories} calories added to your daily total.`,
+        { type: 'MEAL_LOGGED', nutritionId: docRef.id }
+      );
+    } catch (notifyError) {
+      console.error('Failed to send nutrition notification:', notifyError);
+      // Don't fail nutrition entry if notification fails
+    }
     
     res.status(201).json({
       message: 'Nutrition entry created successfully',

@@ -8,6 +8,14 @@
         <domain includeSubdomains="true">192.168.8.79</domain>
     </domain-config>
     
+    <!-- Allow HTTPS for hosted APIs (Render, Railway, Heroku, etc.) -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">onrender.com</domain>
+        <domain includeSubdomains="true">railway.app</domain>
+        <domain includeSubdomains="true">herokuapp.com</domain>
+        <domain includeSubdomains="true">vercel.app</domain>
+    </domain-config>
+    
     <!-- Production will use HTTPS by default -->
     <base-config cleartextTrafficPermitted="false" />
 </network-security-config>

@@ -19,17 +19,14 @@ class FitTrackrApplication : Application() {
     
     override fun onCreate() {
         super.onCreate()
-        // Ensure locale is set on app start
-        // This sets the default locale for the entire application
-        val savedLanguage = LocaleHelper.getSavedLanguage(this)
-        LocaleHelper.setLocale(this, savedLanguage)
+        // Locale is already set in attachBaseContext, no need to set again here
+        // Setting it here would cause configuration changes and potential ANR
     }
     
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         super.onConfigurationChanged(newConfig)
-        // Update locale when configuration changes
-        val savedLanguage = LocaleHelper.getSavedLanguage(this)
-        LocaleHelper.setLocale(this, savedLanguage)
+        // Don't call setLocale here as it can cause configuration change loops
+        // The locale is already set in attachBaseContext, and MainActivity handles runtime changes
     }
 }
 
