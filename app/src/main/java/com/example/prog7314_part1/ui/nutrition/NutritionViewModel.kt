@@ -156,10 +156,20 @@ class NutritionViewModel(
             
             when (val result = nutritionRepository.deleteNutritionEntry(entry)) {
                 is Result.Success -> {
+                    // The Flow should automatically update, but ensure we refresh the data
+                    // Remove the entry from current state immediately for instant UI feedback
+                    val updatedEntries = _state.value.todayEntries.filter { it.entryId != entry.entryId }
                     _state.value = _state.value.copy(
                         isLoading = false,
+                        todayEntries = updatedEntries,
                         successMessage = "Entry deleted successfully!"
                     )
+                    // Recalculate summary with updated entries
+                    val user = userRepository.getCurrentUserSuspend()
+                    if (user != null) {
+                        val summary = nutritionRepository.getNutritionSummaryForToday(user.userId)
+                        _state.value = _state.value.copy(nutritionSummary = summary)
+                    }
                 }
                 is Result.Error -> {
                     _state.value = _state.value.copy(

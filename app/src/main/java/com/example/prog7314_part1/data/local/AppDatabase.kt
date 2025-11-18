@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
         NutritionEntry::class,
         Goal::class
     ],
-    version = 7,  // ✅ Incremented for isSynced field in Workout entity
+    version = 8,  // ✅ Incremented for firebaseId field in NutritionEntry entity
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -59,6 +59,18 @@ abstract class AppDatabase : RoomDatabase() {
                 android.util.Log.d("AppDatabase", "✅ Migration 6->7: Added isSynced column to workouts table")
             }
         }
+        
+        /**
+         * Migration from version 7 to 8
+         * Adds firebaseId column to nutrition_entries table for API deletion
+         */
+        private val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Add firebaseId column to nutrition_entries table (nullable TEXT)
+                database.execSQL("ALTER TABLE nutrition_entries ADD COLUMN firebaseId TEXT")
+                android.util.Log.d("AppDatabase", "✅ Migration 7->8: Added firebaseId column to nutrition_entries table")
+            }
+        }
 
         /**
          * Get database instance using singleton pattern
@@ -71,7 +83,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     DATABASE_NAME
                 )
-                    .addMigrations(MIGRATION_6_7)
+                    .addMigrations(MIGRATION_6_7, MIGRATION_7_8)
                     .fallbackToDestructiveMigration() // For development only
                     .allowMainThreadQueries() // For development only - remove in production
                     .addCallback(DatabaseCallback())

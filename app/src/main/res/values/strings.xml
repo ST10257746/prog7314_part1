@@ -107,6 +107,8 @@
     <string name="this_weeks_goals">This Week\'s Goals</string>
     <string name="goals_todo_list">Goals To-Do List</string>
     <string name="add_goal">+ Add Goal</string>
+    <string name="add_test_data">Add Test Data (Demo Mode)</string>
+    <string name="remove_test_data">Remove Test Data</string>
     <string name="weekly_progress">Weekly Progress</string>
     <string name="daily_step_count_past_7_days">Daily step count for the past 7 days</string>
     <string name="of_steps">of %1$d steps</string>

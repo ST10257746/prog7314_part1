@@ -55,6 +55,16 @@
 
         </LinearLayout>
 
+        <!-- Test Mode Button -->
+        <Button
+            android:id="@+id/testModeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_test_data"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/Accent"
+            android:layout_marginBottom="16dp" />
+
         <!-- This Week Overview -->
         <TextView
             android:layout_width="wrap_content"

@@ -365,6 +365,27 @@ class NetworkRepository(private val context: Context) {
             }
         }
     
+    /**
+     * Delete nutrition entry via API
+     */
+    suspend fun deleteNutrition(nutritionId: String): Result<Unit> = 
+        withContext(Dispatchers.IO) {
+            try {
+                val response = nutritionApi.deleteNutrition(nutritionId)
+                
+                if (response.isSuccessful) {
+                    Result.Success(Unit)
+                } else {
+                    Result.Error(
+                        Exception("Failed to delete nutrition entry"),
+                        response.errorBody()?.string() ?: "Unknown error"
+                    )
+                }
+            } catch (e: Exception) {
+                Result.Error(e, e.message ?: "Network error")
+            }
+        }
+    
     // ==================== Daily Activity Operations ====================
     
     /**

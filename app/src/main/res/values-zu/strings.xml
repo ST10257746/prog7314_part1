@@ -107,6 +107,8 @@
     <string name="this_weeks_goals">Izinjongo Zale Viki</string>
     <string name="goals_todo_list">Uhlu Lwezinjongo</string>
     <string name="add_goal">+ Engeza Injongo</string>
+    <string name="add_test_data">Engeza Idatha Yokuhlola (I-Demo Mode)</string>
+    <string name="remove_test_data">Susa Idatha Yokuhlola</string>
     <string name="weekly_progress">Intuthuko Yeviki</string>
     <string name="daily_step_count_past_7_days">Isibalo sezinyathelo zansuku zonke ezinsukwini eziyisikhombisa ezedlule</string>
     <string name="of_steps">kwezinyathelo ezingu-%1$d</string>

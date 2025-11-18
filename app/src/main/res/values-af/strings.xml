@@ -107,6 +107,8 @@
     <string name="this_weeks_goals">Hierdie Week se Doelwitte</string>
     <string name="goals_todo_list">Doelwit To-Do Lys</string>
     <string name="add_goal">+ Voeg Doelwit By</string>
+    <string name="add_test_data">Voeg Toetsdata By (Demo Modus)</string>
+    <string name="remove_test_data">Verwyder Toetsdata</string>
     <string name="weekly_progress">Weeklikse Vordering</string>
     <string name="daily_step_count_past_7_days">Daaglikse treetelling vir die afgelope 7 dae</string>
     <string name="of_steps">van %1$d treë</string>

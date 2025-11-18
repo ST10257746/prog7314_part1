@@ -47,7 +47,8 @@ data class NutritionEntry(
     val imageUrl: String? = null,
     
     val createdAt: Long = System.currentTimeMillis(),
-    val isSynced: Boolean = false
+    val isSynced: Boolean = false,
+    val firebaseId: String? = null  // Firebase document ID for API deletion
 )
 
 enum class MealType {

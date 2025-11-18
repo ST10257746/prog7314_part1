@@ -763,94 +763,10 @@
                 android:layout_marginBottom="16dp" />
 
             <!-- Weekly Progress Chart -->
-            <LinearLayout
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/weeklyStepsChart"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:orientation="horizontal">
-
-                <!-- Step count labels on the left -->
-                <LinearLayout
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="bottom|end"
-                    android:paddingEnd="4dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="12K"
-                        android:textColor="@color/Text"
-                        android:textSize="11sp"
-                        android:alpha="0.7"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="10K"
-                        android:textColor="@color/Text"
-                        android:textSize="11sp"
-                        android:alpha="0.7"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="8K"
-                        android:textColor="@color/Text"
-                        android:textSize="11sp"
-                        android:alpha="0.7"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="6K"
-                        android:textColor="@color/Text"
-                        android:textSize="11sp"
-                        android:alpha="0.7"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4K"
-                        android:textColor="@color/Text"
-                        android:textSize="11sp"
-                        android:alpha="0.7"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2K"
-                        android:textColor="@color/Text"
-                        android:textSize="11sp"
-                        android:alpha="0.7"
-                        android:layout_marginBottom="6dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="@color/Text"
-                        android:textSize="11sp"
-                        android:alpha="0.7" />
-
-                </LinearLayout>
-
-                <!-- Chart bars (Dynamic) -->
-                <LinearLayout
-                    android:id="@+id/weeklyChartBars"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    android:layout_marginStart="8dp" />
-
-            </LinearLayout>
+                android:layout_height="200dp" />
 
             <!-- Chart Description -->
             <TextView
@@ -862,85 +778,7 @@
                 android:alpha="0.8"
                 android:layout_marginTop="12dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Mon"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:alpha="0.7"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Tue"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:alpha="0.7"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Wed"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:alpha="0.7"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Thu"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:alpha="0.7"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Fri"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:alpha="0.7"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Sat"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:alpha="0.7"
-                    android:gravity="center" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Sun"
-                    android:textColor="@color/Text"
-                    android:textSize="12sp"
-                    android:alpha="0.7"
-                    android:gravity="center" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+x        </LinearLayout>
 
     </LinearLayout>
 

@@ -88,9 +88,11 @@ class NutritionRepository(context: Context) {
                 
                 when (val apiResult = networkRepo.createNutrition(nutritionRequest)) {
                     is Result.Success -> {
-                        // Mark as synced in local database
-                        nutritionDao.markAsSynced(insertedId)
-                        android.util.Log.d("NutritionRepo", "✅ Nutrition entry synced to Firebase and marked as synced (entryId=$insertedId)")
+                        // Store Firebase ID and mark as synced
+                        val firebaseId = apiResult.data.id
+                        val updatedEntry = savedEntry.copy(firebaseId = firebaseId, isSynced = true)
+                        nutritionDao.updateEntry(updatedEntry)
+                        android.util.Log.d("NutritionRepo", "✅ Nutrition entry synced to Firebase (entryId=$insertedId, firebaseId=$firebaseId)")
                         
                         // Send notification
                         try {
@@ -139,13 +141,49 @@ class NutritionRepository(context: Context) {
      */
     suspend fun deleteNutritionEntry(entry: NutritionEntry): Result<Unit> {
         return try {
-            // Step 1: Delete from local RoomDB
+            // Verify entry exists before deletion
+            val existingEntry = nutritionDao.getEntryById(entry.entryId)
+            if (existingEntry == null) {
+                android.util.Log.w("NutritionRepo", "⚠️ Entry not found in database (entryId=${entry.entryId}), may already be deleted")
+                return Result.Success(Unit) // Already deleted, return success
+            }
+            
+            android.util.Log.d("NutritionRepo", "🗑️ Deleting nutrition entry: entryId=${entry.entryId}, foodName=${entry.foodName}, firebaseId=${entry.firebaseId}")
+            
+            // Step 1: Delete from local RoomDB first
             nutritionDao.deleteEntry(entry)
             
-            // Step 2: Delete from Firebase via REST API
-            // Note: We would need the Firebase document ID to delete from API
-            // For now, we'll just delete locally and log the sync attempt
-            android.util.Log.d("NutritionRepo", "✅ Nutrition entry deleted locally (API sync coming soon)")
+            // Verify deletion
+            val verifyDeleted = nutritionDao.getEntryById(entry.entryId)
+            if (verifyDeleted != null) {
+                android.util.Log.e("NutritionRepo", "❌ Entry still exists after deletion! entryId=${entry.entryId}")
+                return Result.Error(Exception("Failed to delete entry"), "Entry still exists after deletion")
+            }
+            
+            android.util.Log.d("NutritionRepo", "✅ Nutrition entry deleted from local database (entryId=${entry.entryId})")
+            
+            // Step 2: Delete from Firebase via REST API (if synced and has Firebase ID)
+            if (entry.isSynced && !entry.firebaseId.isNullOrBlank()) {
+                try {
+                    when (val apiResult = networkRepo.deleteNutrition(entry.firebaseId)) {
+                        is Result.Success -> {
+                            android.util.Log.d("NutritionRepo", "✅ Nutrition entry deleted from Firebase (firebaseId=${entry.firebaseId})")
+                        }
+                        is Result.Error -> {
+                            // Entry is already deleted locally, API deletion failed but that's okay
+                            android.util.Log.w("NutritionRepo", "⚠️ Failed to delete from API (entry already deleted locally): ${apiResult.message}")
+                        }
+                        else -> {
+                            android.util.Log.w("NutritionRepo", "⚠️ Unknown API result when deleting nutrition entry")
+                        }
+                    }
+                } catch (e: Exception) {
+                    // Network exception - entry is already deleted locally, that's okay
+                    android.util.Log.w("NutritionRepo", "⚠️ Network error deleting from API (entry already deleted locally): ${e.message}")
+                }
+            } else {
+                android.util.Log.d("NutritionRepo", "ℹ️ Entry not synced or missing Firebase ID, skipping API deletion")
+            }
             
             // Send FCM notification about deleted meal
             try {
@@ -159,6 +197,7 @@ class NutritionRepository(context: Context) {
             
             Result.Success(Unit)
         } catch (e: Exception) {
+            android.util.Log.e("NutritionRepo", "❌ Error deleting nutrition entry: ${e.message}", e)
             Result.Error(e, "Failed to delete nutrition entry")
         }
     }
@@ -196,7 +235,8 @@ class NutritionRepository(context: Context) {
                             sodiumMg = 0.0,
                             imageUrl = null,
                             createdAt = dto.createdAt ?: dto.timestamp,
-                            isSynced = true
+                            isSynced = true,
+                            firebaseId = dto.id  // Store Firebase ID for deletion
                         )
                     }
                     

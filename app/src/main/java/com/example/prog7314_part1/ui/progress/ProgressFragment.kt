@@ -1,17 +1,23 @@
 package com.example.prog7314_part1.ui.progress
 
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.local.AppDatabase
+import com.example.prog7314_part1.data.local.entity.MealType
+import com.example.prog7314_part1.data.local.entity.NutritionEntry
 import com.example.prog7314_part1.data.local.entity.SessionStatus
 import com.example.prog7314_part1.data.local.entity.WorkoutSession
 import com.example.prog7314_part1.data.repository.ApiUserRepository
@@ -22,8 +28,10 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +40,15 @@ class ProgressFragment : Fragment() {
     private lateinit var userRepository: ApiUserRepository
     private lateinit var networkRepository: NetworkRepository
     private lateinit var database: AppDatabase
+    private lateinit var sharedPreferences: SharedPreferences
+    private var rootView: View? = null
+    
+    companion object {
+        private const val PREFS_NAME = "test_data_prefs"
+        private const val KEY_TEST_DATA_ACTIVE = "test_data_active"
+        private const val KEY_TEST_SESSION_IDS = "test_session_ids"
+        private const val KEY_TEST_ENTRY_IDS = "test_entry_ids"
+    }
     
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,14 +56,318 @@ class ProgressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_progress, container, false)
+        rootView = view
         
         userRepository = ApiUserRepository(requireContext())
         networkRepository = NetworkRepository(requireContext())
         database = AppDatabase.getDatabase(requireContext())
+        sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, android.content.Context.MODE_PRIVATE)
         
+        setupTestModeButton(view)
         loadProgressData(view)
         
         return view
+    }
+    
+    override fun onDestroyView() {
+        super.onDestroyView()
+        rootView = null
+    }
+    
+    private fun setupTestModeButton(view: View) {
+        val testButton = view.findViewById<Button>(R.id.testModeButton) ?: return
+        
+        // Update button text based on current state
+        updateTestButtonText(testButton)
+        
+        testButton.setOnClickListener {
+            lifecycleScope.launch {
+                val isTestDataActive = sharedPreferences.getBoolean(KEY_TEST_DATA_ACTIVE, false)
+                
+                if (isTestDataActive) {
+                    removeTestData(testButton)
+                } else {
+                    addTestData(testButton)
+                }
+            }
+        }
+    }
+    
+    private fun updateTestButtonText(button: Button) {
+        val isTestDataActive = sharedPreferences.getBoolean(KEY_TEST_DATA_ACTIVE, false)
+        button.text = if (isTestDataActive) {
+            getString(R.string.remove_test_data)
+        } else {
+            getString(R.string.add_test_data)
+        }
+        button.backgroundTintList = ContextCompat.getColorStateList(
+            requireContext(),
+            if (isTestDataActive) R.color.Secondary else R.color.Accent
+        )
+    }
+    
+    private suspend fun addTestData(button: Button) = withContext(Dispatchers.IO) {
+        try {
+            val currentUser = userRepository.getCurrentUserSuspend() ?: run {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+                }
+                return@withContext
+            }
+            
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            
+            // Generate test data for the past 7 days
+            val testSessions = mutableListOf<WorkoutSession>()
+            val testEntries = mutableListOf<NutritionEntry>()
+            val sessionIds = mutableListOf<String>()
+            val entryIds = mutableListOf<Long>()
+            
+            val workoutTypes = listOf("Running", "Cycling", "Walking", "Strength", "Yoga", "HIIT")
+            val mealNames = listOf(
+                "Oatmeal with Berries" to MealType.BREAKFAST,
+                "Grilled Chicken Salad" to MealType.LUNCH,
+                "Salmon with Vegetables" to MealType.DINNER,
+                "Protein Shake" to MealType.SNACK,
+                "Scrambled Eggs" to MealType.BREAKFAST,
+                "Turkey Sandwich" to MealType.LUNCH,
+                "Pasta Primavera" to MealType.DINNER,
+                "Greek Yogurt" to MealType.SNACK
+            )
+            
+            // Calculate week start (Monday of current week) - matching HomeFragment logic
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
+            
+            // Go back to Monday (or first day of week)
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+            val daysFromMonday = if (dayOfWeek == Calendar.SUNDAY) 6 else dayOfWeek - Calendar.MONDAY
+            calendar.add(Calendar.DAY_OF_MONTH, -daysFromMonday)
+            val weekStart = calendar.timeInMillis
+            
+            val today = Calendar.getInstance()
+            today.set(Calendar.HOUR_OF_DAY, 23)
+            today.set(Calendar.MINUTE, 59)
+            today.set(Calendar.SECOND, 59)
+            today.set(Calendar.MILLISECOND, 999)
+            val todayEnd = today.timeInMillis
+            
+            android.util.Log.d("ProgressFragment", "📅 Week start: ${dateFormat.format(Date(weekStart))}, Today: ${dateFormat.format(Date())}")
+            
+            // Generate data for all 7 days of the week (Sunday through Saturday)
+            // Start from Sunday (1 day before Monday)
+            val sundayCalendar = Calendar.getInstance()
+            sundayCalendar.timeInMillis = weekStart
+            sundayCalendar.add(Calendar.DAY_OF_MONTH, -1) // Go back 1 day from Monday to get Sunday
+            val sundayStart = sundayCalendar.timeInMillis
+            
+            for (dayOffset in 0..6) {
+                // Create a fresh calendar instance for each day
+                val dayCalendar = Calendar.getInstance()
+                dayCalendar.timeInMillis = sundayStart
+                dayCalendar.add(Calendar.DAY_OF_MONTH, dayOffset)
+                dayCalendar.set(Calendar.HOUR_OF_DAY, 0)
+                dayCalendar.set(Calendar.MINUTE, 0)
+                dayCalendar.set(Calendar.SECOND, 0)
+                dayCalendar.set(Calendar.MILLISECOND, 0)
+                
+                val dateString = dateFormat.format(Date(dayCalendar.timeInMillis))
+                val dayName = dayCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+                android.util.Log.d("ProgressFragment", "📅 Generating test data for day offset $dayOffset ($dayName): $dateString")
+                
+                // Generate 1-2 workout sessions per day
+                val numSessions = if (dayOffset == 0) 1 else (1..2).random()
+                for (i in 0 until numSessions) {
+                    val workoutType = workoutTypes.random()
+                    val startHour = if (i == 0) (6..9).random() else (17..20).random()
+                    
+                    // Create a fresh calendar copy for this session
+                    val sessionCalendar = dayCalendar.clone() as Calendar
+                    sessionCalendar.set(Calendar.HOUR_OF_DAY, startHour)
+                    sessionCalendar.set(Calendar.MINUTE, (0..59).random())
+                    sessionCalendar.set(Calendar.SECOND, 0)
+                    sessionCalendar.set(Calendar.MILLISECOND, 0)
+                    
+                    val startTime = sessionCalendar.timeInMillis
+                    val durationMinutes = when (workoutType) {
+                        "Running", "Cycling" -> (30..60).random()
+                        "Walking" -> (20..45).random()
+                        "Strength" -> (45..75).random()
+                        "Yoga" -> (30..60).random()
+                        "HIIT" -> (20..30).random()
+                        else -> 30
+                    }
+                    val durationSeconds = durationMinutes * 60
+                    val endTime = startTime + (durationSeconds * 1000L)
+                    
+                    // Calculate realistic metrics based on workout type
+                    val steps = when (workoutType) {
+                        "Running" -> durationMinutes * 150
+                        "Walking" -> durationMinutes * 100
+                        "Cycling" -> durationMinutes * 0
+                        else -> durationMinutes * 20
+                    }
+                    val calories = when (workoutType) {
+                        "Running" -> durationMinutes * 12
+                        "Cycling" -> durationMinutes * 10
+                        "Walking" -> durationMinutes * 5
+                        "Strength" -> durationMinutes * 8
+                        "Yoga" -> durationMinutes * 3
+                        "HIIT" -> durationMinutes * 15
+                        else -> durationMinutes * 6
+                    }
+                    val distance = when (workoutType) {
+                        "Running" -> (steps * 0.7) / 1000.0
+                        "Cycling" -> (durationMinutes * 0.5)
+                        "Walking" -> (steps * 0.7) / 1000.0
+                        else -> 0.0
+                    }
+                    
+                    val session = WorkoutSession(
+                        sessionId = UUID.randomUUID().toString(),
+                        userId = currentUser.userId,
+                        workoutName = workoutType,
+                        startTime = startTime,
+                        endTime = endTime,
+                        durationSeconds = durationSeconds,
+                        caloriesBurned = calories,
+                        distanceKm = distance,
+                        steps = steps,
+                        status = SessionStatus.COMPLETED,
+                        isSynced = false
+                    )
+                    
+                    testSessions.add(session)
+                    sessionIds.add(session.sessionId)
+                    android.util.Log.d("ProgressFragment", "✅ Generated session: $workoutType on $dateString at ${timeFormat.format(Date(startTime))}, Steps: $steps")
+                }
+                
+                // Generate 2-3 nutrition entries per day
+                val numMeals = (2..3).random()
+                val selectedMeals = mealNames.shuffled().take(numMeals)
+                
+                selectedMeals.forEachIndexed { index, (mealName, mealType) ->
+                    val mealHour = when (mealType) {
+                        MealType.BREAKFAST -> (7..9).random()
+                        MealType.LUNCH -> (12..14).random()
+                        MealType.DINNER -> (18..20).random()
+                        MealType.SNACK -> (10..11).random() + (index * 3)
+                    }
+                    
+                    // Create a fresh calendar copy for this meal
+                    val mealCalendar = dayCalendar.clone() as Calendar
+                    mealCalendar.set(Calendar.HOUR_OF_DAY, mealHour)
+                    mealCalendar.set(Calendar.MINUTE, (0..59).random())
+                    mealCalendar.set(Calendar.SECOND, 0)
+                    mealCalendar.set(Calendar.MILLISECOND, 0)
+                    
+                    val mealCalories = when (mealType) {
+                        MealType.BREAKFAST -> (300..500).random()
+                        MealType.LUNCH -> (400..700).random()
+                        MealType.DINNER -> (500..800).random()
+                        MealType.SNACK -> (100..300).random()
+                    }
+                    
+                    val entry = NutritionEntry(
+                        userId = currentUser.userId,
+                        date = dateString,
+                        mealType = mealType,
+                        time = timeFormat.format(Date(mealCalendar.timeInMillis)),
+                        foodName = mealName,
+                        servingSize = "1 serving",
+                        calories = mealCalories,
+                        proteinG = (mealCalories * 0.2 / 4).coerceIn(10.0, 50.0),
+                        carbsG = (mealCalories * 0.5 / 4).coerceIn(20.0, 100.0),
+                        fatsG = (mealCalories * 0.3 / 9).coerceIn(5.0, 40.0),
+                        isSynced = false
+                    )
+                    
+                    val entryId = database.nutritionEntryDao().insertEntry(entry)
+                    testEntries.add(entry.copy(entryId = entryId))
+                    entryIds.add(entryId)
+                    android.util.Log.d("ProgressFragment", "✅ Generated meal: $mealName on $dateString at ${entry.time}")
+                }
+            }
+            
+            android.util.Log.d("ProgressFragment", "📊 Generated ${testSessions.size} sessions and ${testEntries.size} nutrition entries")
+            
+            // Insert all sessions
+            database.workoutSessionDao().insertSessions(testSessions)
+            
+            // Save IDs to SharedPreferences
+            sharedPreferences.edit().apply {
+                putBoolean(KEY_TEST_DATA_ACTIVE, true)
+                putStringSet(KEY_TEST_SESSION_IDS, sessionIds.toSet())
+                putString(KEY_TEST_ENTRY_IDS, entryIds.joinToString(","))
+                apply()
+            }
+            
+            withContext(Dispatchers.Main) {
+                updateTestButtonText(button)
+                Toast.makeText(requireContext(), "Test data added successfully!", Toast.LENGTH_SHORT).show()
+                // Reload progress data
+                rootView?.let { loadProgressData(it) }
+            }
+            
+        } catch (e: Exception) {
+            android.util.Log.e("ProgressFragment", "Error adding test data", e)
+            withContext(Dispatchers.Main) {
+                Toast.makeText(requireContext(), "Error adding test data: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    
+    private suspend fun removeTestData(button: Button) = withContext(Dispatchers.IO) {
+        try {
+            val sessionIds = sharedPreferences.getStringSet(KEY_TEST_SESSION_IDS, emptySet()) ?: emptySet()
+            val entryIdsString = sharedPreferences.getString(KEY_TEST_ENTRY_IDS, "") ?: ""
+            val entryIds = if (entryIdsString.isNotEmpty()) {
+                entryIdsString.split(",").mapNotNull { it.toLongOrNull() }
+            } else {
+                emptyList()
+            }
+            
+            // Delete sessions
+            sessionIds.forEach { sessionId ->
+                val session = database.workoutSessionDao().getSessionById(sessionId)
+                session?.let {
+                    database.workoutSessionDao().deleteSession(it)
+                }
+            }
+            
+            // Delete nutrition entries
+            entryIds.forEach { entryId ->
+                val entry = database.nutritionEntryDao().getEntryById(entryId)
+                entry?.let {
+                    database.nutritionEntryDao().deleteEntry(it)
+                }
+            }
+            
+            // Clear SharedPreferences
+            sharedPreferences.edit().apply {
+                putBoolean(KEY_TEST_DATA_ACTIVE, false)
+                remove(KEY_TEST_SESSION_IDS)
+                remove(KEY_TEST_ENTRY_IDS)
+                apply()
+            }
+            
+            withContext(Dispatchers.Main) {
+                updateTestButtonText(button)
+                Toast.makeText(requireContext(), "Test data removed successfully!", Toast.LENGTH_SHORT).show()
+                // Reload progress data
+                rootView?.let { loadProgressData(it) }
+            }
+            
+        } catch (e: Exception) {
+            android.util.Log.e("ProgressFragment", "Error removing test data", e)
+            withContext(Dispatchers.Main) {
+                Toast.makeText(requireContext(), "Error removing test data: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
     
     private fun loadProgressData(view: View) {
