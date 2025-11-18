@@ -15,10 +15,33 @@ router.post('/register-token', verifyToken, async (req, res) => {
     }
 
     const userRef = db.collection('users').doc(userId);
-    await userRef.set({
+    const userDoc = await userRef.get();
+    
+    if (!userDoc.exists) {
+      return res.status(404).json({
+        error: 'User not found',
+        message: 'User profile does not exist. Please register first.'
+      });
+    }
+
+    const userData = userDoc.data();
+    const existingTokens = userData.fcmTokens || [];
+    
+    // Check if token already exists
+    if (existingTokens.includes(token)) {
+      console.log(`Token already registered for user ${userId}`);
+      return res.json({
+        message: 'Token already registered'
+      });
+    }
+
+    // Add token to array (initialize if doesn't exist)
+    await userRef.update({
       fcmTokens: admin.firestore.FieldValue.arrayUnion(token),
       updatedAt: Date.now()
-    }, { merge: true });
+    });
+
+    console.log(`✅ FCM token registered for user ${userId}: ${token.substring(0, 20)}...`);
 
     res.json({
       message: 'Token registered'

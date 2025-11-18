@@ -47,24 +47,15 @@ router.post('/register', verifyToken, async (req, res) => {
       proteinGoalG: null,
       carbsGoalG: null,
       fatsGoalG: null,
+      fcmTokens: [], // Initialize empty array for FCM tokens
       createdAt: Date.now(),
       updatedAt: Date.now()
     };
     
     await db.collection('users').doc(userId).set(userData);
     
-    // Send welcome notification
-    try {
-      await sendNotification(
-        userId,
-        'Welcome to FitTrackr!',
-        `Hi ${displayName}! Your account has been created successfully. Start tracking your fitness journey today!`,
-        { type: 'REGISTRATION' }
-      );
-    } catch (notifyError) {
-      console.error('Failed to send registration notification:', notifyError);
-      // Don't fail registration if notification fails
-    }
+    // Note: Welcome notification will be sent by the app after FCM token is registered
+    // This prevents race condition where notification is sent before token exists
     
     res.status(201).json({
       message: 'User registered successfully',
@@ -101,18 +92,8 @@ router.post('/login', verifyToken, async (req, res) => {
     
     const userData = userDoc.data();
     
-    // Send welcome back notification
-    try {
-      await sendNotification(
-        userId,
-        'Welcome back!',
-        `Hi ${userData.displayName || 'there'}! Ready to continue your fitness journey?`,
-        { type: 'LOGIN' }
-      );
-    } catch (notifyError) {
-      console.error('Failed to send login notification:', notifyError);
-      // Don't fail login if notification fails
-    }
+    // Note: Login notification will be sent by the app after FCM token is registered
+    // This prevents race condition where notification is sent before token exists
     
     res.json({
       message: 'Login successful',

@@ -42,6 +42,30 @@ async function sendNotification(userId, title, body, data = {}) {
     
     if (response.failureCount > 0) {
       console.warn(`⚠️ Failed to send to ${response.failureCount} device(s)`);
+      
+      // Remove invalid tokens
+      const invalidTokens = [];
+      response.responses.forEach((resp, idx) => {
+        if (!resp.success) {
+          const errorCode = resp.error?.code;
+          // Remove tokens that are invalid, unregistered, or expired
+          if (errorCode === 'messaging/invalid-registration-token' ||
+              errorCode === 'messaging/registration-token-not-registered' ||
+              errorCode === 'messaging/invalid-argument') {
+            invalidTokens.push(tokens[idx]);
+            console.log(`Removing invalid token: ${tokens[idx].substring(0, 20)}... (${errorCode})`);
+          }
+        }
+      });
+      
+      // Remove invalid tokens from Firestore
+      if (invalidTokens.length > 0) {
+        const userRef = db.collection('users').doc(userId);
+        await userRef.update({
+          fcmTokens: admin.firestore.FieldValue.arrayRemove(...invalidTokens)
+        });
+        console.log(`🗑️ Removed ${invalidTokens.length} invalid FCM token(s) for user ${userId}`);
+      }
     }
     
     // Save notification to Firestore

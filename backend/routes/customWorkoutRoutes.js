@@ -3,6 +3,7 @@ const router = express.Router();
 const admin = require('firebase-admin');
 const db = admin.firestore();
 const { verifyToken } = require('../middleware/auth');
+const { sendNotification } = require('../utils/notifications');
 
 /**
  * GET /api/custom-workouts/:userId
@@ -91,6 +92,19 @@ router.post('/', verifyToken, async (req, res) => {
         };
 
         const docRef = await db.collection('customWorkouts').add(workoutData);
+
+        // Send notification
+        try {
+            await sendNotification(
+                userId,
+                'Workout logged!',
+                `Great job! You've logged "${name}". Keep up the amazing work!`,
+                { type: 'WORKOUT_LOGGED', workoutId: docRef.id }
+            );
+        } catch (notifyError) {
+            console.error('Failed to send workout notification:', notifyError);
+            // Don't fail workout creation if notification fails
+        }
 
         res.status(201).json({
             message: 'Custom workout created successfully',
