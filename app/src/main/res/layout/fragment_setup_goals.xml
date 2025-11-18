@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/complete_your_profile"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <!-- Subtitle -->
+        <TextView
+            android:id="@+id/subtitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/add_height_set_goals"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/titleText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Height (Optional) -->
+        <TextView
+            android:id="@+id/heightLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/height_cm_optional"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/subtitleText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp" />
+
+        <EditText
+            android:id="@+id/heightInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="e.g., 175"
+            android:inputType="numberDecimal"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintTop_toBottomOf="@id/heightLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Section Header: Goals -->
+        <TextView
+            android:id="@+id/goalsHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/your_fitness_goals"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/heightInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp" />
+
+        <!-- Daily Step Goal -->
+        <TextView
+            android:id="@+id/stepGoalLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/daily_step_goal"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/goalsHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/stepGoalInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="e.g., 10000"
+            android:inputType="number"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintTop_toBottomOf="@id/stepGoalLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Daily Calorie Goal -->
+        <TextView
+            android:id="@+id/calorieGoalLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/daily_calorie_goal"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/stepGoalInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/calorieGoalInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="e.g., 2200"
+            android:inputType="number"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintTop_toBottomOf="@id/calorieGoalLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Daily Water Goal -->
+        <TextView
+            android:id="@+id/waterGoalLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/daily_water_goal_glasses"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/calorieGoalInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/waterGoalInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="e.g., 8"
+            android:inputType="number"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintTop_toBottomOf="@id/waterGoalLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Weekly Workout Goal -->
+        <TextView
+            android:id="@+id/workoutGoalLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/weekly_workout_goal_sessions"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/waterGoalInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/workoutGoalInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="e.g., 5"
+            android:inputType="number"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintTop_toBottomOf="@id/workoutGoalLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Nutrition Goals Header -->
+        <TextView
+            android:id="@+id/nutritionHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/daily_nutrition_goals"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/workoutGoalInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp" />
+
+        <!-- Protein Goal -->
+        <TextView
+            android:id="@+id/proteinGoalLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/protein_grams"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/nutritionHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/proteinGoalInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="e.g., 150"
+            android:inputType="number"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintTop_toBottomOf="@id/proteinGoalLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Carbs Goal -->
+        <TextView
+            android:id="@+id/carbsGoalLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/carbohydrates_grams"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/proteinGoalInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/carbsGoalInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="e.g., 250"
+            android:inputType="number"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintTop_toBottomOf="@id/carbsGoalLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Fats Goal -->
+        <TextView
+            android:id="@+id/fatsGoalLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fats_grams"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/carbsGoalInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/fatsGoalInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="e.g., 70"
+            android:inputType="number"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintTop_toBottomOf="@id/fatsGoalLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <!-- Continue Button -->
+        <Button
+            android:id="@+id/continueButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/continue_button"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            app:layout_constraintTop_toBottomOf="@id/fatsGoalInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

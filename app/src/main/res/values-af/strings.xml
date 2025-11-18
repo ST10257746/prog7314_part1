@@ -1,0 +1,361 @@
+<resources>
+    <string name="app_name">FitTrackr</string>
+    
+    <!-- Common -->
+    <string name="hello_blank_fragment">Hallo leë fragment</string>
+    
+    <!-- Settings -->
+    <string name="edit_profile">Wysig Profiel</string>
+    <string name="set_fitness_goals">Stel Fiksheidsdoelwitte</string>
+    <string name="notification_preferences">Kennisgewingvoorkeure</string>
+    <string name="change_language">Verander Taal</string>
+    <string name="log_out">Teken Uit</string>
+    <string name="profile_picture">Profielfoto</string>
+    
+    <!-- Home -->
+    <string name="good_morning">Goeie môre!</string>
+    <string name="steps_today">treë vandag</string>
+    <string name="calories">kalorieë</string>
+    <string name="active_min">aktiewe min</string>
+    <string name="distance_km">afstand km</string>
+    <string name="steps">Treë</string>
+    
+    <!-- Days of week -->
+    <string name="monday">Maa</string>
+    <string name="tuesday">Din</string>
+    <string name="wednesday">Woe</string>
+    <string name="thursday">Don</string>
+    <string name="friday">Vry</string>
+    <string name="saturday">Sat</string>
+    <string name="sunday">Son</string>
+    
+    <!-- Goals -->
+    <string name="drink_water">Drink 2L water</string>
+    <string name="run_5km">Hardloop 5km</string>
+    <string name="meditate_10min">Mediteer vir 10 minute</string>
+    <string name="read_20min">Lees vir 20 minute</string>
+    
+    <!-- Login -->
+    <string name="email">E-pos</string>
+    <string name="password">Wagwoord</string>
+    <string name="log_in">Teken In</string>
+    <string name="continue_with_google">Gaan Voort met Google</string>
+    <string name="dont_have_account">Het jy nie \'n rekening nie? Registreer</string>
+    
+    <!-- Nutrition -->
+    <string name="nutrition">Voeding</string>
+    <string name="track_daily_intake">Volg jou daaglikse inname</string>
+    <string name="todays_progress">Vandag se Vordering</string>
+    <string name="calories_consumed">Kalorieë Verbruik</string>
+    <string name="macronutrients">Makrovoedingstowwe</string>
+    <string name="protein">Proteïen</string>
+    <string name="carbs">Koolhidrate</string>
+    <string name="fats">Vette</string>
+    <string name="of">van</string>
+    <string name="daily_breakdown">Daaglikse Uiteensetting</string>
+    <string name="kcal_total">kcal totaal</string>
+    <string name="carbohydrates">Koolhidrate</string>
+    <string name="todays_meals">Vandag se Maaltye</string>
+    <string name="no_meals_logged">Geen maaltye nog aangeteken nie</string>
+    <string name="water_intake">Water Inname</string>
+    <string name="glasses">glase</string>
+    <string name="remove">Verwyder</string>
+    <string name="add_glass">+ Voeg Glas By</string>
+    <string name="log_new_meal">Teken Nuwe Maaltyd Aan</string>
+    <string name="view_nutrition_diary">Bekyk Voedingsdagboek</string>
+    
+    <!-- Workout -->
+    <string name="workout_name">Oefening Naam</string>
+    <string name="custom">PERSOONLIK</string>
+    <string name="workouts_found">oefeninge gevind</string>
+    <string name="exercise_details">Oefening Besonderhede</string>
+    <string name="muscle_group">Spiergroep</string>
+    
+    <!-- Workout Goals -->
+    <string name="weight_goal">Gewig Doelwit (kg)</string>
+    <string name="workout_frequency">Oefening Frekwensie (keer per week)</string>
+    <string name="steps_goal">Treë Doelwit (per dag)</string>
+    <string name="calories_goal">Kalorieë Doelwit (kcal per dag)</string>
+    <string name="protein_intake_goal">Proteïen Inname Doelwit (g per dag)</string>
+    <string name="personal_challenges">Persoonlike Uitdagings / Mylpale</string>
+    
+    <!-- Recent Activity -->
+    <string name="today">Vandag</string>
+    
+    <!-- Nutrition Entry -->
+    <string name="breakfast">ONTBYT</string>
+    <string name="food_name">Kos Naam</string>
+    <string name="description">Beskrywing</string>
+    <string name="delete">VERWYDER</string>
+    
+    <!-- Language Selection -->
+    <string name="select_language">Kies Taal</string>
+    <string name="english">Engels</string>
+    <string name="zulu">Zoeloe</string>
+    <string name="afrikaans">Afrikaans</string>
+    <string name="language_changed">Taal suksesvol verander</string>
+    <string name="restart_required">Herlaai asseblief die app sodat veranderinge in werking tree</string>
+    
+    <!-- Additional Home Page Strings -->
+    <string name="calories_label">Kalorieë</string>
+    <string name="weekly_target">Weeklikse Teiken</string>
+    <string name="this_weeks_goals">Hierdie Week se Doelwitte</string>
+    <string name="goals_todo_list">Doelwit To-Do Lys</string>
+    <string name="add_goal">+ Voeg Doelwit By</string>
+    <string name="weekly_progress">Weeklikse Vordering</string>
+    <string name="daily_step_count_past_7_days">Daaglikse treetelling vir die afgelope 7 dae</string>
+    <string name="of_steps">van %1$d treë</string>
+    <string name="steps_format">%1$d van %2$d treë</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Tuis</string>
+    <string name="nav_progress">Vordering</string>
+    <string name="nav_session">Sessie</string>
+    <string name="nav_workout">Oefening</string>
+    <string name="nav_nutrition">Voeding</string>
+    
+    <!-- Profile -->
+    <string name="profile">Profiel</string>
+    <string name="personal_info">Persoonlike Inligting</string>
+    <string name="age">Ouderdom:</string>
+    <string name="weight">Gewig:</string>
+    <string name="height">Hoogte:</string>
+    <string name="your_goals">Jou Doelwitte</string>
+    <string name="edit_goals">Wysig Doelwitte</string>
+    <string name="settings">Instellings</string>
+    <string name="logout">Teken Uit</string>
+    
+    <!-- Workout Item -->
+    <string name="workout_name_placeholder">Oefening Naam</string>
+    <string name="workout_duration_format">%1$d min • %2$s • %3$s</string>
+    <string name="rating_format">⭐ %1$.1f</string>
+    <string name="calories_format">🔥 %1$d kcal</string>
+    <string name="start">Begin</string>
+    
+    <!-- Recent Activity -->
+    <string name="today_format">Vandag, %1$s</string>
+    <string name="activity_format">%1$d kalorieë • %2$d treë</string>
+    
+    <!-- Progress Page -->
+    <string name="your_progress">Jou Vordering</string>
+    <string name="track_fitness_journey">Volg jou fiksheidsreis</string>
+    <string name="this_week_overview">Hierdie Week Oorsig</string>
+    <string name="workouts">Oefeninge</string>
+    <string name="completed">voltooi</string>
+    <string name="target">Teiken:</string>
+    <string name="calories_burned">Kalorieë Verbrand</string>
+    <string name="historical_trends">Historiese Tende</string>
+    <string name="avg_workout">Gemiddelde Oefening</string>
+    <string name="total_distance">Totale Afstand</string>
+    <string name="this_week">Hierdie Week</string>
+    <string name="weekly_step_count">Weeklikse Treetelling</string>
+    <string name="daily_step_count_target">Daaglikse treetelling (teiken: 10k)</string>
+    <string name="avg">Gemiddeld:</string>
+    <string name="workout_duration_trends">Oefening Duur Tende</string>
+    <string name="weekly_workout_minutes">Weeklikse Oefening Minute</string>
+    <string name="total">Totaal:</string>
+    <string name="recent_activities">Onlangse Aktiwiteite</string>
+    <string name="no_recent_activities">Geen onlangse aktiwiteite nog nie. Begin \'n oefening om jou vordering te sien!</string>
+    <string name="this_week_lowercase">hierdie week</string>
+    <string name="kcal_this_week">kcal hierdie week</string>
+    <string name="workouts_lowercase">oefeninge</string>
+    <string name="steps_lowercase">treë</string>
+    <string name="steps_this_week_format">%1$s hierdie week</string>
+    <string name="target_steps_format">Teiken: %1$s treë</string>
+    <string name="completed_format">%1$d voltooi</string>
+    <string name="target_workouts_format">Teiken: %1$d oefeninge</string>
+    <string name="kcal_this_week_format">%1$s kcal hierdie week</string>
+    <string name="target_kcal_format">Teiken: %1$s kcal</string>
+    <string name="workouts_format">%1$d oefeninge</string>
+    
+    <!-- Workout Library -->
+    <string name="workout_library">Oefening Biblioteek</string>
+    <string name="discover_perfect_workout">Ontdek jou perfekte oefening</string>
+    <string name="search_workouts">Soek oefeninge…</string>
+    <string name="categories">Kategorieë</string>
+    <string name="all">Alles</string>
+    <string name="cardio">Kardio</string>
+    <string name="strength">Krag</string>
+    <string name="yoga">Joga</string>
+    <string name="hiit">HIIT</string>
+    <string name="flexibility">Buigsaamheid</string>
+    <string name="browse_all_workouts">Blaai Alle Oefeninge</string>
+    <string name="create_custom_workout">+ Skep Persoonlike Oefening</string>
+    <string name="no_custom_workouts">Geen persoonlike oefeninge nog nie</string>
+    
+    <!-- Workout List -->
+    <string name="category_workouts">Kategorie Oefeninge</string>
+    <string name="workouts_for_category">Oefeninge vir hierdie kategorie</string>
+    <string name="all_workouts">Alle Oefeninge</string>
+    <string name="workouts_found_format">%1$d oefeninge gevind</string>
+    <string name="workout_found_singular">1 oefening gevind</string>
+    <string name="no_workouts_found">Geen oefeninge gevind nie</string>
+    <string name="try_adjusting_search">Probeer jou soektog aanpas of kom later terug</string>
+    
+    <!-- Session -->
+    <string name="workout_session">Oefening Sessie</string>
+    <string name="track_performance_realtime">Volg jou prestasie in reële tyd</string>
+    <string name="choose_workout_type">Kies Oefening Tipe</string>
+    <string name="running">Hardloop</string>
+    <string name="cycling">Fietsry</string>
+    <string name="walking">Stap</string>
+    <string name="outdoor">Buite</string>
+    <string name="gym">Gimnasium</string>
+    <string name="selected_workout">Gekose Oefening</string>
+    <string name="workout_details">Oefening Besonderhede</string>
+    <string name="watch_metrics">Horlosie Metrieke</string>
+    <string name="heart_rate">Hartklop</string>
+    <string name="bpm">bpm</string>
+    <string name="distance">Afstand</string>
+    <string name="active_time">Aktiewe Tyd</string>
+    <string name="min">min</string>
+    <string name="watch_disconnected">Horlosie Ontkoppel</string>
+    <string name="connect_smartwatch">Koppel jou slimhorlosie om lewendige metrieke te sien</string>
+    <string name="connect">Koppel</string>
+    <string name="workout_duration">Oefening Duur</string>
+    <string name="start_button">▶ BEGIN</string>
+    <string name="pause_button">⏸ PAUSEER</string>
+    <string name="stop_button">⏹ STOP</string>
+    
+    <!-- Workout Goals -->
+    <string name="save_goals">Stoor Doelwitte</string>
+    
+    <!-- Setup Goals -->
+    <string name="complete_your_profile">Voltooi Jou Profiel</string>
+    <string name="add_height_set_goals">Voeg jou hoogte by en stel jou fiksheidsdoelwitte</string>
+    <string name="height_cm_optional">Hoogte (cm) - Opsioneel</string>
+    <string name="your_fitness_goals">Jou Fiksheidsdoelwitte</string>
+    <string name="daily_step_goal">Daaglikse Treë Doelwit</string>
+    <string name="daily_calorie_goal">Daaglikse Kalorieë Doelwit</string>
+    <string name="daily_water_goal_glasses">Daaglikse Water Doelwit (glase)</string>
+    <string name="weekly_workout_goal_sessions">Weeklikse Oefening Doelwit (sessies)</string>
+    <string name="daily_nutrition_goals">Daaglikse Voeding Doelwitte</string>
+    <string name="protein_grams">Proteïen (gram)</string>
+    <string name="carbohydrates_grams">Koolhidrate (gram)</string>
+    <string name="fats_grams">Vette (gram)</string>
+    <string name="continue_button">Gaan Voort</string>
+    
+    <!-- Adapter Strings -->
+    <string name="exercises">oefeninge</string>
+    <string name="sets_x_reps_format">%1$d stelle × %2$d herhalings</string>
+    <string name="sec_format">%1$d sek</string>
+    <string name="no_details">Geen besonderhede</string>
+    <string name="selected_colon">Gekies: %1$s</string>
+    <string name="resume_button">▶ HERVAT</string>
+    <string name="active_button">▶ AKTIEF</string>
+    
+    <!-- Profile Strings -->
+    <string name="years">jaar</string>
+    <string name="kg">kg</string>
+    <string name="cm">cm</string>
+    <string name="no_goals_set">Geen doelwitte nog gestel nie</string>
+    <string name="not_logged_in">Nie aangemeld nie</string>
+    <string name="logging_out">Meld af…</string>
+    
+    <!-- Setup Goals Strings -->
+    <string name="save_changes">Stoor Veranderinge</string>
+    <string name="saving">Stoor…</string>
+    
+    <!-- Register Strings -->
+    <string name="complete_profile">Voltooi Profiel</string>
+    <string name="creating_account">Skep Rekening…</string>
+    <string name="register">Registreer</string>
+    
+    <!-- Login Strings -->
+    <string name="logging_in">Meld aan…</string>
+    
+    <!-- Workout Adapter -->
+    <string name="full_body">Volledige Liggaam</string>
+    <string name="upper_body">Boonste Liggaam</string>
+    <string name="lower_body">Onderste Liggaam</string>
+    <string name="core">Kern</string>
+    <string name="exercises_format">%1$d oefeninge</string>
+    <string name="min_format">%1$d min</string>
+    <string name="years_format">%1$d jaar</string>
+    <string name="kg_format">%1$.0f kg</string>
+    <string name="cm_format">%1$.0f cm</string>
+    
+    <!-- Session Watch Status -->
+    <string name="watch_connected">Horlosie Gekoppel</string>
+    <string name="live_metrics_updating">Lewendige metrieke word opgedateer</string>
+    <string name="disconnect">Ontkoppel</string>
+    
+    <!-- Profile Goals Format -->
+    <string name="goals_format">Treë: %1$d | Kalorieë: %2$d\nWater: %3$d glase | Oefeninge: %4$d/week\nProteïen: %5$dg | Koolhidrate: %6$dg | Vette: %7$dg</string>
+    
+    <!-- Progress Format -->
+    <string name="percentage_format">%1$d%%</string>
+    <string name="min_format_simple">%1$d min</string>
+    
+    <!-- Workout Names -->
+    <string name="workout_cardio_burn">Kardio Brand</string>
+    <string name="workout_fat_burning_cardio">Vetverbrandende Kardio</string>
+    <string name="workout_beginner_cardio">Beginner Kardio</string>
+    <string name="workout_dance_cardio">Dans Kardio</string>
+    <string name="workout_running_intervals">Hardloop Intervalle</string>
+    <string name="workout_strength_builder">Krag Bouer</string>
+    <string name="workout_power_lifting">Krag Optel</string>
+    <string name="workout_beginner_strength">Beginner Krag</string>
+    <string name="workout_upper_body_blast">Boonste Liggaam Ontploffing</string>
+    <string name="workout_lower_body_power">Onderste Liggaam Krag</string>
+    <string name="workout_morning_yoga_flow">Oggend Yoga Vloei</string>
+    <string name="workout_power_yoga">Krag Yoga</string>
+    <string name="workout_relaxing_yoga">Ontspannende Yoga</string>
+    <string name="workout_hot_yoga_challenge">Warm Yoga Uitdaging</string>
+    <string name="workout_20min_hiit_blast">20-Min HIIT Ontploffing</string>
+    <string name="workout_hiit_tabata">HIIT Tabata</string>
+    <string name="workout_beginner_hiit">Beginner HIIT</string>
+    <string name="workout_full_body_hiit">Volledige Liggaam HIIT</string>
+    <string name="workout_flexibility_focus">Buigsaamheid Fokus</string>
+    <string name="workout_deep_stretch">Diep Strek</string>
+    <string name="workout_quick_stretch">Vinnige Strek</string>
+    <string name="workout_post_workout_recovery">Na-Oefening Herstel</string>
+    <string name="workout_core_crusher">Kern Verpletteraar</string>
+    <string name="workout_beginner_core">Beginner Kern</string>
+    <string name="workout_advanced_ab_shredder">Gevorderde Buik Versnipperaar</string>
+    
+    <!-- Workout Descriptions -->
+    <string name="workout_desc_cardio_burn">Hoë-energie kardio sessie om vinnig kalorieë te verbrand</string>
+    <string name="workout_desc_fat_burning_cardio">Intense kardio oefening vir maksimum vetverbranding</string>
+    <string name="workout_desc_beginner_cardio">Maklike kardio oefening vir beginners</string>
+    <string name="workout_desc_dance_cardio">Pret dansbewegings wat jou hart laat klop</string>
+    <string name="workout_desc_running_intervals">Interval hardloop vir uithouvermoë en spoed</string>
+    <string name="workout_desc_strength_builder">Bou spiere en verhoog krag</string>
+    <string name="workout_desc_power_lifting">Gevorderde krag opleiding met swaar gewigte</string>
+    <string name="workout_desc_beginner_strength">Perfekte inleiding tot krag opleiding</string>
+    <string name="workout_desc_upper_body_blast">Rig jou arms, bors en skouers</string>
+    <string name="workout_desc_lower_body_power">Bou sterk bene en glute</string>
+    <string name="workout_desc_morning_yoga_flow">Begin jou dag met bewustheid en buigsaamheid</string>
+    <string name="workout_desc_power_yoga">Dinamiese yoga vir krag en buigsaamheid</string>
+    <string name="workout_desc_relaxing_yoga">Sagte yoga vir stres verligting en ontspanning</string>
+    <string name="workout_desc_hot_yoga_challenge">Intense yoga praktyk in verhitte omgewing</string>
+    <string name="workout_desc_20min_hiit_blast">Hoë-intensiteit interval opleiding vir maksimum resultate</string>
+    <string name="workout_desc_hiit_tabata">4-minute intense Tabata oefening</string>
+    <string name="workout_desc_beginner_hiit">Inleiding tot hoë-intensiteit interval opleiding</string>
+    <string name="workout_desc_full_body_hiit">Volledige liggaam oefening met hoë intensiteit intervalle</string>
+    <string name="workout_desc_flexibility_focus">Verbeter jou buigsaamheid en bewegingsomvang</string>
+    <string name="workout_desc_deep_stretch">Gevorderde strek vir verbeterde mobiliteit</string>
+    <string name="workout_desc_quick_stretch">Vinnige strek roetine vir besige skedules</string>
+    <string name="workout_desc_post_workout_recovery">Essensiële strekke vir spier herstel</string>
+    <string name="workout_desc_core_crusher">Intense kern oefening vir sterk buikspiere</string>
+    <string name="workout_desc_beginner_core">Bou jou kern fondasie veilig</string>
+    <string name="workout_desc_advanced_ab_shredder">Elite vlak kern opleiding vir maksimum definisie</string>
+    
+    <!-- Category Descriptions -->
+    <string name="category_desc_cardio">Verbrand kalorieë en verbeter uithouvermoë</string>
+    <string name="category_desc_strength">Bou spiere en krag</string>
+    <string name="category_desc_yoga">Verbeter buigsaamheid en bewustheid</string>
+    <string name="category_desc_hiit">Hoë-intensiteit interval opleiding</string>
+    <string name="category_desc_flexibility">Verbeter mobiliteit en bewegingsomvang</string>
+    <string name="category_desc_full_body">Volledige liggaam kondisionering</string>
+    <string name="category_desc_upper_body">Fokus op arms, bors en rug</string>
+    <string name="category_desc_lower_body">Versterk bene en glute</string>
+    <string name="category_desc_core">Bou kern krag en stabiliteit</string>
+    <string name="category_desc_all">Alle beskikbare oefeninge</string>
+    
+    <!-- Difficulty Levels -->
+    <string name="difficulty_beginner">Beginner</string>
+    <string name="difficulty_intermediate">Intermediêr</string>
+    <string name="difficulty_advanced">Gevorderd</string>
+</resources>
+

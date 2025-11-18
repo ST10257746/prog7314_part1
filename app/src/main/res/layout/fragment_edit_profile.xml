@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Background"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Profile Picture -->
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/icon_default_profile"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background"
+            android:padding="4dp" />
+
+        <Button
+            android:id="@+id/btnChangePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Picture"
+            android:textColor="@color/Text"
+            android:backgroundTint="@color/Primary"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Full Name -->
+        <EditText
+            android:id="@+id/editFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            android:textColor="@color/Text"
+            android:background="@drawable/input_background"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/Text"
+            android:background="@drawable/input_background"
+            android:layout_marginTop="12dp"/>
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/editPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="@color/Text"
+            android:background="@drawable/input_background"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:id="@+id/labelAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Age"
+            android:textColor="@color/Text"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Age Spinner -->
+        <Spinner
+            android:id="@+id/spinnerAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_background"/>
+
+        <TextView
+            android:id="@+id/labelWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Weight (kg)"
+            android:textColor="@color/Text"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Weight Spinner -->
+        <Spinner
+            android:id="@+id/spinnerWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_background" />
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btnSaveProfile"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/Primary"
+            android:padding="12dp"
+            android:text="Save Changes"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</ScrollView>
