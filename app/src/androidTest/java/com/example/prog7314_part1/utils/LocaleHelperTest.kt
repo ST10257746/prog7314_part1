@@ -30,26 +30,26 @@ class LocaleHelperTest {
     @Test
     fun testGetSavedLanguage_defaultIsEnglish() {
         val language = LocaleHelper.getSavedLanguage(context)
-        assertEquals("en", language)
+        assertEquals(LocaleHelper.Language.ENGLISH, language)
     }
 
     @Test
     fun testSetLocale_savesLanguage() {
-        LocaleHelper.setLocale(context, "af")
+        LocaleHelper.setLocale(context, LocaleHelper.Language.AFRIKAANS)
         val savedLanguage = LocaleHelper.getSavedLanguage(context)
-        assertEquals("af", savedLanguage)
+        assertEquals(LocaleHelper.Language.AFRIKAANS, savedLanguage)
     }
 
     @Test
     fun testSetLocale_savesZulu() {
-        LocaleHelper.setLocale(context, "zu")
+        LocaleHelper.setLocale(context, LocaleHelper.Language.ZULU)
         val savedLanguage = LocaleHelper.getSavedLanguage(context)
-        assertEquals("zu", savedLanguage)
+        assertEquals(LocaleHelper.Language.ZULU, savedLanguage)
     }
 
     @Test
     fun testOnAttach_returnsContextWithLocale() {
-        LocaleHelper.setLocale(context, "af")
+        LocaleHelper.setLocale(context, LocaleHelper.Language.AFRIKAANS)
         val attachedContext = LocaleHelper.onAttach(context)
         assertNotNull(attachedContext)
         // Context should have locale applied
@@ -59,13 +59,13 @@ class LocaleHelperTest {
     @Test
     fun testLanguagePersistence() {
         // Set language
-        LocaleHelper.setLocale(context, "zu")
+        LocaleHelper.setLocale(context, LocaleHelper.Language.ZULU)
         
         // Create new context (simulating app restart)
-        val newContext = ApplicationProvider.getApplicationContext()
+        val newContext: Context = ApplicationProvider.getApplicationContext()
         val persistedLanguage = LocaleHelper.getSavedLanguage(newContext)
         
-        assertEquals("zu", persistedLanguage)
+        assertEquals(LocaleHelper.Language.ZULU, persistedLanguage)
     }
 }
 
