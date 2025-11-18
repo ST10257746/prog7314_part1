@@ -167,6 +167,7 @@
     <string name="kcal_this_week_format">%1$s kcal this week</string>
     <string name="target_kcal_format">Target: %1$s kcal</string>
     <string name="workouts_format">%1$d workouts</string>
+    <string name="workouts_format_name">%1$s workouts</string>
     
     <!-- Workout Library -->
     <string name="workout_library">Workout Library</string>

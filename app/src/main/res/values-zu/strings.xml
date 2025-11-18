@@ -167,6 +167,7 @@
     <string name="kcal_this_week_format">%1$s amakhalori le viki</string>
     <string name="target_kcal_format">Injongo: %1$s amakhalori</string>
     <string name="workouts_format">%1$d ukuzivocavoca</string>
+    <string name="workouts_format_name">%1$s ukuzivocavoca</string>
     
     <!-- Workout Library -->
     <string name="workout_library">Umtapo Wolwazi Lokuzivocavoca</string>

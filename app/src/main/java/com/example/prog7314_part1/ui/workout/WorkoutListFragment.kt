@@ -75,7 +75,7 @@ class WorkoutListFragment : Fragment() {
         val category = getCategoryFromString(categoryName)
 
         binding.apply {
-            tvCategoryTitle.text = if (categoryName == "All") getString(R.string.all_workouts) else getString(R.string.workouts_format, categoryName)
+            tvCategoryTitle.text = if (categoryName == "All") getString(R.string.all_workouts) else getString(R.string.workouts_format_name, categoryName)
             tvCategoryDescription.text = getCategoryDescription(category)
         }
     }
