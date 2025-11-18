@@ -11,6 +11,11 @@
     <string name="change_language">Verander Taal</string>
     <string name="log_out">Teken Uit</string>
     <string name="profile_picture">Profielfoto</string>
+    <string name="full_name">Volle Naam</string>
+    <string name="enter_your_name">Voer jou naam in</string>
+    <string name="height_hint">Hoogte in cm (opsioneel)</string>
+    <string name="profile_updated">Profiel suksesvol opgedateer</string>
+    <string name="cancel">Kanselleer</string>
     
     <!-- Home -->
     <string name="good_morning">Goeie môre!</string>
@@ -145,6 +150,8 @@
     <string name="target">Teiken:</string>
     <string name="calories_burned">Kalorieë Verbrand</string>
     <string name="historical_trends">Historiese Tende</string>
+    <string name="weekly_steps_chart">Weeklikse Treë Grafiek</string>
+    <string name="weekly_calories_chart">Weeklikse Kalorieë Grafiek</string>
     <string name="avg_workout">Gemiddelde Oefening</string>
     <string name="total_distance">Totale Afstand</string>
     <string name="this_week">Hierdie Week</string>

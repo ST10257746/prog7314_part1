@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Fitness Icon - Dumbbell with Heartbeat -->
+    <!-- Center the icon in the adaptive icon safe zone (72dp centered) -->
+    
+    <!-- Dumbbell Left Weight -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,40 L20,68 L28,68 L28,40 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M18,42 L18,66 L30,66 L30,42 Z"
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF" />
+    
+    <!-- Dumbbell Bar -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,50 L80,50 L80,58 L28,58 Z" />
+    
+    <!-- Dumbbell Right Weight -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M80,40 L80,68 L88,68 L88,40 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M78,42 L78,66 L90,66 L90,42 Z"
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF" />
+    
+    <!-- Heartbeat Line (overlapping the bar) -->
+    <path
+        android:fillColor="#FF5C5C"
+        android:strokeWidth="3"
+        android:strokeColor="#FF5C5C"
+        android:pathData="M30,54 L40,54 L45,44 L50,64 L55,54 L78,54" />
+    
+    <!-- Heartbeat Pulse Points (using path for circles) -->
+    <path
+        android:fillColor="#FF5C5C"
+        android:pathData="M45,44 A3,3 0 1,1 45,50 A3,3 0 1,1 45,44 Z" />
+    <path
+        android:fillColor="#FF5C5C"
+        android:pathData="M50,64 A3,3 0 1,1 50,70 A3,3 0 1,1 50,64 Z" />
+</vector>
+

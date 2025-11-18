@@ -226,51 +226,67 @@ class CreateCustomWorkoutFragment : Fragment() {
             try {
                 val database = AppDatabase.getDatabase(requireContext())
                 
-                // Step 1: Save to local database
+                // Step 1: Save to local RoomDB first (offline-first approach)
+                // Workout is saved with isSynced = false by default
                 database.workoutDao().insertWorkout(workout)
                 database.exerciseDao().insertExercises(finalExercises)
+                android.util.Log.d("CreateWorkout", "💾 Custom workout saved locally (isSynced=false)")
 
-                // Step 2: Sync to Firebase via API
-                val networkRepository = NetworkRepository(requireContext())
-                
-                // Convert exercises to DTOs
-                val exerciseDTOs = finalExercises.map { exercise ->
-                    com.example.prog7314_part1.data.network.model.ExerciseDTO(
-                        name = exercise.name,
-                        description = exercise.description,
-                        muscleGroup = exercise.muscleGroup,
-                        orderIndex = exercise.orderIndex,
-                        sets = exercise.sets,
-                        reps = exercise.reps,
-                        durationSeconds = exercise.durationSeconds,
-                        restSeconds = exercise.restSeconds,
-                        videoUrl = exercise.videoUrl,
-                        imageUrl = exercise.imageUrl
-                    )
-                }
-                
-                when (val result = networkRepository.createCustomWorkout(
-                    name = workout.name,
-                    description = workout.description,
-                    category = workout.category.name,
-                    difficulty = workout.difficulty.name,
-                    durationMinutes = workout.durationMinutes,
-                    estimatedCalories = workout.estimatedCalories,
-                    exerciseCount = workout.exerciseCount,
-                    exercises = exerciseDTOs
-                )) {
-                    is Result.Success -> {
-                        android.util.Log.d("CreateWorkout", "✅ Custom workout synced to Firebase: ${'$'}{result.data.id}")
-                        networkRepository.sendNotification(
-                            title = "Workout created",
-                            body = "Your custom workout \"$workoutName\" has been saved."
+                // Step 2: Try to sync to Firebase via API (if online)
+                try {
+                    val networkRepository = NetworkRepository(requireContext())
+                    
+                    // Convert exercises to DTOs
+                    val exerciseDTOs = finalExercises.map { exercise ->
+                        com.example.prog7314_part1.data.network.model.ExerciseDTO(
+                            name = exercise.name,
+                            description = exercise.description,
+                            muscleGroup = exercise.muscleGroup,
+                            orderIndex = exercise.orderIndex,
+                            sets = exercise.sets,
+                            reps = exercise.reps,
+                            durationSeconds = exercise.durationSeconds,
+                            restSeconds = exercise.restSeconds,
+                            videoUrl = exercise.videoUrl,
+                            imageUrl = exercise.imageUrl
                         )
                     }
-                    is Result.Error -> {
-                        android.util.Log.w("CreateWorkout", "⚠️ Failed to sync custom workout: ${result.message}")
-                        // Workout is saved locally, sync can be retried later
+                    
+                    when (val result = networkRepository.createCustomWorkout(
+                        name = workout.name,
+                        description = workout.description,
+                        category = workout.category.name,
+                        difficulty = workout.difficulty.name,
+                        durationMinutes = workout.durationMinutes,
+                        estimatedCalories = workout.estimatedCalories,
+                        exerciseCount = workout.exerciseCount,
+                        exercises = exerciseDTOs
+                    )) {
+                        is Result.Success -> {
+                            // Mark as synced in local database
+                            database.workoutDao().markAsSynced(workout.workoutId)
+                            android.util.Log.d("CreateWorkout", "✅ Custom workout synced to Firebase: ${result.data.id}")
+                            
+                            try {
+                                networkRepository.sendNotification(
+                                    title = "Workout created",
+                                    body = "Your custom workout \"$workoutName\" has been saved."
+                                )
+                            } catch (e: Exception) {
+                                android.util.Log.w("CreateWorkout", "Failed to send notification: ${e.message}")
+                            }
+                        }
+                        is Result.Error -> {
+                            // Workout remains unsynced (isSynced=false) - SyncWorker will retry later
+                            android.util.Log.w("CreateWorkout", "⚠️ API sync failed (offline?): ${result.message}. Workout saved locally, will sync when online.")
+                        }
+                        else -> {
+                            android.util.Log.w("CreateWorkout", "⚠️ Unknown API result. Workout saved locally, will sync when online.")
+                        }
                     }
-                    else -> {}
+                } catch (e: Exception) {
+                    // Network exception (offline) - workout remains unsynced, SyncWorker will handle it
+                    android.util.Log.w("CreateWorkout", "⚠️ Network error (offline mode): ${e.message}. Workout saved locally, will sync when online.")
                 }
 
                 Toast.makeText(requireContext(), "Custom workout saved successfully!", Toast.LENGTH_LONG).show()

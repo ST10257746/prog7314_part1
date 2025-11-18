@@ -33,6 +33,12 @@ interface UserDao {
     
     @Query("SELECT * FROM users LIMIT 1")
     fun getCurrentUserFlow(): Flow<User?>
+
+    @Query("SELECT * FROM users WHERE userId = :userId AND updatedAt > lastSyncedAt")
+    suspend fun getUnsyncedUser(userId: String): User?
+
+    @Query("UPDATE users SET lastSyncedAt = :syncTime WHERE userId = :userId")
+    suspend fun markUserAsSynced(userId: String, syncTime: Long = System.currentTimeMillis())
     
     @Query("DELETE FROM users")
     suspend fun deleteAllUsers()

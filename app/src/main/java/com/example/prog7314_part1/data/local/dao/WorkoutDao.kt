@@ -61,4 +61,10 @@ interface WorkoutDao {
 
     @Query("SELECT * FROM workouts WHERE createdBy = :userId ORDER BY createdAt DESC")
     fun getWorkoutsByUser(userId: String): Flow<List<Workout>>
+
+    @Query("SELECT * FROM workouts WHERE isCustom = 1 AND createdBy = :userId AND isSynced = 0")
+    suspend fun getUnsyncedCustomWorkouts(userId: String): List<Workout>
+
+    @Query("UPDATE workouts SET isSynced = 1 WHERE workoutId = :workoutId")
+    suspend fun markAsSynced(workoutId: String)
 }

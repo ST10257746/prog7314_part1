@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface NutritionEntryDao {
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEntry(entry: NutritionEntry)
+    suspend fun insertEntry(entry: NutritionEntry): Long
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEntries(entries: List<NutritionEntry>)

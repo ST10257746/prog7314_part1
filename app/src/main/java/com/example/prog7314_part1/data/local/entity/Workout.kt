@@ -28,7 +28,8 @@ data class Workout(
     val isCustom: Boolean = false,  // User-created vs. pre-defined
     val createdBy: String? = null,  // userId if custom
 
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val isSynced: Boolean = false  // Track sync status for custom workouts
 )
 
 enum class WorkoutCategory {

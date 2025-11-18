@@ -59,6 +59,85 @@ FitTrackr is built with the philosophy that fitness is easier to maintain when a
 
 ---
 
+## Release Notes
+
+### Version 1.0 - Final POE Release
+
+This release represents the complete implementation of FitTrackr, transforming the Part 1 prototype into a fully functional fitness tracking application.
+
+#### New Features Since Prototype
+
+**Authentication & Security:**
+- ✅ **Single Sign-On (SSO)** - Google Sign-In integration via Firebase Authentication
+- ✅ **Biometric Authentication** - Fingerprint and facial recognition support for secure, quick access
+- ✅ **Secure User Sessions** - Token-based authentication with automatic session management
+
+**Backend Integration:**
+- ✅ **REST API Integration** - Custom Node.js/Express backend connected to Firebase Firestore
+- ✅ **Real-time Data Sync** - Automatic synchronization between local Room database and cloud backend
+- ✅ **Offline-First Architecture** - Full functionality when offline with automatic sync when connection is restored
+
+**Data Visualization (User Defined Feature 4):**
+- ✅ **Progress Charts** - Interactive bar and line charts using MPAndroidChart library
+- ✅ **Weekly Trends** - Visual representation of steps and calories burned over the week
+- ✅ **Progress Bars** - Quick visual indicators for goal completion (works alongside charts)
+
+**Custom Workout System (User Defined Feature 5):**
+- ✅ **Custom Workout Creation** - Create personalized workout routines with exercises
+- ✅ **Exercise Management** - Add exercises with reps, sets, and duration tracking
+- ✅ **Workout Library** - Save and reuse custom workouts
+
+**Notifications:**
+- ✅ **Push Notifications** - Firebase Cloud Messaging (FCM) integration
+- ✅ **Real-time Alerts** - Achievement notifications, workout reminders, and daily progress updates
+
+**Localization:**
+- ✅ **Multi-language Support** - English, isiZulu (Zulu), and Afrikaans
+- ✅ **Dynamic Language Switching** - Change language in settings without app restart
+- ✅ **Localized Content** - All UI elements translated to supported languages
+
+**Data Storage:**
+- ✅ **Room Database** - Local SQLite database for offline data storage
+- ✅ **Base64 Image Storage** - Profile images stored as Base64 strings in Firestore (blob storage implementation)
+- ✅ **Data Persistence** - All user data persisted locally and synced to cloud
+
+**Additional Features:**
+- ✅ **Nutrition Tracking** - Comprehensive meal logging with macronutrient tracking
+- ✅ **Daily Activity Tracking** - Steps, calories, distance, and active minutes
+- ✅ **Goal Management** - Set and track fitness goals with progress monitoring
+- ✅ **Profile Management** - Customizable user profiles with image upload
+
+#### Technical Improvements
+
+- **Offline Sync Worker** - WorkManager-based automatic sync when network is available
+- **Network Monitoring** - ConnectivityManager integration for real-time network state detection
+- **Error Handling** - Comprehensive error handling and user feedback
+- **Code Quality** - KDoc comments, logging, and code references throughout
+- **Testing** - Unit tests and instrumented tests for core functionality
+- **CI/CD** - GitHub Actions workflow for automated builds and testing
+
+#### User Defined Features
+
+**Feature 4: Data-driven Progress Tracking with Charts**
+- Interactive bar charts for weekly steps visualization
+- Line charts for calories burned trends
+- Progress bars for quick goal completion overview
+- Historical data analysis and trend identification
+
+**Feature 5: Custom Workout Creation System**
+- Create custom workout templates with multiple exercises
+- Exercise details: reps, sets, duration, and notes
+- Save and reuse custom workouts
+- Integration with workout session tracking
+
+#### Known Limitations
+
+- Profile images are stored as Base64 strings (suitable for small images, max 1MB)
+- Offline sync requires network connection to complete
+- Charts display weekly data only (monthly/yearly views planned for future releases)
+
+---
+
 ## Design Considerations
 
 When designing FitTrackr, the following aspects were prioritized:
@@ -103,19 +182,87 @@ To run FitTrackr locally:
    [git clone https://github.com/YourUsername/FitTrackr.git](https://github.com/IIEWFL/prog7314-part-2-ASBS.git)
 2. Run Application on Android Studio
 
+## Data Storage & Blob Storage
+
+FitTrackr uses a hybrid storage approach combining local and cloud storage:
+
+**Local Storage (Room Database):**
+- SQLite database for offline-first architecture
+- Stores all user data locally for instant access
+- Automatic sync to cloud when network is available
+
+**Cloud Storage (Firebase Firestore):**
+- User profiles, workouts, nutrition entries, and goals
+- Real-time synchronization across devices
+- Secure, scalable cloud infrastructure
+
+**Blob Storage (Base64 Encoding):**
+- Profile images are stored as Base64-encoded strings in Firestore
+- This approach provides:
+  - Simple implementation without separate storage service
+  - Direct integration with Firestore documents
+  - Suitable for profile images (max 1MB per image)
+  - No additional storage costs or configuration needed
+- Images are compressed and resized before encoding to optimize storage
+- Base64 encoding is a valid blob storage implementation for small binary data
+
+**References:**
+- Room Database: https://developer.android.com/training/data-storage/room
+- Firebase Firestore: https://firebase.google.com/docs/firestore
+- Base64 Encoding: https://developer.android.com/reference/android/util/Base64
+
+---
+
+## Play Store Preparation
+
+FitTrackr is ready for publication on the Google Play Store. The following assets and configurations are prepared:
+
+**Release Build:**
+- Signed release APK configuration in `app/build.gradle.kts`
+- ProGuard rules configured for code obfuscation
+- Version code and version name set appropriately
+
+**Required Assets:**
+- App icon (ic_launcher.png) - 512x512px
+- Feature graphic - 1024x500px (to be created)
+- Screenshots - Phone (1080x1920px) and tablet (optional)
+- App description and release notes
+
+**Play Console Setup:**
+- Firebase project configured with Play Console integration
+- App signing by Google Play enabled
+- Release tracks configured (internal testing, alpha, beta, production)
+
+**Compliance:**
+- Privacy policy prepared
+- Content rating completed
+- Target audience defined
+- Permissions documented
+
+For detailed Play Store preparation instructions, see `docs/play-store-assets/README.md`
+
+---
+
 ## AI Use
 
-AI Tools Used
-ChatGPT for Image Generation
+**AI Tools Used:**
+
+**ChatGPT for Image Generation**
 ChatGPT was used to generate visual assets for the FitTrackr Android fitness application. This included:
-•	Creating the main app logo and icon (icon_fitness.png)
-•	Generating navigation icons for the bottom navigation bar
-•	Designing vector graphics for UI elements and visual components
-Cursor IDE for Code Debugging
+- Creating the main app logo and icon (icon_fitness.png)
+- Generating navigation icons for the bottom navigation bar
+- Designing vector graphics for UI elements and visual components
+
+**Cursor IDE for Code Debugging**
 Cursor IDE with AI assistance was used throughout the development process to:
-•	Debug Android code issues and errors
-•	Provide code suggestions and corrections
-•	Assist with Kotlin syntax and Android framework integration
-•	Help with navigation implementation and UI component development
+- Debug Android code issues and errors
+- Provide code suggestions and corrections
+- Assist with Kotlin syntax and Android framework integration
+- Help with navigation implementation and UI component development
+
 These AI tools were used as development assistants to support the creation of the fitness tracking application, helping with both visual design elements and technical implementation challenges.
+
+**References:**
+- ChatGPT: https://openai.com/chatgpt
+- Cursor IDE: https://cursor.sh/
 

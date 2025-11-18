@@ -3,110 +3,140 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Background"
-    android:padding="20dp">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:padding="24dp">
 
-        <!-- Profile Picture -->
-        <ImageView
-            android:id="@+id/profilePicture"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/icon_default_profile"
-            android:scaleType="centerCrop"
-            android:background="@drawable/circle_background"
-            android:padding="4dp" />
-
-        <Button
-            android:id="@+id/btnChangePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change Picture"
-            android:textColor="@color/Text"
-            android:backgroundTint="@color/Primary"
-            android:layout_marginTop="8dp"/>
-
-        <!-- Full Name -->
-        <EditText
-            android:id="@+id/editFullName"
+        <!-- Title -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full Name"
+            android:text="@string/edit_profile"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/Text"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Name Input -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/full_name"
+            android:textSize="16sp"
+            android:textColor="@color/Text"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/nameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_your_name"
             android:inputType="textPersonName"
             android:textColor="@color/Text"
+            android:textColorHint="@android:color/darker_gray"
             android:background="@drawable/input_background"
-            android:layout_marginTop="20dp"/>
-
-        <!-- Email -->
-        <EditText
-            android:id="@+id/editEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/Text"
-            android:background="@drawable/input_background"
-            android:layout_marginTop="12dp"/>
-
-        <!-- Password -->
-        <EditText
-            android:id="@+id/editPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:textColor="@color/Text"
-            android:background="@drawable/input_background"
-            android:layout_marginTop="12dp"/>
-
-        <TextView
-            android:id="@+id/labelAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select Age"
-            android:textColor="@color/Text"
-            android:textSize="14sp"
-            android:layout_marginTop="16dp"/>
+            android:padding="16dp"
+            android:layout_marginBottom="24dp"
+            android:textSize="16sp" />
 
         <!-- Age Spinner -->
-        <Spinner
-            android:id="@+id/spinnerAge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/input_background"/>
-
         <TextView
-            android:id="@+id/labelWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Weight (kg)"
+            android:text="@string/age"
+            android:textSize="16sp"
             android:textColor="@color/Text"
-            android:textSize="14sp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginBottom="8dp" />
 
-        <!-- Weight Spinner -->
         <Spinner
-            android:id="@+id/spinnerWeight"
+            android:id="@+id/ageSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/input_background" />
+            android:background="@drawable/input_background"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp"
+            android:minHeight="56dp" />
 
-        <!-- Save Button -->
-        <Button
-            android:id="@+id/btnSaveProfile"
-            android:layout_width="220dp"
+        <!-- Weight Spinner -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/Primary"
-            android:padding="12dp"
-            android:text="Save Changes"
-            android:textColor="@android:color/white" />
+            android:text="@string/weight"
+            android:textSize="16sp"
+            android:textColor="@color/Text"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/weightSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_background"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp"
+            android:minHeight="56dp" />
+
+        <!-- Height Input (Optional) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/height"
+            android:textSize="16sp"
+            android:textColor="@color/Text"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/heightInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/height_hint"
+            android:inputType="numberDecimal"
+            android:textColor="@color/Text"
+            android:textColorHint="@android:color/darker_gray"
+            android:background="@drawable/input_background"
+            android:padding="16dp"
+            android:layout_marginBottom="32dp"
+            android:textSize="16sp"
+            android:minHeight="56dp" />
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:textColor="@color/Text"
+                android:backgroundTint="@android:color/transparent"
+                android:layout_marginEnd="16dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:minHeight="56dp" />
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save_changes"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/Primary"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:minHeight="56dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
 </ScrollView>
+

@@ -17,6 +17,8 @@ import com.example.prog7314_part1.R
 import com.example.prog7314_part1.data.model.Result
 import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.databinding.FragmentProfileBinding
+import com.example.prog7314_part1.ui.settings.LanguageSelectionDialog
+import com.example.prog7314_part1.utils.LocaleHelper
 import com.example.prog7314_part1.utils.show
 import com.example.prog7314_part1.utils.showToast
 import kotlinx.coroutines.launch
@@ -24,8 +26,9 @@ import kotlinx.coroutines.launch
 /**
  * ProfileFragment
  * Shows user profile, settings, and logout option
+ * Acts as the main settings page with inline editing
  */
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), LanguageSelectionDialog.LanguageSelectionListener {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
@@ -164,14 +167,14 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profileFragment_to_setupGoalsFragment)
         }
 
-        // Settings Button - Navigate to Settings (Language selection)
+        // Change Language - Show dialog directly
         binding.settingsButton.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
+            showLanguageSelectionDialog()
         }
 
-        // Edit Profile (placeholder for now)
+        // Edit Profile - Navigate to full-page edit profile
         binding.editProfileButton.setOnClickListener {
-            requireContext().showToast("Edit profile coming soon!")
+            findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
         }
 
         // Logout
@@ -298,6 +301,23 @@ class ProfileFragment : Fragment() {
                 else -> {}
             }
         }
+    }
+
+    /**
+     * Show language selection dialog
+     */
+    private fun showLanguageSelectionDialog() {
+        val dialog = LanguageSelectionDialog()
+        dialog.setLanguageSelectionListener(this)
+        dialog.show(parentFragmentManager, "LanguageSelectionDialog")
+    }
+
+    /**
+     * Handle language selection
+     */
+    override fun onLanguageSelected(language: LocaleHelper.Language) {
+        requireContext().showToast(getString(R.string.language_changed))
+        // Activity will be recreated by the dialog, so UI will update automatically
     }
 
     override fun onDestroyView() {

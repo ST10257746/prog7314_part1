@@ -304,15 +304,7 @@ class MainActivity : AppCompatActivity() {
                     val token = task.result
                     Log.d(TAG, "FCM_TOKEN: $token")
                     Log.d(TAG, "📱 Copy this token to send test notifications via Firebase Console")
-                    
-                    // Show toast on main thread
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "FCM Token logged - check logcat",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    // Token is logged to logcat only - no user-facing toast
                 }
             } catch (e: Exception) {
                 Log.w(TAG, "Error getting FCM token", e)

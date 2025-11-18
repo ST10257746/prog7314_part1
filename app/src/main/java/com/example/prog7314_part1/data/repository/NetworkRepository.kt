@@ -162,17 +162,25 @@ class NetworkRepository(private val context: Context) {
     suspend fun updateUserProfile(userId: String, updates: UpdateUserRequest): Result<UserDto> = 
         withContext(Dispatchers.IO) {
             try {
+                // Log what we're sending (truncate image data for logging)
+                val imageSize = updates.profileImageUrl?.length ?: 0
+                android.util.Log.d("NetworkRepository", "📤 Updating user profile: userId=$userId, hasImage=${updates.profileImageUrl != null}, imageSize=$imageSize chars")
+                
                 val response = userApi.updateUser(userId, updates)
                 
                 if (response.isSuccessful && response.body() != null) {
+                    android.util.Log.d("NetworkRepository", "✅ User profile updated successfully")
                     Result.Success(response.body()!!.user)
                 } else {
+                    val errorBody = response.errorBody()?.string()
+                    android.util.Log.e("NetworkRepository", "❌ Failed to update user: ${response.code()} - $errorBody")
                     Result.Error(
                         Exception("Failed to update user"),
-                        response.errorBody()?.string() ?: "Unknown error"
+                        errorBody ?: "Unknown error"
                     )
                 }
             } catch (e: Exception) {
+                android.util.Log.e("NetworkRepository", "❌ Exception updating user profile: ${e.message}", e)
                 Result.Error(e, e.message ?: "Network error")
             }
         }

@@ -343,50 +343,57 @@ class SessionViewModel(
             workoutSessionDao.insertSession(session)
             Log.d(TAG, "✅ Workout session saved locally: ${session.workoutName}")
 
-            // Step 2: Sync to Firebase via API
+            // Step 2: Try to sync to Firebase via API (if online)
             networkRepository?.let { repo ->
-                // Use watch metrics for accurate calories and steps
-                val watchMetrics = state.watchMetrics
-                
-                Log.d(TAG, "📊 SENDING TO FIREBASE - Calories: ${watchMetrics.calories}, Steps: ${watchMetrics.steps}, Distance: ${watchMetrics.distanceKm}km, HR: ${watchMetrics.heartRate}")
-                
-                when (val result = repo.createWorkoutSession(
-                    workoutName = session.workoutName,
-                    workoutType = state.selectedWorkoutType.category.name,
-                    startTime = session.startTime,
-                    endTime = endTime,
-                    durationSeconds = session.durationSeconds,
-                    caloriesBurned = watchMetrics.calories,  // ✅ Use watch calories
-                    distanceKm = watchMetrics.distanceKm,    // ✅ Use watch distance
-                    steps = watchMetrics.steps,              // ✅ Use watch steps
-                    avgHeartRate = watchMetrics.heartRate,   // ✅ Use watch heart rate
-                    maxHeartRate = watchMetrics.heartRate,   // ✅ Use watch heart rate
-                    avgPace = session.avgPace,
-                    notes = null,
-                    status = "COMPLETED"
-                )) {
-                    is Result.Success -> {
-                        // Update local session to mark as synced
-                        workoutSessionDao.insertSession(session.copy(isSynced = true))
-                        Log.d(TAG, "✅ Workout session synced to Firebase: ${result.data.id}")
-                        
-                        // Step 3: Update daily activity with workout data
-                        updateDailyActivityFromWorkout(currentUser.userId, session)
+                try {
+                    // Use watch metrics for accurate calories and steps
+                    val watchMetrics = state.watchMetrics
+                    
+                    Log.d(TAG, "📊 Attempting to sync to Firebase - Calories: ${watchMetrics.calories}, Steps: ${watchMetrics.steps}, Distance: ${watchMetrics.distanceKm}km, HR: ${watchMetrics.heartRate}")
+                    
+                    when (val result = repo.createWorkoutSession(
+                        workoutName = session.workoutName,
+                        workoutType = state.selectedWorkoutType.category.name,
+                        startTime = session.startTime,
+                        endTime = endTime,
+                        durationSeconds = session.durationSeconds,
+                        caloriesBurned = watchMetrics.calories,  // ✅ Use watch calories
+                        distanceKm = watchMetrics.distanceKm,    // ✅ Use watch distance
+                        steps = watchMetrics.steps,              // ✅ Use watch steps
+                        avgHeartRate = watchMetrics.heartRate,   // ✅ Use watch heart rate
+                        maxHeartRate = watchMetrics.heartRate,   // ✅ Use watch heart rate
+                        avgPace = session.avgPace,
+                        notes = null,
+                        status = "COMPLETED"
+                    )) {
+                        is Result.Success -> {
+                            // Update local session to mark as synced
+                            workoutSessionDao.insertSession(session.copy(isSynced = true))
+                            Log.d(TAG, "✅ Workout session synced to Firebase: ${result.data.id}")
 
-                        try {
-                            repo.sendNotification(
-                                title = "Workout completed",
-                                body = "You completed a ${session.workoutName} session and burned ${session.caloriesBurned} calories."
-                            )
-                        } catch (e: Exception) {
-                            Log.w(TAG, "⚠️ Failed to send workout completed notification: ${e.message}")
+                            // Step 3: Update daily activity with workout data
+                            updateDailyActivityFromWorkout(currentUser.userId, session)
+
+                            try {
+                                repo.sendNotification(
+                                    title = "Workout completed",
+                                    body = "You completed a ${session.workoutName} session and burned ${session.caloriesBurned} calories."
+                                )
+                            } catch (e: Exception) {
+                                Log.w(TAG, "⚠️ Failed to send workout completed notification: ${e.message}")
+                            }
+                        }
+                        is Result.Error -> {
+                            // Session remains unsynced (isSynced=false) - SyncWorker will retry later
+                            Log.w(TAG, "⚠️ API sync failed (offline?): ${result.message}. Session saved locally, will sync when online.")
+                        }
+                        else -> {
+                            Log.w(TAG, "⚠️ Unknown API result. Session saved locally, will sync when online.")
                         }
                     }
-                    is Result.Error -> {
-                        Log.w(TAG, "⚠️ Failed to sync workout to Firebase: ${result.message}")
-                        // Session is saved locally, sync can be retried later
-                    }
-                    else -> {}
+                } catch (e: Exception) {
+                    // Network exception (offline) - session remains unsynced, SyncWorker will handle it
+                    Log.w(TAG, "⚠️ Network error (offline mode): ${e.message}. Session saved locally, will sync when online.")
                 }
             } ?: Log.w(TAG, "⚠️ NetworkRepository not available for syncing")
 

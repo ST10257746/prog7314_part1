@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.prog7314_part1.data.local.dao.*
 import com.example.prog7314_part1.data.local.entity.*
@@ -26,7 +27,7 @@ import kotlinx.coroutines.launch
         NutritionEntry::class,
         Goal::class
     ],
-    version = 6,  // ✅ Incremented for steps field in WorkoutSession
+    version = 7,  // ✅ Incremented for isSynced field in Workout entity
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -48,6 +49,18 @@ abstract class AppDatabase : RoomDatabase() {
         private const val DATABASE_NAME = "fittrackr_database"
 
         /**
+         * Migration from version 6 to 7
+         * Adds isSynced column to workouts table for offline sync tracking
+         */
+        private val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Add isSynced column to workouts table (default false for existing rows)
+                database.execSQL("ALTER TABLE workouts ADD COLUMN isSynced INTEGER NOT NULL DEFAULT 0")
+                android.util.Log.d("AppDatabase", "✅ Migration 6->7: Added isSynced column to workouts table")
+            }
+        }
+
+        /**
          * Get database instance using singleton pattern
          * Thread-safe implementation
          */
@@ -58,6 +71,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     DATABASE_NAME
                 )
+                    .addMigrations(MIGRATION_6_7)
                     .fallbackToDestructiveMigration() // For development only
                     .allowMainThreadQueries() // For development only - remove in production
                     .addCallback(DatabaseCallback())

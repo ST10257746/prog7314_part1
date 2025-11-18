@@ -1,5 +1,6 @@
 package com.example.prog7314_part1.ui.progress
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,11 @@ import com.example.prog7314_part1.data.local.entity.WorkoutSession
 import com.example.prog7314_part1.data.repository.ApiUserRepository
 import com.example.prog7314_part1.data.repository.NetworkRepository
 import com.example.prog7314_part1.data.model.Result
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -104,6 +110,9 @@ class ProgressFragment : Fragment() {
                     // Update Trends Section
                     updateTrends(view, totalDistance, totalWorkouts, weekSessions)
                     
+                    // Update Charts (User Defined Feature 4)
+                    updateCharts(view, weekSessions)
+                    
                     // Update Recent Activity
                     updateRecentActivity(view, weekSessions)
                 }
@@ -142,6 +151,147 @@ class ProgressFragment : Fragment() {
         // Workout frequency (this week vs last week)
         view.findViewById<TextView>(R.id.workoutFrequencyText)?.text = 
             getString(R.string.workouts_format, totalWorkouts)
+    }
+    
+    /**
+     * Update charts with weekly data (User Defined Feature 4)
+     * Adds visual charts alongside progress bars for comprehensive data visualization
+     * 
+     * References:
+     * - MPAndroidChart: https://github.com/PhilJay/MPAndroidChart
+     */
+    private fun updateCharts(view: View, sessions: List<WorkoutSession>) {
+        // Group sessions by day of week
+        val calendar = Calendar.getInstance()
+        val dayData = mutableMapOf<Int, Pair<Int, Int>>() // Day of week -> (steps, calories)
+        
+        // Initialize all days with 0
+        for (i in Calendar.SUNDAY..Calendar.SATURDAY) {
+            dayData[i] = Pair(0, 0)
+        }
+        
+        // Aggregate data by day
+        sessions.forEach { session ->
+            calendar.timeInMillis = session.startTime
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+            val current = dayData[dayOfWeek] ?: Pair(0, 0)
+            dayData[dayOfWeek] = Pair(current.first + session.steps, current.second + session.caloriesBurned)
+        }
+        
+        // Update Steps Bar Chart
+        updateStepsChart(view, dayData)
+        
+        // Update Calories Line Chart
+        updateCaloriesChart(view, dayData)
+    }
+    
+    /**
+     * Update weekly steps bar chart
+     */
+    private fun updateStepsChart(view: View, dayData: Map<Int, Pair<Int, Int>>) {
+        val chart = view.findViewById<BarChart>(R.id.weeklyStepsChart) ?: return
+        
+        val entries = mutableListOf<BarEntry>()
+        val labels = mutableListOf<String>()
+        
+        // Order: Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
+        val dayOrder = listOf(
+            Calendar.SUNDAY to getString(R.string.sunday),
+            Calendar.MONDAY to getString(R.string.monday),
+            Calendar.TUESDAY to getString(R.string.tuesday),
+            Calendar.WEDNESDAY to getString(R.string.wednesday),
+            Calendar.THURSDAY to getString(R.string.thursday),
+            Calendar.FRIDAY to getString(R.string.friday),
+            Calendar.SATURDAY to getString(R.string.saturday)
+        )
+        
+        dayOrder.forEachIndexed { index, (dayOfWeek, label) ->
+            val (steps, _) = dayData[dayOfWeek] ?: Pair(0, 0)
+            entries.add(BarEntry(index.toFloat(), steps.toFloat()))
+            labels.add(label)
+        }
+        
+        val dataSet = BarDataSet(entries, getString(R.string.steps)).apply {
+            color = requireContext().getColor(R.color.Primary)
+            valueTextColor = Color.WHITE
+            valueTextSize = 10f
+        }
+        
+        val barData = BarData(dataSet)
+        chart.data = barData
+        chart.description.isEnabled = false
+        chart.legend.isEnabled = false
+        chart.setFitBars(true)
+        
+        val xAxis = chart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        xAxis.textSize = 10f
+        xAxis.textColor = requireContext().getColor(R.color.Text)
+        
+        chart.axisLeft.setDrawGridLines(false)
+        chart.axisRight.isEnabled = false
+        chart.axisLeft.textColor = requireContext().getColor(R.color.Text)
+        
+        chart.invalidate()
+    }
+    
+    /**
+     * Update weekly calories line chart
+     */
+    private fun updateCaloriesChart(view: View, dayData: Map<Int, Pair<Int, Int>>) {
+        val chart = view.findViewById<LineChart>(R.id.weeklyCaloriesChart) ?: return
+        
+        val entries = mutableListOf<Entry>()
+        val labels = mutableListOf<String>()
+        
+        // Order: Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
+        val dayOrder = listOf(
+            Calendar.SUNDAY to getString(R.string.sunday),
+            Calendar.MONDAY to getString(R.string.monday),
+            Calendar.TUESDAY to getString(R.string.tuesday),
+            Calendar.WEDNESDAY to getString(R.string.wednesday),
+            Calendar.THURSDAY to getString(R.string.thursday),
+            Calendar.FRIDAY to getString(R.string.friday),
+            Calendar.SATURDAY to getString(R.string.saturday)
+        )
+        
+        dayOrder.forEachIndexed { index, (dayOfWeek, label) ->
+            val (_, calories) = dayData[dayOfWeek] ?: Pair(0, 0)
+            entries.add(Entry(index.toFloat(), calories.toFloat()))
+            labels.add(label)
+        }
+        
+        val dataSet = LineDataSet(entries, getString(R.string.calories_burned)).apply {
+            color = requireContext().getColor(R.color.Accent)
+            valueTextColor = requireContext().getColor(R.color.Text)
+            valueTextSize = 10f
+            lineWidth = 3f
+            setCircleColor(requireContext().getColor(R.color.Accent))
+            circleRadius = 5f
+            setDrawCircleHole(false)
+            mode = LineDataSet.Mode.CUBIC_BEZIER
+        }
+        
+        val lineData = LineData(dataSet)
+        chart.data = lineData
+        chart.description.isEnabled = false
+        chart.legend.isEnabled = false
+        
+        val xAxis = chart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        xAxis.textSize = 10f
+        xAxis.textColor = requireContext().getColor(R.color.Text)
+        
+        chart.axisLeft.setDrawGridLines(true)
+        chart.axisLeft.gridColor = requireContext().getColor(R.color.Background)
+        chart.axisRight.isEnabled = false
+        chart.axisLeft.textColor = requireContext().getColor(R.color.Text)
+        
+        chart.invalidate()
     }
     
     private fun updateRecentActivity(view: View, sessions: List<WorkoutSession>) {

@@ -3,6 +3,12 @@
     <style name="Base.Theme.PROG7314_Part1" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        
+        <!-- Splash Screen Configuration (Android 12+) -->
+        <!-- Shows the app icon automatically when app launches -->
+        <item name="android:windowSplashScreenBackground">@color/Primary</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/Primary</item>
     </style>
 
     <style name="Theme.PROG7314_Part1" parent="Base.Theme.PROG7314_Part1" />

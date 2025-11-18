@@ -11,6 +11,11 @@
     <string name="change_language">Shintsha Ulimi</string>
     <string name="log_out">Phuma</string>
     <string name="profile_picture">Isithombe Seprofayili</string>
+    <string name="full_name">Igama Eliphelele</string>
+    <string name="enter_your_name">Faka igama lakho</string>
+    <string name="height_hint">Ubude nge-cm (okukhethwayo)</string>
+    <string name="profile_updated">Iphrofayili ibuyekeziwe ngempumelelo</string>
+    <string name="cancel">Khansela</string>
     
     <!-- Home -->
     <string name="good_morning">Sawubona ekuseni!</string>
@@ -145,6 +150,8 @@
     <string name="target">Injongo:</string>
     <string name="calories_burned">Amakhalori Asetshenzisiwe</string>
     <string name="historical_trends">Ama-Trends Omlando</string>
+    <string name="weekly_steps_chart">Ishadi Lezinyathelo Zeviki</string>
+    <string name="weekly_calories_chart">Ishadi Lamakhalori Eviki</string>
     <string name="avg_workout">Ukuzivocavoca Okumaphakathi</string>
     <string name="total_distance">Ibanga Esewonke</string>
     <string name="this_week">Le Viki</string>

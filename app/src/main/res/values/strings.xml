@@ -11,6 +11,11 @@
     <string name="change_language">Change Language</string>
     <string name="log_out">Log Out</string>
     <string name="profile_picture">Profile Picture</string>
+    <string name="full_name">Full Name</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="height_hint">Height in cm (optional)</string>
+    <string name="profile_updated">Profile updated successfully</string>
+    <string name="cancel">Cancel</string>
     
     <!-- Home -->
     <string name="good_morning">Good morning!</string>
@@ -145,6 +150,8 @@
     <string name="target">Target:</string>
     <string name="calories_burned">Calories Burned</string>
     <string name="historical_trends">Historical Trends</string>
+    <string name="weekly_steps_chart">Weekly Steps Chart</string>
+    <string name="weekly_calories_chart">Weekly Calories Chart</string>
     <string name="avg_workout">Avg Workout</string>
     <string name="total_distance">Total Distance</string>
     <string name="this_week">This Week</string>

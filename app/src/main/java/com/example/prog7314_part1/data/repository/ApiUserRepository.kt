@@ -190,34 +190,49 @@ class ApiUserRepository(private val context: Context) {
         return try {
             val userId = auth.currentUser?.uid ?: throw Exception("User not authenticated")
             
-            // Prepare updates map
-            val updates = UpdateUserRequest(
-                displayName = user.displayName,
-                age = user.age,
-                weightKg = user.weightKg,
-                heightCm = user.heightCm,
-                dailyStepGoal = user.dailyStepGoal,
-                dailyCalorieGoal = user.dailyCalorieGoal,
-                dailyWaterGoal = user.dailyWaterGoal,
-                weeklyWorkoutGoal = user.weeklyWorkoutGoal,
-                proteinGoalG = user.proteinGoalG,
-                carbsGoalG = user.carbsGoalG,
-                fatsGoalG = user.fatsGoalG
-            )
+            // Step 1: Update local database first (offline-first approach)
+            val updatedUser = user.copy(updatedAt = System.currentTimeMillis())
+            userDao.updateUser(updatedUser)
+            android.util.Log.d("ApiUserRepository", "💾 User profile saved locally")
             
-            // Call REST API
-            when (val apiResult = networkRepo.updateUserProfile(userId, updates)) {
-                is Result.Success -> {
-                    val updatedUserDto = apiResult.data
-                    
-                    // Update local database
-                    val updatedUser = updatedUserDto.toUser()
-                    userDao.updateUser(updatedUser)
-                    
-                    Result.Success(updatedUser)
+            // Step 2: Try to sync to API (if online)
+            try {
+                val updates = UpdateUserRequest(
+                    displayName = user.displayName,
+                    age = user.age,
+                    weightKg = user.weightKg,
+                    heightCm = user.heightCm,
+                    dailyStepGoal = user.dailyStepGoal,
+                    dailyCalorieGoal = user.dailyCalorieGoal,
+                    dailyWaterGoal = user.dailyWaterGoal,
+                    weeklyWorkoutGoal = user.weeklyWorkoutGoal,
+                    proteinGoalG = user.proteinGoalG,
+                    carbsGoalG = user.carbsGoalG,
+                    fatsGoalG = user.fatsGoalG
+                )
+                
+                when (val apiResult = networkRepo.updateUserProfile(userId, updates)) {
+                    is Result.Success -> {
+                        // Mark as synced in local database
+                        userDao.markUserAsSynced(userId)
+                        android.util.Log.d("ApiUserRepository", "✅ User profile synced to server")
+                        Result.Success(updatedUser)
+                    }
+                    is Result.Error -> {
+                        // Data is saved locally, sync will happen later when online
+                        // Don't update lastSyncedAt so SyncWorker knows it needs syncing
+                        android.util.Log.w("ApiUserRepository", "⚠️ API sync failed (offline?): ${apiResult.message}. Data saved locally, will sync when online.")
+                        Result.Success(updatedUser) // Return success because local save worked
+                    }
+                    else -> {
+                        android.util.Log.w("ApiUserRepository", "⚠️ Unknown API result. Data saved locally, will sync when online.")
+                        Result.Success(updatedUser) // Return success because local save worked
+                    }
                 }
-                is Result.Error -> apiResult
-                else -> Result.Error(Exception("Unexpected result"), "Update failed")
+            } catch (e: Exception) {
+                // Network exception (offline) - data is saved locally, sync will happen later
+                android.util.Log.w("ApiUserRepository", "⚠️ Network error (offline mode): ${e.message}. Data saved locally, will sync when online.")
+                Result.Success(updatedUser) // Return success because local save worked
             }
             
         } catch (e: Exception) {
@@ -456,10 +471,30 @@ class ApiUserRepository(private val context: Context) {
                 carbsGoalG = carbsGoalG,
                 fatsGoalG = fatsGoalG
             )
-            when (networkRepo.updateUserProfile(currentUserId, updates)) {
-                is Result.Success -> Result.Success(Unit)
-                is Result.Error -> Result.Error(Exception("API update failed"), "Failed to sync with server")
-                else -> Result.Error(Exception("Unexpected result"), "Update failed")
+            // Try to sync to API (if online)
+            try {
+                when (val apiResult = networkRepo.updateUserProfile(currentUserId, updates)) {
+                    is Result.Success -> {
+                        // Mark as synced in local database
+                        userDao.markUserAsSynced(currentUserId)
+                        android.util.Log.d("ApiUserRepository", "✅ Profile setup synced to server")
+                        Result.Success(Unit)
+                    }
+                    is Result.Error -> {
+                        // Data is saved locally, sync will happen later when online
+                        // Don't update lastSyncedAt so SyncWorker knows it needs syncing
+                        android.util.Log.w("ApiUserRepository", "⚠️ API sync failed (offline?): ${apiResult.message}. Data saved locally, will sync when online.")
+                        Result.Success(Unit) // Return success because local save worked
+                    }
+                    else -> {
+                        android.util.Log.w("ApiUserRepository", "⚠️ Unknown API result. Data saved locally, will sync when online.")
+                        Result.Success(Unit) // Return success because local save worked
+                    }
+                }
+            } catch (e: Exception) {
+                // Network exception (offline) - data is saved locally, sync will happen later
+                android.util.Log.w("ApiUserRepository", "⚠️ Network error (offline mode): ${e.message}. Data saved locally, will sync when online.")
+                Result.Success(Unit) // Return success because local save worked
             }
         } catch (e: Exception) {
             Result.Error(e, "Failed to complete profile setup")
@@ -505,15 +540,40 @@ class ApiUserRepository(private val context: Context) {
             val currentUser = getCurrentUserSuspend() 
                 ?: throw Exception("No user data found")
             
-            val updatedUser = currentUser.copy(profileImageUrl = imageBase64)
+            // Step 1: Update local database first (offline-first approach)
+            val updatedUser = currentUser.copy(
+                profileImageUrl = imageBase64,
+                updatedAt = System.currentTimeMillis() // Mark as updated so SyncWorker picks it up
+            )
             userDao.updateUser(updatedUser)
+            android.util.Log.d("ApiUserRepository", "💾 Profile image saved locally")
             
-            // Update via API
-            val updates = UpdateUserRequest(profileImageUrl = imageBase64)
-            when (networkRepo.updateUserProfile(currentUser.userId, updates)) {
-                is Result.Success -> Result.Success(Unit)
-                is Result.Error -> Result.Error(Exception("API update failed"), "Failed to sync with server")
-                else -> Result.Error(Exception("Unexpected result"), "Update failed")
+            // Step 2: Try to sync to API (if online)
+            try {
+                val updates = UpdateUserRequest(profileImageUrl = imageBase64)
+                android.util.Log.d("ApiUserRepository", "📤 Attempting to sync profile image to API (userId=${currentUser.userId}, imageSize=${imageBase64.length} chars)")
+                
+                when (val apiResult = networkRepo.updateUserProfile(currentUser.userId, updates)) {
+                    is Result.Success -> {
+                        // Mark as synced in local database
+                        userDao.markUserAsSynced(currentUser.userId)
+                        android.util.Log.d("ApiUserRepository", "✅ Profile image synced to server successfully")
+                        Result.Success(Unit)
+                    }
+                    is Result.Error -> {
+                        // Data is saved locally, sync will happen later when online
+                        android.util.Log.e("ApiUserRepository", "❌ API sync failed: ${apiResult.message}. Data saved locally, will sync when online.")
+                        Result.Success(Unit) // Return success because local save worked
+                    }
+                    else -> {
+                        android.util.Log.w("ApiUserRepository", "⚠️ Unknown API result. Data saved locally, will sync when online.")
+                        Result.Success(Unit) // Return success because local save worked
+                    }
+                }
+            } catch (e: Exception) {
+                // Network exception (offline) - data is saved locally, sync will happen later
+                android.util.Log.e("ApiUserRepository", "❌ Network error (offline mode): ${e.message}. Data saved locally, will sync when online.", e)
+                Result.Success(Unit) // Return success because local save worked
             }
         } catch (e: Exception) {
             Result.Error(e, "Failed to update profile image")
@@ -528,15 +588,35 @@ class ApiUserRepository(private val context: Context) {
             val currentUser = getCurrentUserSuspend() 
                 ?: throw Exception("No user data found")
             
+            // Step 1: Update local database first (offline-first approach)
             val updatedUser = currentUser.copy(profileImageUrl = null)
             userDao.updateUser(updatedUser)
+            android.util.Log.d("ApiUserRepository", "💾 Profile image deletion saved locally")
             
-            // Update via API
-            val updates = UpdateUserRequest(profileImageUrl = null)
-            when (networkRepo.updateUserProfile(currentUser.userId, updates)) {
-                is Result.Success -> Result.Success(Unit)
-                is Result.Error -> Result.Error(Exception("API update failed"), "Failed to sync with server")
-                else -> Result.Error(Exception("Unexpected result"), "Update failed")
+            // Step 2: Try to sync to API (if online)
+            try {
+                val updates = UpdateUserRequest(profileImageUrl = null)
+                when (networkRepo.updateUserProfile(currentUser.userId, updates)) {
+                    is Result.Success -> {
+                        // Mark as synced in local database
+                        userDao.markUserAsSynced(currentUser.userId)
+                        android.util.Log.d("ApiUserRepository", "✅ Profile image deletion synced to server")
+                        Result.Success(Unit)
+                    }
+                    is Result.Error -> {
+                        // Data is saved locally, sync will happen later when online
+                        android.util.Log.w("ApiUserRepository", "⚠️ API sync failed (offline?): ${networkRepo.updateUserProfile(currentUser.userId, updates)}. Data saved locally, will sync when online.")
+                        Result.Success(Unit) // Return success because local save worked
+                    }
+                    else -> {
+                        android.util.Log.w("ApiUserRepository", "⚠️ Unknown API result. Data saved locally, will sync when online.")
+                        Result.Success(Unit) // Return success because local save worked
+                    }
+                }
+            } catch (e: Exception) {
+                // Network exception (offline) - data is saved locally, sync will happen later
+                android.util.Log.w("ApiUserRepository", "⚠️ Network error (offline mode): ${e.message}. Data saved locally, will sync when online.")
+                Result.Success(Unit) // Return success because local save worked
             }
         } catch (e: Exception) {
             Result.Error(e, "Failed to delete profile image")

@@ -64,40 +64,59 @@ class NutritionRepository(context: Context) {
                 createdAt = currentTime
             )
             
-            // Step 1: Save to local RoomDB (offline support)
-            nutritionDao.insertEntry(entry)
+            // Step 1: Save to local RoomDB first (offline support)
+            // Entry is saved with isSynced = false by default
+            val insertedId = nutritionDao.insertEntry(entry)
+            val savedEntry = entry.copy(entryId = insertedId)
+            android.util.Log.d("NutritionRepo", "💾 Nutrition entry saved locally (entryId=$insertedId, isSynced=false)")
             
-            // Step 2: Sync to Firebase via REST API
-            val nutritionRequest = com.example.prog7314_part1.data.network.model.CreateNutritionRequest(
-                foodName = foodName,
-                mealType = mealType.name,
-                servingSize = servingSize,
-                calories = calories,
-                proteinG = proteinG,
-                carbsG = carbsG,
-                fatsG = fatsG,
-                fiberG = fiberG,
-                sugarG = sugarG,
-                notes = description ?: "",
-                timestamp = currentTime
-            )
-            
-            when (val apiResult = networkRepo.createNutrition(nutritionRequest)) {
-                is Result.Success -> {
-                    android.util.Log.d("NutritionRepo", "✅ Nutrition entry synced to Firebase")
-                    networkRepo.sendNotification(
-                        title = "Meal added",
-                        body = "You logged a new meal: $foodName"
-                    )
+            // Step 2: Try to sync to Firebase via REST API (if online)
+            try {
+                val nutritionRequest = com.example.prog7314_part1.data.network.model.CreateNutritionRequest(
+                    foodName = foodName,
+                    mealType = mealType.name,
+                    servingSize = servingSize,
+                    calories = calories,
+                    proteinG = proteinG,
+                    carbsG = carbsG,
+                    fatsG = fatsG,
+                    fiberG = fiberG,
+                    sugarG = sugarG,
+                    notes = description ?: "",
+                    timestamp = currentTime
+                )
+                
+                when (val apiResult = networkRepo.createNutrition(nutritionRequest)) {
+                    is Result.Success -> {
+                        // Mark as synced in local database
+                        nutritionDao.markAsSynced(insertedId)
+                        android.util.Log.d("NutritionRepo", "✅ Nutrition entry synced to Firebase and marked as synced (entryId=$insertedId)")
+                        
+                        // Send notification
+                        try {
+                            networkRepo.sendNotification(
+                                title = "Meal added",
+                                body = "You logged a new meal: $foodName"
+                            )
+                        } catch (e: Exception) {
+                            android.util.Log.w("NutritionRepo", "Failed to send notification: ${e.message}")
+                        }
+                    }
+                    is Result.Error -> {
+                        // Entry remains unsynced (isSynced=false) - SyncWorker will retry later
+                        android.util.Log.w("NutritionRepo", "⚠️ API sync failed (offline?): ${apiResult.message}. Entry saved locally, will sync when online.")
+                    }
+                    else -> {
+                        android.util.Log.w("NutritionRepo", "⚠️ Unknown API result. Entry saved locally, will sync when online.")
+                    }
                 }
-                is Result.Error -> {
-                    android.util.Log.w("NutritionRepo", "⚠️ API sync failed: ${apiResult.message}")
-                    // Still return success because local save worked (offline mode)
-                }
-                else -> {}
+            } catch (e: Exception) {
+                // Network exception (offline) - entry remains unsynced, SyncWorker will handle it
+                android.util.Log.w("NutritionRepo", "⚠️ Network error (offline mode): ${e.message}. Entry saved locally, will sync when online.")
             }
             
-            Result.Success(entry)
+            // Always return success because local save succeeded (offline-first approach)
+            Result.Success(savedEntry)
         } catch (e: Exception) {
             Result.Error(e, "Failed to add nutrition entry")
         }
